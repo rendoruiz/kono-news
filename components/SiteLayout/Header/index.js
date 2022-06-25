@@ -3,6 +3,7 @@ import Link from 'next/link'
 const Header = () => {
   return (
     <header>
+      <h1>Hacker News</h1>
       <nav>
         <ul>
           <NavItem route='/'>

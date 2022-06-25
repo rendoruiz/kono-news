@@ -1,6 +1,22 @@
+import CommentList from "../../components/CommentList";
+import ItemHeading from "../../components/ItemHeading";
+
 const ItemPage = ({ initialData }) => {
   return (  
-    <div>{JSON.stringify(initialData)}</div>
+    <>
+      <ItemHeading>
+        <section>
+          <h2>{initialData.title}</h2>
+          {initialData.text && (
+            <div dangerouslySetInnerHTML={{ __html: initialData.text }} />
+          )}
+        </section>
+      </ItemHeading>
+      
+      {initialData.children && (
+        <CommentList commentListData={initialData.children} />
+      )}
+    </>
   );
 }
 
