@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 const SiteLayout = ({ children }) => {
   return (  
     <>
@@ -11,7 +13,30 @@ const SiteLayout = ({ children }) => {
 const Header = () => {
   return (
     <header>
-      Header
+      <nav>
+        <ul>
+          <li>
+            <Link href='/'>
+              <a>News</a>
+            </Link>
+          </li>
+          <li>
+            <Link href='/newest'>
+              <a>Newest</a>
+            </Link>
+          </li>
+          <li>
+            <Link href='/ask'>
+              <a>Ask</a>
+            </Link>
+          </li>
+          <li>
+            <Link href='/show'>
+              <a>Show</a>
+            </Link>
+          </li>
+        </ul>
+      </nav>
     </header>
   );
 }
