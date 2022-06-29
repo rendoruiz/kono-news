@@ -14,3 +14,10 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.hidden-comment > header {
+  opacity: 0.3;
+}
+.hidden-comment > :not(header) {
+  display: none;
+}

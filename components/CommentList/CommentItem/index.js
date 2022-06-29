@@ -1,3 +1,5 @@
+import clsx from "clsx";
+import { useState } from "react";
 import CommentList from "..";
 
 const CommentItem = ({ 
@@ -6,9 +8,23 @@ const CommentItem = ({
   text,
   children,
 }) => {
+  const [isHidden, setIsHidden] = useState(false);
+
+  const handleToggleHideComment = (e) => {
+    e.preventDefault();
+    setIsHidden(!isHidden);
+  }
+
   return (  
-    <li>
+    <li className={clsx({'hidden-comment': isHidden})}>
       <header>
+        <button
+          type='button'
+          onClick={handleToggleHideComment}
+        >
+          [-]
+        </button>
+        &nbsp;
         {id} | {author}
       </header>
 
