@@ -3,8 +3,12 @@ import CommentItem from "./CommentItem";
 const CommentList = ({ commentListData }) => {
   return ( 
     <ul>
-      {commentListData.map((commentItemData) => 
-        <CommentItem commentItemData={commentItemData} />)}
+      {commentListData.map((commentItemData, index) => 
+        <CommentItem 
+          key={`${id}-${index}`}
+          commentItemData={commentItemData} 
+        />
+        )}
     </ul>
    );
 }
