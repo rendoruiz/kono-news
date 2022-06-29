@@ -1,11 +1,21 @@
 import CommentList from "..";
 
-const CommentItem = ({ commentItemData }) => {
+const CommentItem = ({ 
+  id,
+  author,
+  text,
+  children,
+}) => {
   return (  
     <li>
-      <div dangerouslySetInnerHTML={{ __html: commentItemData.text }} />
-      {commentItemData.children && (
-        <CommentList commentListData={commentItemData.children} />
+      <header>
+        {id} | {author}
+      </header>
+
+      <main dangerouslySetInnerHTML={{ __html: text }} />
+
+      {children && (
+        <CommentList commentListData={children} />
       )}
     </li>
   );
