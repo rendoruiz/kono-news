@@ -5,8 +5,8 @@ const CommentList = ({ commentListData }) => {
     <ul>
       {commentListData.map((commentItemData, index) => 
         <CommentItem 
-          key={`${id}-${index}`}
-          commentItemData={commentItemData} 
+          key={`${commentItemData.id}-${index}`}
+          {...commentItemData}
         />
         )}
     </ul>

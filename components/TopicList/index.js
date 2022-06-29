@@ -5,7 +5,7 @@ const TopicList = ({ topicListData }) => {
     <ol>
       {topicListData.map((topicItemData, index) => 
         <TopicItem 
-          key={`${topicItemData}-${index}`}
+          key={`${topicItemData.id}-${index}`}
           {...topicItemData} 
         />
       )}
