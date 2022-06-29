@@ -22,10 +22,9 @@ const CommentItem = ({
           type='button'
           onClick={handleToggleHideComment}
         >
-          [-]
+          {isHidden ? "+" : "-"}
         </button>
-        &nbsp;
-        {id} | {author}
+        <span>&nbsp;&nbsp;{id} | {author}</span>
       </header>
 
       <main dangerouslySetInnerHTML={{ __html: text }} />
