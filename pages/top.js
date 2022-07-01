@@ -1,7 +1,7 @@
 import StoryList from "../components/StoryList";
 import { getInitialStoriesData } from "../utils/hnStories";
 
-const ShowStories = ({ 
+const TopStories = ({ 
   initialStoryIdList, 
   initialStoryListData 
 }) => {
@@ -11,7 +11,7 @@ const ShowStories = ({
 }
 
 export const getServerSideProps = async (context) => {
-  const [initialStoryIdList, initialStoryListData] = await getInitialStoriesData('show');
+  const [initialStoryIdList, initialStoryListData] = await getInitialStoriesData('top');
 
   return {
     props: {
@@ -21,4 +21,4 @@ export const getServerSideProps = async (context) => {
   }
 }
  
-export default ShowStories;
+export default TopStories;

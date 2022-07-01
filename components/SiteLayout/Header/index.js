@@ -7,10 +7,13 @@ const Header = () => {
       <nav>
         <ul>
           <NavItem route='/'>
-            News
+            News (Best)
           </NavItem>
-          <NavItem route='/newest'>
+          <NavItem route='/new'>
             Newest
+          </NavItem>
+          <NavItem route='/top'>
+            Top
           </NavItem>
           <NavItem route='/ask'>
             Ask

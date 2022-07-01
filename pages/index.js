@@ -1,17 +1,24 @@
-import StoryList from '../components/StoryList'
+import StoryList from "../components/StoryList";
+import { getInitialStoriesData } from "../utils/hnStories";
 
-const Home = ({ initialData }) => {
-  return (
-    <StoryList storyListData={initialData} />
+const BestStories = ({ 
+  initialStoryIdList, 
+  initialStoryListData 
+}) => {
+  return (  
+    <StoryList storyListData={initialStoryListData} />
   );
 }
 
 export const getServerSideProps = async (context) => {
-  const res = await fetch('https://api.hnpwa.com/v0/news/1.json');
-  const initialData = await res.json();
+  const [initialStoryIdList, initialStoryListData] = await getInitialStoriesData('best');
+
   return {
-    props: { initialData }
+    props: {
+      initialStoryIdList,
+      initialStoryListData,
+    }
   }
 }
 
-export default Home;
+export default BestStories;
