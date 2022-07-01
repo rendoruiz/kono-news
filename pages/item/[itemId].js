@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 import CommentList from "../../components/CommentList";
 import ItemHeading from "../../components/ItemHeading";
 import { getCommentData } from "../../utils/hnComments";
@@ -18,10 +20,15 @@ const ItemPage = ({
         <section>
           <h2>{title}</h2>
           <p>
-            {id} | {points}pts | {author}
+            {id} | {points}pts |&nbsp;
+            
+            <Link href={'/user/' + author}>
+              <a>{author}</a>
+            </Link>
+
             {url && (
               <>
-                <span> | </span>
+                &nbsp;|&nbsp;
                 <a
                   href={url} 
                   target='_blank'
