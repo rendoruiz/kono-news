@@ -17,7 +17,21 @@ const ItemPage = ({
       <ItemHeading>
         <section>
           <h2>{title}</h2>
-          <p>{id} | {points}pts | {author} {url && `| ${url}`}</p>
+          <p>
+            {id} | {points}pts | {author}
+            {url && (
+              <>
+                <span> | </span>
+                <a
+                  href={url} 
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  {url}
+                </a>
+              </>
+            )}
+          </p>
           {text && (
             <div dangerouslySetInnerHTML={{ __html: text }} />
           )}

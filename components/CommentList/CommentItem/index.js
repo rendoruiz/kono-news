@@ -1,6 +1,9 @@
-import clsx from "clsx";
+import Link from 'next/link'
 import { useState } from "react";
+import clsx from "clsx";
+
 import CommentList from "..";
+import { sanitizeHtmlLinks } from '../../../utils';
 
 const CommentItem = ({ 
   id,
@@ -24,10 +27,15 @@ const CommentItem = ({
         >
           {isHidden ? "+" : "-"}
         </button>
-        <span>&nbsp;&nbsp;{id} | {author}</span>
+        <span>&nbsp;&nbsp;{id} | </span>
+        <Link href={'/user/' + author}>
+          <a>{author}</a>
+        </Link>
       </header>
 
-      <main dangerouslySetInnerHTML={{ __html: text }} />
+      {text && (
+        <main dangerouslySetInnerHTML={{ __html: sanitizeHtmlLinks(text) }} />
+      )}
 
       {children && (
         <CommentList commentListData={children} />
