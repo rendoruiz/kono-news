@@ -1,7 +1,7 @@
 import StoryList from "../components/StoryList";
 import { getInitialStoriesData } from "../utils/hnStories";
 
-const TopStories = ({ 
+const TopStoriesPage = ({ 
   initialStoryIdList, 
   initialStoryListData 
 }) => {
@@ -21,4 +21,4 @@ export const getServerSideProps = async (context) => {
   }
 }
  
-export default TopStories;
+export default TopStoriesPage;
