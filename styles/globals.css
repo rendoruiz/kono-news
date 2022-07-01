@@ -15,6 +15,16 @@ a {
   box-sizing: border-box;
 }
 
+a,
+p, 
+span {
+  word-break: break-word;
+}
+
+code {
+  overflow-x: scroll;
+}
+
 .hidden-comment > header :not(button) {
   opacity: 0.3;
 }
