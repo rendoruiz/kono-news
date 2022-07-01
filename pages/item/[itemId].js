@@ -1,20 +1,31 @@
 import CommentList from "../../components/CommentList";
 import ItemHeading from "../../components/ItemHeading";
+import { getCommentData } from "../../utils/hnComments";
 
-const ItemPage = ({ initialData }) => {
+const ItemPage = ({ 
+  id,
+  type: storyType,
+  author,
+  title,
+  url,
+  text,
+  points,
+  children,
+}) => {
   return (  
     <>
       <ItemHeading>
         <section>
-          <h2>{initialData.title}</h2>
-          {initialData.text && (
-            <div dangerouslySetInnerHTML={{ __html: initialData.text }} />
+          <h2>{title}</h2>
+          <p>{id} | {points}pts | {author} {url && `| ${url}`}</p>
+          {text && (
+            <div dangerouslySetInnerHTML={{ __html: text }} />
           )}
         </section>
       </ItemHeading>
       
-      {initialData.children && (
-        <CommentList commentListData={initialData.children} />
+      {children && (
+        <CommentList commentListData={children} />
       )}
     </>
   );
@@ -22,10 +33,10 @@ const ItemPage = ({ initialData }) => {
 
 export const getServerSideProps = async ({ params }) => {
   const itemId = params.itemId;
-  const res = await fetch(`https://hn.algolia.com/api/v1/items/${itemId}`);
-  const initialData = await res.json();
+  const initialData = await getCommentData(itemId);
+
   return {
-    props: { initialData }
+    props: initialData,
   }
 }
  
