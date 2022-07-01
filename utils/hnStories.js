@@ -13,8 +13,8 @@ export const getStoryData = async (storyId) => {
   return response.data;
 }
 
-export const getStoryListData = async (storyIdList) => {
-  return await Promise.all(storyIdList.map((storyId) => getStoryData(storyId)));
+export const getStoryListData = (storyIdList) => {
+  return Promise.all(storyIdList.map((storyId) => getStoryData(storyId)));
 }
 
 export const getInitialStoriesData = async (storyType) => {
