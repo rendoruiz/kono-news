@@ -18,6 +18,9 @@ const Header = () => {
           <NavItem route='/show'>
             Show
           </NavItem>
+          <NavItem route='/jobs'>
+            Jobs
+          </NavItem>
         </ul>
       </nav>
     </header>
