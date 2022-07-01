@@ -1,8 +1,8 @@
-import TopicList from '../components/TopicList'
+import StoryList from '../components/StoryList'
 
 const Show = ({ initialData }) => {
   return (
-    <TopicList topicListData={initialData} />
+    <StoryList storyListData={initialData} />
   );
 }
 

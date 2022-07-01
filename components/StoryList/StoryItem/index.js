@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { decodeHTML } from 'entities';
 
-const TopicItem = ({ 
+const StoryItem = ({ 
   id,
   title,
   url,
@@ -35,4 +35,4 @@ const TopicItem = ({
   );
 }
  
-export default TopicItem;
+export default StoryItem;
