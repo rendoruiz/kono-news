@@ -5,7 +5,7 @@ import * as Styled from './styles';
 import { ListMode } from '../../utils/hnStories';
 
 const MainLayout = ({ children }) => {
-  const [isNavOpen, setIsNavOpen] = useState(true);
+  const [isNavOpen, setIsNavOpen] = useState(false);
 
   const handleNavToggle = () => setIsNavOpen(!isNavOpen);
   return (  
