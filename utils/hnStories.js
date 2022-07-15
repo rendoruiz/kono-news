@@ -52,11 +52,11 @@ export const ListMode = {
 };
 export const getListMode = (listModeString) => {
   if (!listModeString) {
-    return ListMode.BEST.apiKey;
+    return ListMode.TOP.apiKey;
   }
 
   const matchingMode = Object.keys(ListMode).find((mode) => mode.toLowerCase() === listModeString.toLowerCase());
   return !matchingMode 
-    ? ListMode.BEST.apiKey 
+    ? ListMode.TOP.apiKey 
     : ListMode[matchingMode].apiKey;
 }
