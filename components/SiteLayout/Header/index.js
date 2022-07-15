@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { ListMode } from '../../../utils/hnStories';
 
 const Header = () => {
   return (
@@ -6,24 +7,11 @@ const Header = () => {
       <h1>Hacker News</h1>
       <nav>
         <ul>
-          <NavItem route='/'>
-            News (Best)
-          </NavItem>
-          <NavItem route='/new'>
-            Newest
-          </NavItem>
-          <NavItem route='/top'>
-            Top
-          </NavItem>
-          <NavItem route='/ask'>
-            Ask
-          </NavItem>
-          <NavItem route='/show'>
-            Show
-          </NavItem>
-          <NavItem route='/jobs'>
-            Jobs
-          </NavItem>
+          {Object.keys(ListMode).map((mode) => (
+            <NavItem route={{ query: `mode=${mode.toLowerCase()}` }}>
+              {ListMode[mode].label}
+            </NavItem>
+          ))}
         </ul>
       </nav>
     </header>

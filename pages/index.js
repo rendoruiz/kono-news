@@ -1,17 +1,18 @@
 import StoryList from "../components/StoryList";
-import { getInitialStoriesData } from "../utils/hnStories";
+import { getInitialStoriesData, getListMode } from "../utils/hnStories";
 
-const BestStoriesPage = ({ 
+const HomePage = ({ 
   initialStoryIdList, 
-  initialStoryListData 
+  initialStoryListData,
 }) => {
   return (  
     <StoryList storyListData={initialStoryListData} />
   );
 }
 
-export const getServerSideProps = async (context) => {
-  const [initialStoryIdList, initialStoryListData] = await getInitialStoriesData('best');
+export const getServerSideProps = async ({ query }) => {
+  const listMode = getListMode(query.mode);
+  const [initialStoryIdList, initialStoryListData] = await getInitialStoriesData(listMode);
 
   return {
     props: {
@@ -21,4 +22,4 @@ export const getServerSideProps = async (context) => {
   }
 }
 
-export default BestStoriesPage;
+export default HomePage;
