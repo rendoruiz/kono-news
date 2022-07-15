@@ -1,5 +1,22 @@
 import Link from 'next/link'
-import { ListMode } from '../../../utils/hnStories';
+import styled from "@emotion/styled";
+import { ListMode } from '../utils/hnStories';
+
+const StyledSiteLayout = styled.div`
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+`;
+
+const MainLayout = ({ children }) => {
+  return (  
+    <StyledSiteLayout>
+      <Header />
+        <main>{children}</main>
+      <Footer />
+    </StyledSiteLayout>
+  );
+}
 
 const Header = () => {
   return (
@@ -29,4 +46,10 @@ const NavItem = ({
   </li>
 )
  
-export default Header;
+const Footer = () => (
+  <footer>
+    Footer
+  </footer>
+);
+ 
+export default MainLayout;

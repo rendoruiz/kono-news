@@ -1,11 +1,12 @@
-import SiteLayout from '../components/SiteLayout'
+import MainLayout from '../components/MainLayout'
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
   return (
-    <SiteLayout>
+    <MainLayout>
+
       <Component {...pageProps} />
-    </SiteLayout>
+    </MainLayout>
   )
 }
 
