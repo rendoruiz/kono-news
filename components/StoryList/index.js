@@ -20,34 +20,45 @@ const StoryItem = ({
   id,
   title,
   url,
+  score: points,
+  by: author,
+  time: created_at,
+  descendants,
 }) => {
+  const decodedTitle = decodeHTML(title);
+
   return (
-    <Styled.StoryItem>
+    <li>
       <Link href={`/item/${id}`}>
         <a>
-          {decodeHTML(title)}
+          <Styled.StoryTitle>
+            {decodedTitle}
+            {url && (<StoryUrl url={url} />)}
+          </Styled.StoryTitle>
+          <Styled.StoryDetailsWrapper>
+            {points} points | {descendants} comments | {author} | {created_at} |&nbsp;
+            <a 
+              href={`https://news.ycombinator.com/item?id=${id}`} 
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              [orig]
+            </a>
+          </Styled.StoryDetailsWrapper>
         </a>
       </Link>
-      &nbsp;
-      {url && (
-        <a 
-          href={url} 
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          [url]
-        </a>
-      )}
-      &nbsp;
-      <a 
-        href={`https://news.ycombinator.com/item?id=${id}`} 
-        target='_blank'
-        rel='noopener noreferrer'
-      >
-        [orig]
-      </a>
-    </Styled.StoryItem>
+    </li>
   );
 }
+
+const StoryUrl = ({ url }) => (
+  <Styled.StoryUrl
+    href={url} 
+    target='_blank'
+    rel='noopener noreferrer'
+  >
+    &nbsp;({new URL(url).hostname.split('www.').join('')})
+  </Styled.StoryUrl>
+)
  
 export default StoryList;

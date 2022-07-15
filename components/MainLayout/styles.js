@@ -8,8 +8,21 @@ export const MainLayout = styled.div`
   height: 100vh;
   overflow: hidden;
 
+  background-color: rgb(246, 246, 239);
+
   ${viewport.md} {
     grid-template-columns: auto 1fr;
+  }
+`;
+
+export const MainContentWrapper = styled.div`
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+
+  main {
+    overflow-y: auto;
+    padding: 8px 0;
   }
 `;
 

@@ -11,16 +11,16 @@ const MainLayout = ({ children }) => {
   return (  
     <Styled.MainLayout>
       <NavigationSidebar isOpen={isNavOpen} onToggle={handleNavToggle} />
-      <div>
+      <Styled.MainContentWrapper>
         <header>
-        <button type='button' onClick={handleNavToggle}>
-          toggle
-        </button>
+          <button type='button' onClick={handleNavToggle}>
+            toggle
+          </button>
         </header>
         <main>
           {children}
         </main>
-      </div>
+      </Styled.MainContentWrapper>
     </Styled.MainLayout>
   );
 }
