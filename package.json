@@ -16,7 +16,8 @@
     "entities": "^4.3.0",
     "next": "12.1.6",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-query": "^3.39.2"
   },
   "devDependencies": {
     "eslint": "8.18.0",
