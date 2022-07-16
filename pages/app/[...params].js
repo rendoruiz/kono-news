@@ -4,24 +4,65 @@ import styled from "@emotion/styled";
 
 
 const StyledAppLayout = styled.div`
-
+  min-width: 300px;
+  min-height: 400px;
+  width: 100vw;
+  height: 100vh;
+  
+  background-color: orchid;
 `;
-const AppPage = ({ initialStoryListIds, initialStoryListData, initialStoryCommentsData, }) => {
-  const storyListData = initialStoryListData;
+const AppPage = ({ initialStoryListIds, initialStoryCommentsData, }) => {
+  const storyListData = initialStoryListIds;
+  const storyCommentsData = initialStoryCommentsData;
 
   return (  
     <StyledAppLayout>
       {/* Navigation Panel */}
+      {/* 
+        Component States:
+        selectedStoryListMode
+        isExpanded, toggleNPExpansion
+      */}
+      <NavigationPanel />
 
       {/* Story List Panel */}
+      {/* 
+        Shared Component States:
+        selectedStoryListMode
+        toggleNPExpansion, toggleSCPExpansion 
+      */}
       <StoryListPanel 
         storyListMode={null} 
         storyListData={storyListData} 
       />
 
       {/* Story Comments Panel */}
+      {/* 
+        Component States:
+        isExpanded, toggleSCPExpansion
+      */}
+      <StoryCommentsPanel
+        {...storyCommentsData}    // includes storyItemData (HNAPI) & storyComments (AlgoliaAPI)
+      />
 
     </StyledAppLayout>
+  );
+}
+
+
+
+
+
+
+
+
+const StyledNavigationPanel = styled.section``;
+
+const NavigationPanel = ({}) => {
+  return (
+    <StyledNavigationPanel>
+
+    </StyledNavigationPanel>
   );
 }
 
