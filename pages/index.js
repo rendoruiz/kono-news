@@ -1,3 +1,4 @@
+import StoryLayout from "../components/StoryLayout";
 import StoryList from "../components/StoryList";
 import { getInitialStoriesData, getListMode } from "../utils/hnStories";
 
@@ -6,7 +7,7 @@ const HomePage = ({
   initialStoryListData,
 }) => {
   return (  
-    <StoryList storyListData={initialStoryListData} />
+    <StoryLayout storyListData={initialStoryListData} />
   );
 }
 

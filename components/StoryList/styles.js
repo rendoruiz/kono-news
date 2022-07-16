@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 
-
 export const StoryList = styled.ol`
   counter-reset: css-counter 0;
   list-style-type: none;
@@ -30,7 +29,7 @@ export const StoryTitle = styled.h3`
   }
 `;
 
-export const StoryUrl = styled.a`
+export const StoryUrlHostname = styled.span`
   font-size: 0.75em;
   font-weight: 400;
   opacity: 0.6;

@@ -33,17 +33,10 @@ const StoryItem = ({
         <a>
           <Styled.StoryTitle>
             {decodedTitle}
-            {url && (<StoryUrl url={url} />)}
+            {url && (<StoryUrlHostname url={url} />)}
           </Styled.StoryTitle>
           <Styled.StoryDetailsWrapper>
-            {points} points | {descendants} comments | {author} | {created_at} |&nbsp;
-            <a 
-              href={`https://news.ycombinator.com/item?id=${id}`} 
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              [orig]
-            </a>
+            {points} points | {descendants} comments | {author} | {created_at}
           </Styled.StoryDetailsWrapper>
         </a>
       </Link>
@@ -51,14 +44,14 @@ const StoryItem = ({
   );
 }
 
-const StoryUrl = ({ url }) => (
-  <Styled.StoryUrl
+const StoryUrlHostname = ({ url }) => (
+  <Styled.StoryUrlHostname
     href={url} 
     target='_blank'
     rel='noopener noreferrer'
   >
     &nbsp;({new URL(url).hostname.split('www.').join('')})
-  </Styled.StoryUrl>
+  </Styled.StoryUrlHostname>
 )
  
 export default StoryList;

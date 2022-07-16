@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
-import { viewport } from "../../styles/styledViewports";
+import { viewport } from "../../styles/globalStyles";
 
-export const MainLayout = styled.div`
+export const StoryLayout = styled.div`
   position: relative;
   display: grid;
   width: 100vw;
@@ -15,15 +15,8 @@ export const MainLayout = styled.div`
   }
 `;
 
-export const MainContentWrapper = styled.div`
-  height: 100vh;
-  display: grid;
-  grid-template-rows: auto 1fr;
-
-  main {
-    overflow-y: auto;
-    padding: 8px 0;
-  }
+export const StoryContent = styled.div`
+  overflow-y: auto;
 `;
 
 export const NavigationSidebar = styled.nav`
@@ -32,14 +25,9 @@ export const NavigationSidebar = styled.nav`
   inset: 0 auto 0 0;
   z-index: 1000;
   width: 100%;
-  max-width: 280px;
+  max-width: 200px;
   background: aliceblue;
   overflow-y: auto;
-  
-
-  ${viewport.md} {
-
-  }
 `;
 
 export const NavigationSidebarOverlay = styled.div`
@@ -50,7 +38,11 @@ export const NavigationSidebarOverlay = styled.div`
   background: rgba(0,0,0,0.50);
 `;
 
-export const NavList = styled.ul`
+export const NavigationToggle = styled.button`
+
+`;
+
+export const NavigationList = styled.ul`
   display: grid;
   list-style-type: none;
   padding-left: 0;
