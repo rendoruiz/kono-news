@@ -63,10 +63,13 @@ const AppPage = ({ query, initialStoryListIds, initialStoryCommentsData, storyLi
 //#region utils
 const STORIES_PER_PAGE = 30;
 
+const twentyFourHoursInMs = 1000 * 60 * 60 * 24;
 const storyDataQueryParams = {
-  staleTime: 300000,
-  cacheTime: 900000,
-  keepPreviousData: true,
+  refetchOnWindowFocus: false,
+  refetchOnMount: false,
+  refetchOnReconnect: false,
+  retry: false,
+  staleTime: twentyFourHoursInMs,
 }
 
 const STORYMODE = {
@@ -206,29 +209,6 @@ const StoryListPanel = ({ storyListMode, storyListIds }) => {
     return null;
   }
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [storyListData, setStoryListData] = useState([]);
-  const currentStoryCount = STORIES_PER_PAGE * currentPage;
-  const isPageLimitReached = currentStoryCount >= storyListIds.length 
-    ? true 
-    : false;
-  const currentStoryIds = !isPageLimitReached 
-    ? storyListIds.slice(0, currentStoryCount) 
-    : storyListIds;
-
-  const storyListDataQuery = useQueries(
-    currentStoryIds.map((storyId) => {
-      return { 
-        queryKey: ['storydata', storyId], 
-        queryFn: () => getStoryData(storyId),
-        storyDataQueryParams,
-      }
-    }));
-  const isLoading = storyListDataQuery.some(query => query.isLoading);
-  const isError = storyListDataQuery.some(query => query.isError);
-  
-
-  
 
   
   return (
@@ -236,29 +216,18 @@ const StoryListPanel = ({ storyListMode, storyListIds }) => {
       {/* header w/ nav toggle */}
       <StoryListHeader listMode={storyListMode} />
 
-      {isLoading && (
-        <p>Loading story list...</p>
-      )}
-
-      {isError && (
-        <p>Loading story list...</p>
-      )}
-
       {/* story list */}
-      {!isLoading && !isError && (
-        <StoryList storyListData={storyListData} />
-      )}
+      <StoryList storyListData={null} />
 
-      {!isPageLimitReached && (
+      {/* story list propagation button */}
+      {/* {!isPageLimitReached && (
         <button 
           type='button'
           onClick={() => setCurrentPage(currentPage + 1)}
         >
           load more
         </button>
-      )}
-      
-      {/* story list propagation button */}
+      )} */}
     </StyledStoryListPanel>
   );
 }
