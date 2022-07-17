@@ -6,6 +6,7 @@ import styled from "@emotion/styled";
 import { reactQueryParams, STORIES_PER_PAGE } from "../../../utils/constants";
 import { getInitialStoryListData, getStoryData, parseStoryListMode } from "../../../utils/fetchApi";
 
+//#region styles
 const StyledStoryListPanel = styled.section`
   overflow-y: auto;
 `;
@@ -60,8 +61,7 @@ const StyledStoryStats = styled.p`
   font-size: 0.75em;
   opacity: 0.6;
 `;
-
-
+//#endregion
 
 
 const StoryListPanel = ({ storyListMode }) => {
@@ -76,19 +76,18 @@ const StoryListPanel = ({ storyListMode }) => {
   );
 }
 
-const StoryListHeader = ({ storyListMode }) => {   // deconstruct props
-  const currentListMode = parseStoryListMode(storyListMode);
+const StoryListHeader = ({ storyListMode }) => {
   return (
     <StyledStoryListHeader>
-      {currentListMode.label} uwu {JSON.stringify(currentListMode)}
+      {storyListMode?.label}
     </StyledStoryListHeader>
   );
 }
 
 const StoryList = ({ storyListMode }) => {
   const { isLoading, isError, data: fetchedStoryIds, error } = useQuery(
-    ['storylist', storyListMode], 
-    () => getInitialStoryListData(storyListMode),
+    ['storylist', storyListMode.label], 
+    () => getInitialStoryListData(storyListMode, true),
     reactQueryParams
   );
   const [currentPage, setCurrentPage] = useState(1);

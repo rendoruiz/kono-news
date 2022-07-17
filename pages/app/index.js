@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import StoryListPanel from "../../components/app/StoryListPanel";
+import { parseStoryListMode } from "../../utils/fetchApi";
 
 // shared states:
 // object currentStoryMode = (onChange) => update routeQuery:mode
-// int currentStoryModeId = (onChange) => update routeQuery:story
-// object currentStoryCommentsData
+// int currentStoryModeId = (onChange) => update routeQuery:story 
 // bool isNavigationPanelOpen
 // bool isStoryCommentsPanelOpen
 
@@ -18,45 +18,40 @@ const StyledAppLayout = styled.div`
 `;
 
 const AppDashboard = ({ queryString, initialStoryListMode, initialStoryCommentsId, }) => {
-  const storyListMode = initialStoryListMode;
-  const storyCommentsId = initialStoryCommentsId;
+  const [currentStoryListMode, setCurrentStoryListMode] = useState(parseStoryListMode(initialStoryListMode));
+  const [currentStoryCommentsId, setCurrentStoryCommentsId] = useState(initialStoryCommentsId);
+  const [isNavigationPanelOpen, setIsNavigationPanelOpen] = useState(false);
+  const [isStoryCommentsPanelOpen, setIsStoryCommentsPanelOpen] = useState(false);
+
+  const handleStoryListModeChange = (newListMode) => setCurrentStoryListMode(newListMode);
+  const handleStoryCommentsIdChange = (newStoryCommentsId) => setCurrentStoryCommentsId(newStoryCommentsId);
+  const handleToggleNavigationPanel = () => setIsNavigationPanelOpen(!isNavigationPanelOpen);
+  const handleToggleStoryCommentsPanel = () => setIsStoryCommentsPanelOpen(!isStoryCommentsPanelOpen);
 
   return (  
     <StyledAppLayout>
-      {/* Navigation Panel */}
-      {/* 
-        Component States:
-        selectedStoryListMode
-        isExpanded, toggleNPExpansion
-      */}
-      <NavigationPanel />
+      <NavigationPanel  
+        isOpen={isNavigationPanelOpen}
+        storyListMode={currentStoryListMode}
+        onListModeChange={handleStoryListModeChange}
+        onTogglePanel={handleToggleNavigationPanel}
+      />
 
-      {/* Story List Panel */}
-      {/* 
-        Component States:
-        selectedStoryItemData
-      */}
-      {/* 
-        Shared Component States:
-        selectedStoryListMode
-        toggleNPExpansion, toggleSCPExpansion 
-      */}
-      <StoryListPanel storyListMode={storyListMode} />
+      <StoryListPanel 
+        storyListMode={currentStoryListMode} 
+        onStoryItemClick={handleStoryCommentsIdChange}
+        onToggleNavigationPanel={handleToggleNavigationPanel}
+        onToggleStoryCommentsPanel={handleToggleStoryCommentsPanel}
+      />
 
-      {/* Story Comments Panel */}
-      {/* 
-        Component States:
-        isExpanded, toggleSCPExpansion
-      */}
-      {/* 
-        Shared Component States:
-        selectedStoryItemData 
-      */}
-      <StoryCommentsPanel storyCommentsId={storyCommentsId} />
+      <StoryCommentsPanel 
+        isOpen={isStoryCommentsPanelOpen}
+        storyCommentsId={currentStoryCommentsId} 
+        onTogglePanel={handleToggleStoryCommentsPanel}
+      />
     </StyledAppLayout>
   );
 }
-
 
 export const getServerSideProps = async ({ query }) => {
   const { 
@@ -79,7 +74,7 @@ export default AppDashboard;
 //#region Navigation Panel
 const StyledNavigationPanel = styled.section``;
 
-const NavigationPanel = ({}) => {
+const NavigationPanel = ({ isOpen, storyListMode, onListModeChange, onTogglePanel, }) => {
   return (
     <StyledNavigationPanel>
 

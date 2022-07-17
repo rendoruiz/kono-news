@@ -18,8 +18,8 @@ export const parseStoryListMode = (modeString) => {
 }
 
 // returns: [...int]
-export const getStoryListIds = async (modeString) => {
-  const storyListMode = parseStoryListMode(modeString);
+export const getStoryListIds = async (listMode, isListModeParsed = false) => {
+  const storyListMode = isListModeParsed ? listMode : parseStoryListMode(listMode);
   const endpoint = getStoryListIdsEndpoint(storyListMode.apiQuery);
   try {
     const response = await axios.get(endpoint);
@@ -65,9 +65,9 @@ export const getStoryCommentsData = async (storyCommentId) => {
   }
 }
 
-export const getInitialStoryListData = async (storyType) => {
+export const getInitialStoryListData = async (listMode, isListModeParsed) => {
   try {
-    const storyListIds = await getStoryListIds(storyType);
+    const storyListIds = await getStoryListIds(listMode, isListModeParsed);
     const initialStoryListIds = storyListIds.slice(0, STORIES_PER_PAGE);
     const initialStoryListData = await Promise.all(
       initialStoryListIds.map((storyId) => getStoryData(storyId))
