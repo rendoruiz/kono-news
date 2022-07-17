@@ -1,12 +1,12 @@
 import axios from "axios";
-import { STORYMODE } from "./constants";
+import { STORIES_PER_PAGE, STORYMODE } from "./constants";
 
 const HN_API_ENDPOINT = 'https://hacker-news.firebaseio.com/v0/'
 const getStoryListIdsEndpoint = (storyListMode) => `${HN_API_ENDPOINT}${storyListMode}.json`;
 const getStoryDataEndpoint = (storyId) => `${HN_API_ENDPOINT}item/${storyId}.json`;
 
 const ALGOLIA_API_ENDPOINT = 'https://hn.algolia.com/api/v1/';
-const getStoryCommentDataEndpoint = (commentDataId) =>`${ALGOLIA_API_ENDPOINT}items/${commentDataId}`;
+const getStoryCommentsDataEndpoint = (commentDataId) =>`${ALGOLIA_API_ENDPOINT}items/${commentDataId}`;
 
 const parseStoryListMode = (modeString) => {
   if (!modeString) {
@@ -45,13 +45,13 @@ export const getStoryData = async (storyId) => {
 }
 
 // returns: {...storyComment}
-export const getStoryCommentData = async (storyCommentId) => {
+export const getStoryCommentsData = async (storyCommentId) => {
   if (!storyCommentId) {
     return null;
   }
 
   const storyEndpoint = getStoryDataEndpoint(storyCommentId);
-  const commentEndpoint = getStoryCommentDataEndpoint(storyCommentId);
+  const commentEndpoint = getStoryCommentsDataEndpoint(storyCommentId);
   try {
     const response = await Promise.all(
       [commentEndpoint, storyEndpoint].map((endpoint) => axios.get(endpoint))
@@ -63,4 +63,30 @@ export const getStoryCommentData = async (storyCommentId) => {
   } catch {
     throw new Error('Failed to get story comment data id: ' + storyCommentId);
   }
+}
+
+export const getInitialStoryListData = async (storyType) => {
+  try {
+    const storyListIds = await getStoryListIds(storyType);
+    const initialStoryListIds = storyListIds.slice(0, STORIES_PER_PAGE);
+    const initialStoryListData = await Promise.all(
+      initialStoryListIds.map((storyId) => getStoryData(storyId))
+    );
+
+    return [
+      ...initialStoryListData,
+      ...storyListIds.slice(STORIES_PER_PAGE).map((storyId) => {
+        return {
+          id: storyId,
+          isDataEmpty: true,
+        }
+      }),
+    ];
+  } catch {
+    throw new Error('Failed to fetch initial story list data.');
+  }
+  // const maxStoryPerPage = 30;
+  // const storyIdList = await getStoryIdList(storyType);
+  // const storyListData = await getStoryListData(storyIdList.slice(0, ));
+  // return [storyIdList, storyListData];
 }

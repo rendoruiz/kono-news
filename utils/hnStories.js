@@ -20,7 +20,7 @@ export const getStoryListData = (storyIdList) => {
 export const getInitialStoriesData = async (storyType) => {
   const maxStoryPerPage = 30;
   const storyIdList = await getStoryIdList(storyType);
-  const storyListData = await getStoryListData(storyIdList.slice(0, maxStoryPerPage));
+  const storyListData = await getStoryListData(storyIdList.slice(0, ));
   return [storyIdList, storyListData];
 }
 

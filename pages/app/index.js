@@ -1,9 +1,6 @@
 import { useState } from "react";
-import { useQuery } from 'react-query';
 import styled from "@emotion/styled";
-
-import { reactQueryParams, STORYMODE } from "../../utils/constants";
-import { getStoryCommentData, getStoryData, getStoryListIds } from "../../utils/fetchData";
+import StoryListPanel from "../../components/app/StoryListPanel";
 
 //#region AppDashboard
 const StyledAppLayout = styled.div`
@@ -14,10 +11,9 @@ const StyledAppLayout = styled.div`
   
   background-color: rgb(246, 246, 239);
 `;
-const AppDashboard = ({ query, initialStoryListIds, initialStoryCommentsData, storyListPage, }) => {
-  const storyCommentsData = initialStoryCommentsData;
-
-  console.log({query, initialStoryListIds, initialStoryCommentsData, storyListPage});
+const AppDashboard = ({ queryString, initialStoryListMode, initialStoryCommentsId, }) => {
+  const storyListMode = initialStoryListMode;
+  const storyCommentsId = initialStoryCommentsId;
 
   return (  
     <StyledAppLayout>
@@ -40,8 +36,7 @@ const AppDashboard = ({ query, initialStoryListIds, initialStoryCommentsData, st
         toggleNPExpansion, toggleSCPExpansion 
       */}
       <StoryListPanel 
-        storyListMode={null} 
-        initialStoryListIds={initialStoryListIds} 
+        storyListMode={storyListMode} 
       />
 
       {/* Story Comments Panel */}
@@ -53,7 +48,7 @@ const AppDashboard = ({ query, initialStoryListIds, initialStoryCommentsData, st
         Shared Component States:
         selectedStoryItemData 
       */}
-      <StoryCommentsPanel {...storyCommentsData} />
+      <StoryCommentsPanel storyCommentsId={storyCommentsId} />
     </StyledAppLayout>
   );
 }
@@ -62,18 +57,14 @@ const AppDashboard = ({ query, initialStoryListIds, initialStoryCommentsData, st
 export const getServerSideProps = async ({ query }) => {
   const { 
     mode: listMode, 
-    page: listPage, 
-    scid: storyCommentId 
+    story: storyCommentsId 
   } = query;
-  const storyListIds = await getStoryListIds(listMode);
-  const storyCommentsData = await getStoryCommentData(storyCommentId);
 
   return {
     props: {
-      query,
-      initialStoryListIds: storyListIds,
-      initialStoryCommentsData: storyCommentsData,
-      storyListPage: listPage ?? null,
+      queryString: query,
+      initialStoryListMode: listMode ?? null, 
+      initialStoryCommentsId: storyCommentsId ?? null,
     }
   }
 }
@@ -94,186 +85,6 @@ const NavigationPanel = ({}) => {
 }
 //#endregion
 
-
-//#region story list
-const StyledStoryListPanel = styled.section``;
-const StyledStoryListHeader = styled.div``;
-const StyledStoryList = styled.ol`
-  display: grid;
-  gap: 2px;
-`;
-
-const StyledStoryItem = styled.li`
-  button {
-    border: none;
-    padding: 2px 8px;
-    width: 100%;
-    background: none;
-    text-align: left;
-    cursor: pointer;
-  }
-`;
-const StyledStoryTitle = styled.div`
-  /* display: inline; */
-`
-const StyledStoryHeading = styled.h3`
-  display: inline;
-  font-size: 1.1em;
-`;
-const StyledStoryUrl = styled.span`
-  font-size: 0.75em;
-  opacity: 0.6;
-  
-  ::before {
-    content: '  ';
-  }
-`;
-const StyledStoryStats = styled.p`
-  font-size: 0.75em;
-  opacity: 0.6;
-`;
-
-const STORIES_PER_PAGE = 30;
-
-const StoryListPanel = ({ 
-  storyListMode = STORYMODE.TOP.label, 
-  initialStoryListIds, 
-}) => {
-  const { isLoading, isError, data: fetchedStoryIds, error } = useQuery(
-    ['storylistids', storyListMode], 
-    () => getStoryListIds(storyListMode),
-    { initialData: initialStoryListIds, ...reactQueryParams }
-  );
-  const [currentPage, setCurrentPage] = useState(1);
-  const handlePageChange = () => setCurrentPage(currentPage + 1);
-
-  if (isLoading) {
-    return <p>Loading List IDs...</p>
-  }
-
-  if (isError) {
-    return <p>Loading List IDs error: {error}</p>
-  }
-
-  if (!fetchedStoryIds) {
-    return null;
-  }
-  
-  const currentItemCount = STORIES_PER_PAGE * currentPage;
-  const isPageLimitReached = currentItemCount >= fetchedStoryIds.length
-    ? true 
-    : false;
-  const storyListIds = isPageLimitReached 
-    ? fetchedStoryIds 
-    : fetchedStoryIds.slice(0, currentItemCount);
-
-    console.log(storyListIds)
-  
-  return (
-    <StyledStoryListPanel>
-      {/* header w/ nav toggle */}
-      <StoryListHeader listMode={storyListMode} />
-
-      {/* story list */}
-      <StoryList storyListIds={storyListIds} />
-
-      {/* story list propagation button */}
-      {!isPageLimitReached && (
-        <button 
-          type='button'
-          onClick={handlePageChange}
-        >
-          load more
-        </button>
-      )}
-    </StyledStoryListPanel>
-  );
-}
-
-const StoryListHeader = ({ listMode }) => {   // deconstruct props
-  return (
-    <StyledStoryListHeader>
-
-    </StyledStoryListHeader>
-  );
-}
-
-const StoryList = ({ storyListIds }) => {
-  if (!storyListIds) {
-    return null;
-  }
-
-  return (
-    <StyledStoryList>
-      {storyListIds.map((storyItemId) => (
-        <StoryItem
-          key={storyItemId}
-          storyItemId={storyItemId}
-        />
-      ))}
-    </StyledStoryList>
-  );
-}
-
-
-const StoryItem = ({ storyItemId }) => {
-  const { isLoading, isError, data: storyData, error } = useQuery(
-    ['storydata', storyItemId], 
-    () => getStoryData(storyItemId),
-    reactQueryParams
-  );
-
-  if (isLoading) {
-    return <p>Loading Story #{storyItemId}</p>
-  }
-
-  if (isError) {
-    return <p>Loading Story #{storyItemId} error: {error}</p>
-  }
-
-  if (!storyData) {
-    return null;
-  }
-
-  const {
-    id,
-    title,
-    url,
-    by: author,
-    score: points,
-    time,
-    descendants: post_count,
-  } = storyData;
-
-  // const decodedTitle = decodeHTML(title);
-  return (
-    <StyledStoryItem>
-      <button>
-        <StyledStoryTitle>
-          <StyledStoryHeading>{title}</StyledStoryHeading>
-          <StoryItemUrl url={url} />
-        </StyledStoryTitle>
-        <StyledStoryStats>
-          {points} points | {post_count} comments | {author} | {time}
-        </StyledStoryStats>
-      </button>
-    </StyledStoryItem>
-  );
-}
-
-const StoryItemUrl = ({url}) => {
-  if (!url) {
-    return null;
-  }
-
-  const urlHostname = !url ? null : new URL(url).hostname.split('www.').join('');
-  return (
-    <StyledStoryUrl>
-      ({urlHostname})
-    </StyledStoryUrl>
-  )
-}
-//#endregion
 
 
 //#region storycomments

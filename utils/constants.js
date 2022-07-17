@@ -25,6 +25,8 @@ export const STORYMODE = {
   },
 }
 
+export const STORIES_PER_PAGE = 30;
+
 const twentyFourHoursInMs = 1000 * 60 * 60 * 24;
 export const reactQueryParams = {
   refetchOnWindowFocus: false,
