@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import StoryListPanel from "../../components/app/StoryListPanel";
-import { STORYMODE } from "../../utils/constants";
-import { parseStoryListMode } from "../../utils/fetchApi";
+
+// shared states:
+// object currentStoryMode = (onChange) => update routeQuery:mode
+// int currentStoryModeId = (onChange) => update routeQuery:story
+// object currentStoryCommentsData
+// bool isNavigationPanelOpen
+// bool isStoryCommentsPanelOpen
 
 //#region AppDashboard
 const StyledAppLayout = styled.div`
