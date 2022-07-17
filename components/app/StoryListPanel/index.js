@@ -6,7 +6,9 @@ import styled from "@emotion/styled";
 import { reactQueryParams, STORIES_PER_PAGE } from "../../../utils/constants";
 import { getInitialStoryListData, getStoryData } from "../../../utils/fetchApi";
 
-const StyledStoryListPanel = styled.section``;
+const StyledStoryListPanel = styled.section`
+  overflow-y: auto;
+`;
 const StyledStoryListHeader = styled.div``;
 const StyledStoryList = styled.ol`
   display: grid;
@@ -59,6 +61,9 @@ const StyledStoryStats = styled.p`
   opacity: 0.6;
 `;
 
+
+
+
 const StoryListPanel = ({ storyListMode }) => {
   const { isLoading, isError, data: fetchedStoryIds, error } = useQuery(
     ['storylist', storyListMode], 
@@ -87,8 +92,6 @@ const StoryListPanel = ({ storyListMode }) => {
   const storyListIds = isPageLimitReached 
     ? fetchedStoryIds 
     : fetchedStoryIds.slice(0, currentItemCount);
-
-    console.log(storyListIds)
   
   return (
     <StyledStoryListPanel>

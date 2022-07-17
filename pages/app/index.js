@@ -4,8 +4,8 @@ import StoryListPanel from "../../components/app/StoryListPanel";
 
 //#region AppDashboard
 const StyledAppLayout = styled.div`
-  min-width: 300px;
-  min-height: 400px;
+  display: grid;
+  min-width: 200px;
   width: 100vw;
   height: 100vh;
   
