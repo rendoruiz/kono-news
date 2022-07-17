@@ -9,15 +9,14 @@ import StoryListPanel from "../../components/app/StoryListPanel";
 // bool isNavigationPanelOpen
 // bool isStoryCommentsPanelOpen
 
-//#region AppDashboard
 const StyledAppLayout = styled.div`
   display: grid;
   min-width: 200px;
   width: 100vw;
   height: 100vh;
-  
   background-color: rgb(246, 246, 239);
 `;
+
 const AppDashboard = ({ queryString, initialStoryListMode, initialStoryCommentsId, }) => {
   const storyListMode = initialStoryListMode;
   const storyCommentsId = initialStoryCommentsId;
@@ -75,7 +74,6 @@ export const getServerSideProps = async ({ query }) => {
 }
 
 export default AppDashboard;
-//#endregion
 
 
 //#region Navigation Panel
