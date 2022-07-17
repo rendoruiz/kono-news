@@ -2,8 +2,8 @@ import styled from "@emotion/styled";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useQueries } from "react-query";
-
-
+import { STORYMODE } from "../../utils/constants";
+import { getStoryCommentData, getStoryListIds } from "../../utils/getData";
 
 
 const StyledAppLayout = styled.div`
@@ -59,111 +59,6 @@ const AppPage = ({ query, initialStoryListIds, initialStoryCommentsData, storyLi
   );
 }
 
-
-//#region utils
-const STORIES_PER_PAGE = 30;
-
-const twentyFourHoursInMs = 1000 * 60 * 60 * 24;
-const storyDataQueryParams = {
-  refetchOnWindowFocus: false,
-  refetchOnMount: false,
-  refetchOnReconnect: false,
-  retry: false,
-  staleTime: twentyFourHoursInMs,
-}
-
-const STORYMODE = {
-  TOP: {
-    label: 'Home',
-    apiQuery: 'topstories',
-  },
-  NEW: {
-    label: 'Newest',
-    apiQuery: 'newstories',
-  },
-  BEST: {
-    label: 'Best',
-    apiQuery: 'beststories',
-  },
-  ASK: {
-    label: 'Ask',
-    apiQuery: 'askstories',
-  },
-  SHOW: {
-    label: 'Show',
-    apiQuery: 'showstories',
-  },
-  JOB:  {
-    label: 'Jobs',
-    apiQuery: 'jobstories',
-  },
-}
-
-const getParsedStoryListMode = (modeString) => {
-  if (!modeString) {
-    return STORYMODE.TOP;
-  }
-
-  const result = Object.keys(STORYMODE).filter((storyMode) => storyMode === modeString.toUpperCase()).pop();
-  return result ? STORYMODE[result] : STORYMODE.TOP;
-}
-
-const HN_API_ENDPOINT = 'https://hacker-news.firebaseio.com/v0/'
-const getStoryListIdsEndpoint = (storyListMode) => `${HN_API_ENDPOINT}${storyListMode}.json`;
-const getStoryDataEndpoint = (storyId) => `${HN_API_ENDPOINT}item/${storyId}.json`;
-
-const ALGOLIA_API_ENDPOINT = 'https://hn.algolia.com/api/v1/';
-const getStoryCommentDataEndpoint = (commentDataId) =>`${ALGOLIA_API_ENDPOINT}items/${commentDataId}`;
-
-
-const getStoryListIds = async (modeString) => {
-  const storyListMode = getParsedStoryListMode(modeString);
-  const endpoint = getStoryListIdsEndpoint(storyListMode.apiQuery);
-  try {
-    const response = await axios.get(endpoint);
-    return response.data;
-  } catch {
-    return { 
-      error: 'Failed to get story ids.' 
-    };
-  }
-}
-
-const getStoryData = async (storyId) => {
-  const endpoint = getStoryDataEndpoint(storyId);
-  try {
-    const response = await axios.get(endpoint);
-    return response.data;
-  } catch {
-    throw new Error('Failed to fetch story: ' + endpoint);
-  }
-}
-
-const getStoryCommentData = async (storyCommentId) => {
-  if (!storyCommentId) {
-    return null;
-  }
-
-  const storyEndpoint = getStoryDataEndpoint(storyCommentId);
-  const commentEndpoint = getStoryCommentDataEndpoint(storyCommentId);
-  try {
-    const response = await Promise.all(
-      [commentEndpoint, storyEndpoint].map((endpoint) => axios.get(endpoint))
-    );
-    return {
-      ...response[0].data,
-      post_count: response[1].data.descendants,
-    };
-  } catch {
-    return { 
-      error: 'Failed to get story comment data.' 
-    };
-  }
-}
-
-
-
-//#endregion
 
 export const getServerSideProps = async ({ query }) => {
   const { 
