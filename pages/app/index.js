@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import StoryListPanel from "../../components/app/StoryListPanel";
+import { STORYMODE } from "../../utils/constants";
+import { parseStoryListMode } from "../../utils/fetchApi";
 
 //#region AppDashboard
 const StyledAppLayout = styled.div`
@@ -35,9 +37,7 @@ const AppDashboard = ({ queryString, initialStoryListMode, initialStoryCommentsI
         selectedStoryListMode
         toggleNPExpansion, toggleSCPExpansion 
       */}
-      <StoryListPanel 
-        storyListMode={storyListMode} 
-      />
+      <StoryListPanel storyListMode={storyListMode} />
 
       {/* Story Comments Panel */}
       {/* 

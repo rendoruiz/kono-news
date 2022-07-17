@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 import styled from "@emotion/styled";
 
 import { reactQueryParams, STORIES_PER_PAGE } from "../../../utils/constants";
-import { getInitialStoryListData, getStoryData } from "../../../utils/fetchApi";
+import { getInitialStoryListData, getStoryData, parseStoryListMode } from "../../../utils/fetchApi";
 
 const StyledStoryListPanel = styled.section`
   overflow-y: auto;
@@ -65,6 +65,27 @@ const StyledStoryStats = styled.p`
 
 
 const StoryListPanel = ({ storyListMode }) => {
+  return (
+    <StyledStoryListPanel>
+      {/* header w/ nav toggle */}
+      <StoryListHeader storyListMode={storyListMode} />
+
+      {/* story list */}
+      <StoryList storyListMode={storyListMode} />
+    </StyledStoryListPanel>
+  );
+}
+
+const StoryListHeader = ({ storyListMode }) => {   // deconstruct props
+  const currentListMode = parseStoryListMode(storyListMode);
+  return (
+    <StyledStoryListHeader>
+      {currentListMode.label} uwu {JSON.stringify(currentListMode)}
+    </StyledStoryListHeader>
+  );
+}
+
+const StoryList = ({ storyListMode }) => {
   const { isLoading, isError, data: fetchedStoryIds, error } = useQuery(
     ['storylist', storyListMode], 
     () => getInitialStoryListData(storyListMode),
@@ -74,15 +95,19 @@ const StoryListPanel = ({ storyListMode }) => {
   const handlePageChange = () => setCurrentPage(currentPage + 1);
 
   if (isLoading) {
-    return <p>Loading List IDs...</p>
+    return (
+      <StyledStoryList data-loading>
+        <p>Loading List IDs...</p>
+      </StyledStoryList>
+    );
   }
 
   if (isError) {
-    return <p>Loading List IDs error: {error}</p>
-  }
-
-  if (!fetchedStoryIds) {
-    return null;
+    return (
+      <StyledStoryList data-error>
+        <p>Loading List IDs error: {error}</p>
+      </StyledStoryList>
+    );
   }
   
   const currentItemCount = STORIES_PER_PAGE * currentPage;
@@ -94,12 +119,18 @@ const StoryListPanel = ({ storyListMode }) => {
     : fetchedStoryIds.slice(0, currentItemCount);
   
   return (
-    <StyledStoryListPanel>
-      {/* header w/ nav toggle */}
-      <StoryListHeader listMode={storyListMode} />
-
-      {/* story list */}
-      <StoryList storyListData={storyListIds} />
+    <>
+      <StyledStoryList>
+        {storyListIds.map((storyItem) => (
+          <StoryItem
+            key={storyItem.id}
+            storyItemData={storyItem}
+          />
+        ))}
+        <StyledStoryItemLoader data-loader>
+          Loading items...
+        </StyledStoryItemLoader>
+      </StyledStoryList>
 
       {/* story list propagation button */}
       {!isPageLimitReached && (
@@ -110,35 +141,7 @@ const StoryListPanel = ({ storyListMode }) => {
           load more
         </button>
       )}
-    </StyledStoryListPanel>
-  );
-}
-
-const StoryListHeader = ({ listMode }) => {   // deconstruct props
-  return (
-    <StyledStoryListHeader>
-
-    </StyledStoryListHeader>
-  );
-}
-
-const StoryList = ({ storyListData }) => {
-  if (!storyListData) {
-    return null;
-  }
-
-  return (
-    <StyledStoryList>
-      {storyListData.map((storyItem) => (
-        <StoryItem
-          key={storyItem.id}
-          storyItemData={storyItem}
-        />
-      ))}
-      <StyledStoryItemLoader data-loader>
-        Loading items...
-      </StyledStoryItemLoader>
-    </StyledStoryList>
+    </>
   );
 }
 
@@ -161,13 +164,9 @@ const StoryItem = ({ storyItemData }) => {
   if (isError) {
     return (
       <StyledStoryItem data-error>
-        Loading Story #{storyItemData} error: {error}
+        <p>Loading Story #{storyItemData} error: {error}</p>
       </StyledStoryItem>
     )
-  }
-
-  if (!storyData) {
-    return null;
   }
 
   const {

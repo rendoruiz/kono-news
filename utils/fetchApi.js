@@ -8,7 +8,7 @@ const getStoryDataEndpoint = (storyId) => `${HN_API_ENDPOINT}item/${storyId}.jso
 const ALGOLIA_API_ENDPOINT = 'https://hn.algolia.com/api/v1/';
 const getStoryCommentsDataEndpoint = (commentDataId) =>`${ALGOLIA_API_ENDPOINT}items/${commentDataId}`;
 
-const parseStoryListMode = (modeString) => {
+export const parseStoryListMode = (modeString) => {
   if (!modeString) {
     return STORYMODE.TOP;
   }
