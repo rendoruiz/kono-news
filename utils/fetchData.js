@@ -50,20 +50,17 @@ export const getStoryCommentData = async (storyCommentId) => {
     return null;
   }
 
-  // const storyEndpoint = getStoryDataEndpoint(storyCommentId);
-  // const commentEndpoint = getStoryCommentDataEndpoint(storyCommentId);
-  const endpoint = getStoryCommentDataEndpoint(storyCommentId);
+  const storyEndpoint = getStoryDataEndpoint(storyCommentId);
+  const commentEndpoint = getStoryCommentDataEndpoint(storyCommentId);
   try {
-    // const response = await Promise.all(
-    //   [commentEndpoint, storyEndpoint].map((endpoint) => axios.get(endpoint))
-    // );
-    // return {
-    //   ...response[0].data,
-    //   post_count: response[1].data.descendants,
-    // };
-    const response = await axios.get(endpoint);
-    return response.data;
+    const response = await Promise.all(
+      [commentEndpoint, storyEndpoint].map((endpoint) => axios.get(endpoint))
+    );
+    return {
+      ...response[0].data,
+      post_count: response[1].data.descendants,
+    };
   } catch {
-    throw new Error('Failed to get story comment data: ' + endpoint);
+    throw new Error('Failed to get story comment data id: ' + storyCommentId);
   }
 }
