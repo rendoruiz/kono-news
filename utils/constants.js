@@ -7,7 +7,11 @@ export const STORY_MODE = {
   JOB: 'JOB',
 }
 
-export const STORY_MODE_QUERY_KEY = 'mode';
+export const QUERY_KEY = {
+  STORY_MODE: 'mode',
+  STORY_COMMENTS_ID: 'story',
+}
+
 export const STORY_MODE_API_QUERY = [
   {
     id: STORY_MODE.TOP,

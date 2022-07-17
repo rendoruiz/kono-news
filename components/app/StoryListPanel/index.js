@@ -64,14 +64,14 @@ const StyledStoryStats = styled.p`
 //#endregion
 
 
-const StoryListPanel = ({ storyListModeId }) => {
+const StoryListPanel = ({ storyListModeId, onStoryItemClick, onToggleNavigationPanel, onToggleStoryCommentsPanel }) => {
   return (
     <StyledStoryListPanel>
       {/* header w/ nav toggle */}
       <StoryListHeader storyListModeId={storyListModeId} />
 
       {/* story list */}
-      <StoryList storyListModeId={storyListModeId} />
+      <StoryList storyListModeId={storyListModeId} onStoryItemClick={onStoryItemClick} />
     </StyledStoryListPanel>
   );
 }
@@ -85,7 +85,7 @@ const StoryListHeader = ({ storyListModeId }) => {
   );
 }
 
-const StoryList = ({ storyListModeId }) => {
+const StoryList = ({ storyListModeId, onStoryItemClick }) => {
   const { isLoading, isError, data: fetchedStoryIds, error } = useQuery(
     ['storylist', storyListModeId], 
     () => getInitialStoryListData(storyListModeId, true),
@@ -125,6 +125,7 @@ const StoryList = ({ storyListModeId }) => {
           <StoryItem
             key={storyItem.id}
             storyItemData={storyItem}
+            onStoryItemClick={onStoryItemClick}
           />
         ))}
         <StyledStoryItemLoader data-loader>
@@ -145,7 +146,7 @@ const StoryList = ({ storyListModeId }) => {
   );
 }
 
-const StoryItem = ({ storyItemData }) => {
+const StoryItem = ({ storyItemData, onStoryItemClick }) => {
   const { isLoading, isError, data: storyData, error } = useQuery(
     ['storydata', storyItemData.id], 
     () => getStoryData(storyItemData.id),
@@ -181,7 +182,7 @@ const StoryItem = ({ storyItemData }) => {
 
   return (
     <StyledStoryItem>
-      <button>
+      <button type='button' onClick={() => onStoryItemClick(id)}>
         <StyledStoryTitle>
           <StyledStoryHeading>{title}</StyledStoryHeading>
           <StoryItemUrl url={url} />

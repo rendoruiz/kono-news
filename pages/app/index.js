@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import StoryListPanel from "../../components/app/StoryListPanel";
-import { parseStoryListModeId } from "../../utils/fetchApi";
+import { getStoryCommentsData, parseStoryListModeId } from "../../utils/fetchApi";
 import { viewport } from "../../styles/styledConstants";
-import { NAVIGATION_ITEMS, STORYMODE, STORY_MODE_QUERY_KEY } from "../../utils/constants";
+import { NAVIGATION_ITEMS, QUERY_KEY, reactQueryParams } from "../../utils/constants";
 import { useRouter } from "next/router";
+import { useQuery } from "react-query";
+import { decodeHTML } from "entities";
 
 // shared states:
 // object currentStoryMode = (onChange) => update routeQuery:mode
@@ -26,13 +28,37 @@ const StyledAppLayout = styled.div`
 `;
 
 const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryCommentsId, }) => {
+  const router = useRouter(); 
   const [currentStoryListModeId, setCurrentStoryListModeId] = useState(parseStoryListModeId(initialStoryListModeId));
   const [currentStoryCommentsId, setCurrentStoryCommentsId] = useState(initialStoryCommentsId);
   const [isNavigationPanelOpen, setIsNavigationPanelOpen] = useState(false);
   const [isStoryCommentsPanelOpen, setIsStoryCommentsPanelOpen] = useState(false);
 
-  const handleStoryListModeChange = (newListMode) => setCurrentStoryListModeId(newListMode);
+  const handleStoryListModeChange = (newListMode) => setCurrentStoryListModeId(newListMode);;
   const handleStoryCommentsIdChange = (newStoryCommentsId) => setCurrentStoryCommentsId(newStoryCommentsId);
+
+  useEffect(() => {
+    router.push(
+      { query: { 
+        ...router.query,
+        [QUERY_KEY.STORY_MODE]: currentStoryListModeId.toLowerCase(), 
+      }}, 
+      undefined, 
+      { shallow: true }
+    );
+  }, [currentStoryListModeId]);
+
+  useEffect(() => {
+    router.push(
+      { query: { 
+        ...router.query,
+        [QUERY_KEY.STORY_COMMENTS_ID]: currentStoryCommentsId, 
+      }}, 
+      undefined, 
+      { shallow: true }
+    );
+  }, [currentStoryCommentsId])
+
   const handleToggleNavigationPanel = () => setIsNavigationPanelOpen(!isNavigationPanelOpen);
   const handleToggleStoryCommentsPanel = () => setIsStoryCommentsPanelOpen(!isStoryCommentsPanelOpen);
 
@@ -63,8 +89,8 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
 
 export const getServerSideProps = async ({ query }) => {
   const { 
-    [STORY_MODE_QUERY_KEY]: listMode, 
-    story: storyCommentsId 
+    [QUERY_KEY.STORY_MODE]: listMode, 
+    [QUERY_KEY.STORY_COMMENTS_ID]: storyCommentsId 
   } = query;
 
   return {
@@ -117,18 +143,8 @@ const NavigationList = ({ storyListModeId, onListModeChange, onTogglePanel }) =>
 
 
 const NavigationItem = ({ storyMode, onListModeChange, onTogglePanel }) => {
-  const router = useRouter();
-  const handleModeChange = () => {
-    onListModeChange(storyMode.id);
-    router.push(
-      { query: { [STORY_MODE_QUERY_KEY]: storyMode.id.toLowerCase() }}, 
-      undefined, 
-      { shallow: true }
-    );
-  }
-  
   return (
-    <button type='button' onClick={handleModeChange}>
+    <button type='button' onClick={() => onListModeChange(storyMode.id)}>
       {storyMode.label}
     </button>
   )
@@ -138,31 +154,44 @@ const NavigationItem = ({ storyMode, onListModeChange, onTogglePanel }) => {
 
 
 //#region storycomments
-const StyledStoryCommentsPanel = styled.section``;
+const StyledStoryCommentsPanel = styled.section`
+  overflow-y: auto;
+`;
 const StyledStoryCommentsHeader = styled.div``;
 const StyledStoryCommentsList = styled.ol``;
-const StyledStoryCommentsItem = styled.li``;
-const StoryCommentsPanel = ({ 
-  id,
-  title,
-  url,
-  author,
-  points,
-  post_count,
-  children,
-}) => {
-  return (
+const StyledStoryCommentsItem = styled.li`
+  font-size: 0.9em;
+`;
+const StoryCommentsPanel = ({ isOpen, storyCommentsId, onTogglePanel }) => {
+  const { isLoading, isError, data: storyCommentsData, error } = useQuery(
+    ['storycommentsdata', storyCommentsId], 
+    () => getStoryCommentsData(storyCommentsId),
+    reactQueryParams
+  );
+
+  if (isLoading) {
+    return (
+      <StyledStoryCommentsPanel data-loading />
+    );
+  }
+
+  if (isError) {
+    return (
+      <StyledStoryCommentsPanel data-error>
+        <p>Loading Story #{storyItemData} error: {error}</p>
+      </StyledStoryCommentsPanel>
+    )
+  }
+
+  return storyCommentsData && (
     <StyledStoryCommentsPanel>
       {/* header with: back button (close story), full screen, story urls */}
       <StoryCommentsHeader 
-        id={id} 
-        title={title} 
-        url={url} 
-        author={author}
+        id={storyCommentsId} 
       />
 
       {/* story comments list */}
-      <StoryCommentsList storyCommentData={children} />
+      <StoryCommentsList storyCommentsListData={storyCommentsData.children} />
     </StyledStoryCommentsPanel>
   );
 }
@@ -175,19 +204,19 @@ const StoryCommentsHeader = ({
 }) => {
   return (
     <StyledStoryCommentsHeader>
-
+      <h1>{id}</h1>
     </StyledStoryCommentsHeader>
   )
 }
 
-const StoryCommentsList = ({ storyCommentListData }) => {
-  if (!storyCommentListData) {
+const StoryCommentsList = ({ storyCommentsListData }) => {
+  if (!storyCommentsListData) {
     return null;
   }
 
   return (
     <StyledStoryCommentsList>
-      {storyCommentListData.map((storyCommentItemData) =>
+      {storyCommentsListData.map((storyCommentItemData) =>
         <StoryCommentItem
           key={storyCommentItemData.id}
           {...storyCommentItemData}
@@ -204,12 +233,13 @@ const StoryCommentItem = ({
   text, 
   children, 
 }) => {   // deconstruct props
+  const decodedHtml = text ? decodeHTML(text) : null;
   return (
     <StyledStoryCommentsItem>
       <p>{id} | {author} | {time}</p>
-      <p>{text}</p>
+      <div dangerouslySetInnerHTML={{ __html: decodedHtml }}></div>
       { children && (
-        <StoryCommentsList storyCommentListData={children} />
+        <StoryCommentsList storyCommentsListData={children} />
       )}
     </StyledStoryCommentsItem>
   );
