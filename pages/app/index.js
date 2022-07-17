@@ -171,7 +171,6 @@ export const getServerSideProps = async ({ query }) => {
     page: listPage, 
     scid: storyCommentId 
   } = query;
-
   const storyListIds = await getStoryListIds(listMode);
   const storyCommentsData = await getStoryCommentData(storyCommentId);
 
