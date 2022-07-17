@@ -1,29 +1,72 @@
-export const STORYMODE = {
-  TOP: {
-    label: 'Home',
+export const STORY_MODE = {
+  TOP: 'TOP',
+  NEW: 'NEW',
+  BEST: 'BEST',
+  ASK: 'ASK',
+  SHOW: 'SHOW',
+  JOB: 'JOB',
+}
+
+export const STORY_MODE_QUERY_KEY = 'mode';
+export const STORY_MODE_API_QUERY = [
+  {
+    id: STORY_MODE.TOP,
     apiQuery: 'topstories',
   },
-  NEW: {
-    label: 'Newest',
+  {
+    id: STORY_MODE.NEW,
     apiQuery: 'newstories',
   },
-  BEST: {
-    label: 'Best',
+  {
+    id: STORY_MODE.BEST,
     apiQuery: 'beststories',
   },
-  ASK: {
-    label: 'Ask',
+  {
+    id: STORY_MODE.ASK,
     apiQuery: 'askstories',
   },
-  SHOW: {
-    label: 'Show',
+  {
+    id: STORY_MODE.SHOW,
     apiQuery: 'showstories',
   },
-  JOB:  {
-    label: 'Jobs',
+  {
+    id: STORY_MODE.JOB,
     apiQuery: 'jobstories',
   },
-}
+];
+
+export const NAVIGATION_ITEMS = [
+  {
+    id: STORY_MODE.TOP,
+    label: 'Home',
+    icon: null,
+  },
+  {
+    id: STORY_MODE.NEW,
+    label: 'New',
+    icon: null,
+  },
+  {
+    id: STORY_MODE.BEST,
+    label: 'Best',
+    icon: null,
+  },
+  {
+    id: STORY_MODE.ASK,
+    label: 'Ask',
+    icon: null,
+  },
+  {
+    id: STORY_MODE.SHOW,
+    label: 'Show',
+    icon: null,
+  },
+  {
+    id: STORY_MODE.JOB,
+    label: 'Job',
+    icon: null,
+  },
+]
 
 export const STORIES_PER_PAGE = 30;
 
@@ -34,5 +77,4 @@ export const reactQueryParams = {
   refetchOnReconnect: false,
   retry: false,
   staleTime: twentyFourHoursInMs,
-  keepPreviousData: true,
 }

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { STORIES_PER_PAGE, STORYMODE } from "./constants";
+import { STORIES_PER_PAGE, STORY_MODE, STORY_MODE_API_QUERY } from "./constants";
 
 const HN_API_ENDPOINT = 'https://hacker-news.firebaseio.com/v0/'
 const getStoryListIdsEndpoint = (storyListMode) => `${HN_API_ENDPOINT}${storyListMode}.json`;
@@ -8,19 +8,20 @@ const getStoryDataEndpoint = (storyId) => `${HN_API_ENDPOINT}item/${storyId}.jso
 const ALGOLIA_API_ENDPOINT = 'https://hn.algolia.com/api/v1/';
 const getStoryCommentsDataEndpoint = (commentDataId) =>`${ALGOLIA_API_ENDPOINT}items/${commentDataId}`;
 
-export const parseStoryListMode = (modeString) => {
+export const parseStoryListModeId = (modeString) => {
   if (!modeString) {
-    return STORYMODE.TOP;
+    return STORY_MODE.TOP;
   }
 
-  const result = Object.keys(STORYMODE).filter((storyMode) => storyMode === modeString.toUpperCase()).pop();
-  return result ? STORYMODE[result] : STORYMODE.TOP;
+  const parsedStoryMode = STORY_MODE[modeString.toUpperCase()];
+  return parsedStoryMode ? parsedStoryMode : STORY_MODE.TOP;
 }
 
 // returns: [...int]
 export const getStoryListIds = async (listMode, isListModeParsed = false) => {
-  const storyListMode = isListModeParsed ? listMode : parseStoryListMode(listMode);
-  const endpoint = getStoryListIdsEndpoint(storyListMode.apiQuery);
+  const storyListId = isListModeParsed ? listMode : parseStoryListModeId(listMode);
+  const storyListModeApi = STORY_MODE_API_QUERY.filter((mode) => mode.id === storyListId).pop();
+  const endpoint = getStoryListIdsEndpoint(storyListModeApi.apiQuery);
   try {
     const response = await axios.get(endpoint);
     return response.data;

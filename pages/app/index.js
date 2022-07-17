@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import StoryListPanel from "../../components/app/StoryListPanel";
-import { parseStoryListMode } from "../../utils/fetchApi";
+import { parseStoryListModeId } from "../../utils/fetchApi";
+import { viewport } from "../../styles/styledConstants";
+import { NAVIGATION_ITEMS, STORYMODE, STORY_MODE_QUERY_KEY } from "../../utils/constants";
+import { useRouter } from "next/router";
 
 // shared states:
 // object currentStoryMode = (onChange) => update routeQuery:mode
@@ -15,15 +18,20 @@ const StyledAppLayout = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: rgb(246, 246, 239);
+
+  ${viewport.md} {
+    display: grid;
+    grid-template-columns: auto 1fr 2fr;
+  }
 `;
 
-const AppDashboard = ({ queryString, initialStoryListMode, initialStoryCommentsId, }) => {
-  const [currentStoryListMode, setCurrentStoryListMode] = useState(parseStoryListMode(initialStoryListMode));
+const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryCommentsId, }) => {
+  const [currentStoryListModeId, setCurrentStoryListModeId] = useState(parseStoryListModeId(initialStoryListModeId));
   const [currentStoryCommentsId, setCurrentStoryCommentsId] = useState(initialStoryCommentsId);
   const [isNavigationPanelOpen, setIsNavigationPanelOpen] = useState(false);
   const [isStoryCommentsPanelOpen, setIsStoryCommentsPanelOpen] = useState(false);
 
-  const handleStoryListModeChange = (newListMode) => setCurrentStoryListMode(newListMode);
+  const handleStoryListModeChange = (newListMode) => setCurrentStoryListModeId(newListMode);
   const handleStoryCommentsIdChange = (newStoryCommentsId) => setCurrentStoryCommentsId(newStoryCommentsId);
   const handleToggleNavigationPanel = () => setIsNavigationPanelOpen(!isNavigationPanelOpen);
   const handleToggleStoryCommentsPanel = () => setIsStoryCommentsPanelOpen(!isStoryCommentsPanelOpen);
@@ -32,13 +40,13 @@ const AppDashboard = ({ queryString, initialStoryListMode, initialStoryCommentsI
     <StyledAppLayout>
       <NavigationPanel  
         isOpen={isNavigationPanelOpen}
-        storyListMode={currentStoryListMode}
+        storyListModeId={currentStoryListModeId}
         onListModeChange={handleStoryListModeChange}
         onTogglePanel={handleToggleNavigationPanel}
       />
 
       <StoryListPanel 
-        storyListMode={currentStoryListMode} 
+        storyListModeId={currentStoryListModeId} 
         onStoryItemClick={handleStoryCommentsIdChange}
         onToggleNavigationPanel={handleToggleNavigationPanel}
         onToggleStoryCommentsPanel={handleToggleStoryCommentsPanel}
@@ -55,14 +63,14 @@ const AppDashboard = ({ queryString, initialStoryListMode, initialStoryCommentsI
 
 export const getServerSideProps = async ({ query }) => {
   const { 
-    mode: listMode, 
+    [STORY_MODE_QUERY_KEY]: listMode, 
     story: storyCommentsId 
   } = query;
 
   return {
     props: {
       queryString: query,
-      initialStoryListMode: listMode ?? null, 
+      initialStoryListModeId: listMode ?? null, 
       initialStoryCommentsId: storyCommentsId ?? null,
     }
   }
@@ -72,14 +80,58 @@ export default AppDashboard;
 
 
 //#region Navigation Panel
-const StyledNavigationPanel = styled.section``;
+const StyledNavigationPanel = styled.section`
 
-const NavigationPanel = ({ isOpen, storyListMode, onListModeChange, onTogglePanel, }) => {
+`;
+const StyledNavigationList = styled.ul`
+  display: grid;
+`;
+
+const NavigationPanel = ({ isOpen, storyListModeId, onListModeChange, onTogglePanel, }) => {
   return (
     <StyledNavigationPanel>
-
+      <NavigationList
+        storyListModeId={storyListModeId}
+        onListModeChange={onListModeChange}
+        onTogglePanel={onTogglePanel}
+      />
     </StyledNavigationPanel>
   );
+}
+
+const NavigationList = ({ storyListModeId, onListModeChange, onTogglePanel }) => {
+  return (
+    <StyledNavigationList>
+      {NAVIGATION_ITEMS.map((storyMode) => (
+        <NavigationItem
+          key={storyMode.label}
+          storyMode={storyMode}
+          onListModeChange={onListModeChange}
+          onTogglePanel={onTogglePanel}
+        />
+      ))}
+    </StyledNavigationList>
+  )
+}
+
+
+
+const NavigationItem = ({ storyMode, onListModeChange, onTogglePanel }) => {
+  const router = useRouter();
+  const handleModeChange = () => {
+    onListModeChange(storyMode.id);
+    router.push(
+      { query: { [STORY_MODE_QUERY_KEY]: storyMode.id.toLowerCase() }}, 
+      undefined, 
+      { shallow: true }
+    );
+  }
+  
+  return (
+    <button type='button' onClick={handleModeChange}>
+      {storyMode.label}
+    </button>
+  )
 }
 //#endregion
 

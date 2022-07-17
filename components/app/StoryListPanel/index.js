@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useQuery } from 'react-query';
 import styled from "@emotion/styled";
 
-import { reactQueryParams, STORIES_PER_PAGE } from "../../../utils/constants";
-import { getInitialStoryListData, getStoryData, parseStoryListMode } from "../../../utils/fetchApi";
+import { NAVIGATION_ITEMS, reactQueryParams, STORIES_PER_PAGE } from "../../../utils/constants";
+import { getInitialStoryListData, getStoryData } from "../../../utils/fetchApi";
 
 //#region styles
 const StyledStoryListPanel = styled.section`
@@ -64,30 +64,31 @@ const StyledStoryStats = styled.p`
 //#endregion
 
 
-const StoryListPanel = ({ storyListMode }) => {
+const StoryListPanel = ({ storyListModeId }) => {
   return (
     <StyledStoryListPanel>
       {/* header w/ nav toggle */}
-      <StoryListHeader storyListMode={storyListMode} />
+      <StoryListHeader storyListModeId={storyListModeId} />
 
       {/* story list */}
-      <StoryList storyListMode={storyListMode} />
+      <StoryList storyListModeId={storyListModeId} />
     </StyledStoryListPanel>
   );
 }
 
-const StoryListHeader = ({ storyListMode }) => {
+const StoryListHeader = ({ storyListModeId }) => {
+  const listModeName = NAVIGATION_ITEMS.filter((mode) => mode.id === storyListModeId).pop().label
   return (
     <StyledStoryListHeader>
-      {storyListMode?.label}
+      {listModeName}
     </StyledStoryListHeader>
   );
 }
 
-const StoryList = ({ storyListMode }) => {
+const StoryList = ({ storyListModeId }) => {
   const { isLoading, isError, data: fetchedStoryIds, error } = useQuery(
-    ['storylist', storyListMode.label], 
-    () => getInitialStoryListData(storyListMode, true),
+    ['storylist', storyListModeId], 
+    () => getInitialStoryListData(storyListModeId, true),
     reactQueryParams
   );
   const [currentPage, setCurrentPage] = useState(1);
