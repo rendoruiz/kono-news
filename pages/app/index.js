@@ -171,7 +171,9 @@ const StoryCommentsPanel = ({ isOpen, storyCommentsId, onTogglePanel }) => {
 
   if (isLoading) {
     return (
-      <StyledStoryCommentsPanel data-loading />
+      <StyledStoryCommentsPanel data-loading>
+        Loading story...
+      </StyledStoryCommentsPanel>
     );
   }
 
