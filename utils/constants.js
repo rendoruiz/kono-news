@@ -1,14 +1,3 @@
-export const STORIES_PER_PAGE = 30;
-
-const twentyFourHoursInMs = 1000 * 60 * 60 * 24;
-export const storyDataQueryParams = {
-  refetchOnWindowFocus: false,
-  refetchOnMount: false,
-  refetchOnReconnect: false,
-  retry: false,
-  staleTime: twentyFourHoursInMs,
-}
-
 export const STORYMODE = {
   TOP: {
     label: 'Home',
@@ -34,4 +23,14 @@ export const STORYMODE = {
     label: 'Jobs',
     apiQuery: 'jobstories',
   },
+}
+
+const twentyFourHoursInMs = 1000 * 60 * 60 * 24;
+export const reactQueryParams = {
+  refetchOnWindowFocus: false,
+  refetchOnMount: false,
+  refetchOnReconnect: false,
+  retry: false,
+  staleTime: twentyFourHoursInMs,
+  keepPreviousData: true,
 }

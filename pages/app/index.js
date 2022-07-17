@@ -1,21 +1,20 @@
+import { useState } from "react";
+import { useQuery } from 'react-query';
 import styled from "@emotion/styled";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useQueries } from "react-query";
-import { STORYMODE } from "../../utils/constants";
-import { getStoryCommentData, getStoryListIds } from "../../utils/getData";
 
+import { reactQueryParams, STORYMODE } from "../../utils/constants";
+import { getStoryCommentData, getStoryData, getStoryListIds } from "../../utils/fetchData";
 
+//#region AppDashboard
 const StyledAppLayout = styled.div`
   min-width: 300px;
   min-height: 400px;
   width: 100vw;
   height: 100vh;
   
-  background-color: orchid;
+  background-color: rgb(246, 246, 239);
 `;
-const AppPage = ({ query, initialStoryListIds, initialStoryCommentsData, storyListPage, }) => {
-  const storyListIds = initialStoryListIds;
+const AppDashboard = ({ query, initialStoryListIds, initialStoryCommentsData, storyListPage, }) => {
   const storyCommentsData = initialStoryCommentsData;
 
   console.log({query, initialStoryListIds, initialStoryCommentsData, storyListPage});
@@ -42,7 +41,7 @@ const AppPage = ({ query, initialStoryListIds, initialStoryCommentsData, storyLi
       */}
       <StoryListPanel 
         storyListMode={null} 
-        storyListIds={storyListIds} 
+        initialStoryListIds={initialStoryListIds} 
       />
 
       {/* Story Comments Panel */}
@@ -79,6 +78,9 @@ export const getServerSideProps = async ({ query }) => {
   }
 }
 
+export default AppDashboard;
+//#endregion
+
 
 //#region Navigation Panel
 const StyledNavigationPanel = styled.section``;
@@ -96,14 +98,76 @@ const NavigationPanel = ({}) => {
 //#region story list
 const StyledStoryListPanel = styled.section``;
 const StyledStoryListHeader = styled.div``;
-const StyledStoryList = styled.ol``;
-const StyledStoryItem = styled.li``;
-const StoryListPanel = ({ storyListMode, storyListIds }) => {
-  if (!storyListIds) {
-    return null;
+const StyledStoryList = styled.ol`
+  display: grid;
+  gap: 2px;
+`;
+
+const StyledStoryItem = styled.li`
+  button {
+    border: none;
+    padding: 2px 8px;
+    width: 100%;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+  }
+`;
+const StyledStoryTitle = styled.div`
+  /* display: inline; */
+`
+const StyledStoryHeading = styled.h3`
+  display: inline;
+  font-size: 1.1em;
+`;
+const StyledStoryUrl = styled.span`
+  font-size: 0.75em;
+  opacity: 0.6;
+  
+  ::before {
+    content: '  ';
+  }
+`;
+const StyledStoryStats = styled.p`
+  font-size: 0.75em;
+  opacity: 0.6;
+`;
+
+const STORIES_PER_PAGE = 30;
+
+const StoryListPanel = ({ 
+  storyListMode = STORYMODE.TOP.label, 
+  initialStoryListIds, 
+}) => {
+  const { isLoading, isError, data: fetchedStoryIds, error } = useQuery(
+    ['storylistids', storyListMode], 
+    () => getStoryListIds(storyListMode),
+    { initialData: initialStoryListIds, ...reactQueryParams }
+  );
+  const [currentPage, setCurrentPage] = useState(1);
+  const handlePageChange = () => setCurrentPage(currentPage + 1);
+
+  if (isLoading) {
+    return <p>Loading List IDs...</p>
   }
 
+  if (isError) {
+    return <p>Loading List IDs error: {error}</p>
+  }
 
+  if (!fetchedStoryIds) {
+    return null;
+  }
+  
+  const currentItemCount = STORIES_PER_PAGE * currentPage;
+  const isPageLimitReached = currentItemCount >= fetchedStoryIds.length
+    ? true 
+    : false;
+  const storyListIds = isPageLimitReached 
+    ? fetchedStoryIds 
+    : fetchedStoryIds.slice(0, currentItemCount);
+
+    console.log(storyListIds)
   
   return (
     <StyledStoryListPanel>
@@ -111,17 +175,17 @@ const StoryListPanel = ({ storyListMode, storyListIds }) => {
       <StoryListHeader listMode={storyListMode} />
 
       {/* story list */}
-      <StoryList storyListData={null} />
+      <StoryList storyListIds={storyListIds} />
 
       {/* story list propagation button */}
-      {/* {!isPageLimitReached && (
+      {!isPageLimitReached && (
         <button 
           type='button'
-          onClick={() => setCurrentPage(currentPage + 1)}
+          onClick={handlePageChange}
         >
           load more
         </button>
-      )} */}
+      )}
     </StyledStoryListPanel>
   );
 }
@@ -134,38 +198,81 @@ const StoryListHeader = ({ listMode }) => {   // deconstruct props
   );
 }
 
-const StoryList = ({ storyListData }) => {
-  if (!storyListData) {
-    return null;
-  }
+const StoryList = ({ storyListIds }) => {
 
   return (
     <StyledStoryList>
-      {storyListData.map((storyItemData, index) => 
-        <Storyitem
-          key={storyItemData.id ?? index}
-          {...storyItemData}
-        >
-
-        </Storyitem>
-      )}
+      {storyListIds.map((storyItemId) => (
+        <StoryItem
+          key={storyItemId}
+          storyItemId={storyItemId}
+        />
+      ))}
     </StyledStoryList>
   );
 }
 
-const Storyitem = ({ 
-  id,
-  title,
-  url,
-  by: author,
-  score: points,
-  descendants: post_count,
-}) => {
+
+const StoryItem = ({ storyItemId }) => {
+  if (!storyItemId) {
+    return null;
+  } 
+
+  const { isLoading, isError, data: storyData, error } = useQuery(
+    ['storydata', storyItemId], 
+    () => getStoryData(storyItemId),
+    reactQueryParams
+  );
+
+  if (isLoading) {
+    return <p>Loading Story #{storyItemId}</p>
+  }
+
+  if (isError) {
+    return <p>Loading Story #{storyItemId} error: {error}</p>
+  }
+
+  if (!storyData) {
+    return null;
+  }
+
+  const {
+    id,
+    title,
+    url,
+    by: author,
+    score: points,
+    time,
+    descendants: post_count,
+  } = storyData;
+
+  // const decodedTitle = decodeHTML(title);
   return (
     <StyledStoryItem>
-      {title}
+      <button>
+        <StyledStoryTitle>
+          <StyledStoryHeading>{title}</StyledStoryHeading>
+          <StoryItemUrl url={url} />
+        </StyledStoryTitle>
+        <StyledStoryStats>
+          {points} points | {post_count} comments | {author} | {time}
+        </StyledStoryStats>
+      </button>
     </StyledStoryItem>
   );
+}
+
+const StoryItemUrl = ({url}) => {
+  if (!url) {
+    return null;
+  }
+
+  const urlHostname = !url ? null : new URL(url).hostname.split('www.').join('');
+  return (
+    <StyledStoryUrl>
+      ({urlHostname})
+    </StyledStoryUrl>
+  )
 }
 //#endregion
 
@@ -249,4 +356,3 @@ const StoryCommentItem = ({
 }
 //#endregion
 
-export default AppPage;
