@@ -199,6 +199,9 @@ const StoryListHeader = ({ listMode }) => {   // deconstruct props
 }
 
 const StoryList = ({ storyListIds }) => {
+  if (!storyListIds) {
+    return null;
+  }
 
   return (
     <StyledStoryList>
@@ -214,10 +217,6 @@ const StoryList = ({ storyListIds }) => {
 
 
 const StoryItem = ({ storyItemId }) => {
-  if (!storyItemId) {
-    return null;
-  } 
-
   const { isLoading, isError, data: storyData, error } = useQuery(
     ['storydata', storyItemId], 
     () => getStoryData(storyItemId),
