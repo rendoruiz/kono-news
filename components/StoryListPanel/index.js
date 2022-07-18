@@ -21,9 +21,9 @@ const StyledStoryList = styled.ol`
 
   }
 `;
-
 const StyledStoryItem = styled.li`
   display: flex;
+  position: relative;
 
   label {
     flex: 1;
@@ -43,7 +43,9 @@ const StyledStoryItem = styled.li`
   }
 
   input[type="radio"] {
-    display: none;
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
   }
   input[type="radio"]:checked + label {
     background: rgba(0,0,0,0.25);
@@ -198,10 +200,19 @@ const StoryItem = ({ storyItemData, onStoryItemClick }) => {
     descendants: post_count,
   } = storyData;
 
+  const handleKeyPress = (e) => {
+    const keyCode = e.code.toUpperCase();
+    if (keyCode === "ENTER" || keyCode === "SPACE") {
+      onStoryItemClick(id);
+    }
+  }
+
+  const controlId = `story-item-${id}`;
+
   return (
     <StyledStoryItem>
-      <input type='radio' name='story-item' id={'story-item-' + id} />
-      <label htmlFor={'story-item-' + id} onClick={() => onStoryItemClick(id)}>
+      <input type='radio' name='story-item' id={controlId} onKeyDown={handleKeyPress}  />
+      <label htmlFor={controlId} onClick={() => onStoryItemClick(id)}>
         <StyledStoryTitle>
           <StyledStoryHeading>{title}</StyledStoryHeading>
           <StoryItemUrl url={url} />
