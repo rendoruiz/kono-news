@@ -17,6 +17,7 @@ import { viewport } from "../styles/styledConstants";
 // bool isStoryCommentsPanelOpen
 
 const StyledAppLayout = styled.div`
+  position: relative;
   display: grid;
   min-width: 200px;
   width: 100vw;

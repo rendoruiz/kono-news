@@ -22,14 +22,8 @@ span {
 }
 
 pre {
-  overflow-x: scroll;
+  display: flex;
+  overflow-x: auto;
   background-color: rgba(0,0,0,.15);
-  padding: 3px 0;
-}
-
-.hidden-comment > header :not(button) {
-  opacity: 0.3;
-}
-.hidden-comment > :not(header) {
-  display: none;
+  padding: 5px 0 20px 0;
 }
