@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import styled from "@emotion/styled";
+
+import NavigationPanel from "../components/NavigationPanel";
 import StoryListPanel from "../components/app/StoryListPanel";
 import StoryCommentsPanel from "../components/StoryCommentsPanel";
+
 import { parseStoryListModeId } from "../utils/fetchApi";
+import { QUERY_KEY } from "../utils/constants";
 import { viewport } from "../styles/styledConstants";
-import { NAVIGATION_ITEMS, QUERY_KEY } from "../utils/constants";
-import { useRouter } from "next/router";
 
 // shared states:
 // object currentStoryMode = (onChange) => update routeQuery:mode
@@ -102,50 +105,3 @@ export const getServerSideProps = async ({ query }) => {
 }
 
 export default AppDashboard;
-
-
-//#region Navigation Panel
-const StyledNavigationPanel = styled.section`
-
-`;
-const StyledNavigationList = styled.ul`
-  display: grid;
-`;
-
-const NavigationPanel = ({ isOpen, storyListModeId, onListModeChange, onTogglePanel, }) => {
-  return (
-    <StyledNavigationPanel>
-      <NavigationList
-        storyListModeId={storyListModeId}
-        onListModeChange={onListModeChange}
-        onTogglePanel={onTogglePanel}
-      />
-    </StyledNavigationPanel>
-  );
-}
-
-const NavigationList = ({ storyListModeId, onListModeChange, onTogglePanel }) => {
-  return (
-    <StyledNavigationList>
-      {NAVIGATION_ITEMS.map((storyMode) => (
-        <NavigationItem
-          key={storyMode.label}
-          storyMode={storyMode}
-          onListModeChange={onListModeChange}
-          onTogglePanel={onTogglePanel}
-        />
-      ))}
-    </StyledNavigationList>
-  )
-}
-
-
-
-const NavigationItem = ({ storyMode, onListModeChange, onTogglePanel }) => {
-  return (
-    <button type='button' onClick={() => onListModeChange(storyMode.id)}>
-      {storyMode.label}
-    </button>
-  )
-}
-//#endregion
