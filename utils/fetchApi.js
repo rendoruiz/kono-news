@@ -70,9 +70,10 @@ export const getInitialStoryListData = async (listMode, isListModeParsed) => {
   try {
     const storyListIds = await getStoryListIds(listMode, isListModeParsed);
     const initialStoryListIds = storyListIds.slice(0, STORIES_PER_PAGE);
-    const initialStoryListData = await Promise.all(
+    let initialStoryListData = await Promise.all(
       initialStoryListIds.map((storyId) => getStoryData(storyId))
     );
+    initialStoryListData = initialStoryListData.filter((data) => data);
 
     return [
       ...initialStoryListData,
