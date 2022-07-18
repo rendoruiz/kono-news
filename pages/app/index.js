@@ -193,7 +193,11 @@ const StoryCommentsPanel = ({ isOpen, storyCommentsId, onTogglePanel }) => {
       />
 
       {/* story comments list */}
-      <StoryCommentsList storyCommentsListData={storyCommentsData.children} />
+      {storyCommentsData.children.length === 0 ? (
+        <p>No comments.</p>
+      ) : (
+        <StoryCommentsList storyCommentsListData={storyCommentsData.children} />
+      )}
     </StyledStoryCommentsPanel>
   );
 }
