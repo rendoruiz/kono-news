@@ -8,10 +8,15 @@ import { getInitialStoryListData, getStoryData } from "../../utils/fetchApi";
 
 //#region styles
 const StyledStoryListPanel = styled.section`
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
   overflow-y: auto;
 `;
 const StyledStoryListHeader = styled.header``;
-const StyledStoryListContent = styled.main``;
+const StyledStoryListContent = styled.main`
+  overflow-y: auto;
+`;
 const StyledStoryList = styled.ol`
   display: grid;
   gap: 2px;

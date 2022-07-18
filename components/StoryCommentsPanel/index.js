@@ -5,17 +5,64 @@ import styled from "@emotion/styled";
 
 import { reactQueryParams } from "../../utils/constants";
 import { getStoryCommentsData } from "../../utils/fetchApi";
+import { viewport } from "../../styles/styledConstants";
 
 //#region styles
 const StyledStoryCommentsPanel = styled.section`
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
   overflow-y: auto;
 `;
 const StyledStoryCommentsHeader = styled.header``;
-const StyledStoryCommentsContent = styled.main``;
-const StyledStoryCommentsOriginalPost = styled.article``;
-const StyledStoryCommentsList = styled.ol``;
+const StyledStoryCommentsContent = styled.main`
+
+  overflow-y: auto;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  row-gap: 20px;
+`;
+const StyledStoryCommentsOriginalPost = styled.article`
+  background: rgba(50,50,50,0.5);
+
+  + ul {
+    margin-top: 0;
+    margin-left: 0;
+    padding: 0 10px;
+  }
+  + ul::before {
+    content: none;
+  }
+`;
+const StyledStoryCommentsList = styled.ul`
+  position: relative;
+  margin-top: 16px;
+  margin-left: 10px;
+
+  ::before {
+    content: ' ';
+    position: absolute;
+    inset: 0 auto 0 -10px;
+    border-left: 1.5px solid red;
+  }
+
+  ${viewport.md} {
+    margin-left: 14px;
+
+    ::before {
+      left: -14px;
+    }
+  } 
+`;
 const StyledStoryCommentsItem = styled.li`
-  /* font-size: 0.9em; */
+  > header {
+    font-size: 0.8em;
+    letter-spacing: 0.5px;
+  }
+  > main > div {
+    margin-top: 4px;
+    font-size: 0.9em;
+  }
 `;
 //#endregion
 
