@@ -10,7 +10,8 @@ import { getInitialStoryListData, getStoryData } from "../../../utils/fetchApi";
 const StyledStoryListPanel = styled.section`
   overflow-y: auto;
 `;
-const StyledStoryListHeader = styled.div``;
+const StyledStoryListHeader = styled.header``;
+const StyledStoryListContent = styled.main``;
 const StyledStoryList = styled.ol`
   display: grid;
   gap: 2px;
@@ -22,11 +23,13 @@ const StyledStoryList = styled.ol`
 `;
 
 const StyledStoryItem = styled.li`
-  button {
+  display: flex;
+
+  label {
+    flex: 1;
     border: none;
     padding: 2px 8px;
     width: 100%;
-    background: none;
     text-align: left;
     cursor: pointer;
   }
@@ -37,6 +40,13 @@ const StyledStoryItem = styled.li`
 
   &[data-loading] {
     display: none !important;
+  }
+
+  input[type="radio"] {
+    display: none;
+  }
+  input[type="radio"]:checked + label {
+    background: rgba(0,0,0,0.25);
   }
 `;
 const StyledStoryItemLoader = styled.li`
@@ -71,7 +81,7 @@ const StoryListPanel = ({ storyListModeId, onStoryItemClick, onToggleNavigationP
       <StoryListHeader storyListModeId={storyListModeId} />
 
       {/* story list */}
-      <StoryList storyListModeId={storyListModeId} onStoryItemClick={onStoryItemClick} />
+      <StoryListContent storyListModeId={storyListModeId} onStoryItemClick={onStoryItemClick} />
     </StyledStoryListPanel>
   );
 }
@@ -85,7 +95,7 @@ const StoryListHeader = ({ storyListModeId }) => {
   );
 }
 
-const StoryList = ({ storyListModeId, onStoryItemClick }) => {
+const StoryListContent = ({ storyListModeId, onStoryItemClick }) => {
   const { isLoading, isError, data: fetchedStoryIds, error } = useQuery(
     ['storylist', storyListModeId], 
     () => getInitialStoryListData(storyListModeId, true),
@@ -114,25 +124,16 @@ const StoryList = ({ storyListModeId, onStoryItemClick }) => {
   const isPageLimitReached = currentItemCount >= fetchedStoryIds.length
     ? true 
     : false;
-  const storyListIds = isPageLimitReached 
+  const storyListData = isPageLimitReached 
     ? fetchedStoryIds 
     : fetchedStoryIds.slice(0, currentItemCount);
   
   return (
-    <>
-      <StyledStoryList>
-        {storyListIds.map((storyItem) => (
-          <StoryItem
-            key={storyItem.id}
-            storyItemData={storyItem}
-            onStoryItemClick={onStoryItemClick}
-          />
-        ))}
-        <StyledStoryItemLoader data-loader>
-          Loading items...
-        </StyledStoryItemLoader>
-      </StyledStoryList>
-
+    <StyledStoryListContent>
+      <StoryList
+        storyListData={storyListData}
+        onStoryItemClick={onStoryItemClick}
+      />
       {/* story list propagation button */}
       {!isPageLimitReached && (
         <button 
@@ -142,8 +143,25 @@ const StoryList = ({ storyListModeId, onStoryItemClick }) => {
           load more
         </button>
       )}
-    </>
+    </StyledStoryListContent>
   );
+}
+
+const StoryList = ({ storyListData, onStoryItemClick }) => {
+  return (
+    <StyledStoryList>
+      {storyListData.map((storyItemData) => (
+        <StoryItem
+          key={storyItemData.id}
+          storyItemData={storyItemData}
+          onStoryItemClick={onStoryItemClick}
+        />
+      ))}
+      <StyledStoryItemLoader data-loader>
+        Loading items...
+      </StyledStoryItemLoader>
+    </StyledStoryList>
+  )
 }
 
 const StoryItem = ({ storyItemData, onStoryItemClick }) => {
@@ -182,7 +200,8 @@ const StoryItem = ({ storyItemData, onStoryItemClick }) => {
 
   return (
     <StyledStoryItem>
-      <button type='button' onClick={() => onStoryItemClick(id)}>
+      <input type='radio' name='story-item' id={'story-item-' + id} />
+      <label htmlFor={'story-item-' + id} onClick={() => onStoryItemClick(id)}>
         <StyledStoryTitle>
           <StyledStoryHeading>{title}</StyledStoryHeading>
           <StoryItemUrl url={url} />
@@ -190,7 +209,7 @@ const StoryItem = ({ storyItemData, onStoryItemClick }) => {
         <StyledStoryStats>
           {points} points | {post_count} comments | {author} | {time}
         </StyledStoryStats>
-      </button>
+      </label>
     </StyledStoryItem>
   );
 }
