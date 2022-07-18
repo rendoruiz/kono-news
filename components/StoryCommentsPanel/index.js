@@ -2,8 +2,8 @@
 import { useQuery } from "react-query";
 import { decodeHTML } from "entities";
 import styled from "@emotion/styled";
-import { reactQueryParams } from "../../../utils/constants";
-import { getStoryCommentsData } from "../../../utils/fetchApi";
+import { reactQueryParams } from "../../utils/constants";
+import { getStoryCommentsData } from "../../utils/fetchApi";
 
 //#region styles
 const StyledStoryCommentsPanel = styled.section`
