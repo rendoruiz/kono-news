@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import StoryListPanel from "../../components/app/StoryListPanel";
-import { getStoryCommentsData, parseStoryListModeId } from "../../utils/fetchApi";
+import StoryCommentsPanel from "../../components/app/StoryCommentsPanel";
+import { parseStoryListModeId } from "../../utils/fetchApi";
 import { viewport } from "../../styles/styledConstants";
-import { NAVIGATION_ITEMS, QUERY_KEY, reactQueryParams } from "../../utils/constants";
+import { NAVIGATION_ITEMS, QUERY_KEY } from "../../utils/constants";
 import { useRouter } from "next/router";
-import { useQuery } from "react-query";
-import { decodeHTML } from "entities";
 
 // shared states:
 // object currentStoryMode = (onChange) => update routeQuery:mode
@@ -150,105 +149,3 @@ const NavigationItem = ({ storyMode, onListModeChange, onTogglePanel }) => {
   )
 }
 //#endregion
-
-
-
-//#region storycomments
-const StyledStoryCommentsPanel = styled.section`
-  overflow-y: auto;
-`;
-const StyledStoryCommentsHeader = styled.div``;
-const StyledStoryCommentsList = styled.ol``;
-const StyledStoryCommentsItem = styled.li`
-  font-size: 0.9em;
-`;
-const StoryCommentsPanel = ({ isOpen, storyCommentsId, onTogglePanel }) => {
-  const { isLoading, isError, data: storyCommentsData, error } = useQuery(
-    ['storycommentsdata', storyCommentsId], 
-    () => getStoryCommentsData(storyCommentsId),
-    reactQueryParams
-  );
-
-  if (isLoading) {
-    return (
-      <StyledStoryCommentsPanel data-loading>
-        Loading story...
-      </StyledStoryCommentsPanel>
-    );
-  }
-
-  if (isError) {
-    return (
-      <StyledStoryCommentsPanel data-error>
-        <p>Loading Story #{storyItemData} error: {error}</p>
-      </StyledStoryCommentsPanel>
-    )
-  }
-
-  return storyCommentsData && (
-    <StyledStoryCommentsPanel>
-      {/* header with: back button (close story), full screen, story urls */}
-      <StoryCommentsHeader 
-        id={storyCommentsId} 
-      />
-
-      {/* story comments list */}
-      {storyCommentsData.children.length === 0 ? (
-        <p>No comments.</p>
-      ) : (
-        <StoryCommentsList storyCommentsListData={storyCommentsData.children} />
-      )}
-    </StyledStoryCommentsPanel>
-  );
-}
-
-const StoryCommentsHeader = ({ 
-  id, 
-  title, 
-  url, 
-  author, 
-}) => {
-  return (
-    <StyledStoryCommentsHeader>
-      <h1>{id}</h1>
-    </StyledStoryCommentsHeader>
-  )
-}
-
-const StoryCommentsList = ({ storyCommentsListData }) => {
-  if (!storyCommentsListData) {
-    return null;
-  }
-
-  return (
-    <StyledStoryCommentsList>
-      {storyCommentsListData.map((storyCommentItemData) =>
-        <StoryCommentItem
-          key={storyCommentItemData.id}
-          {...storyCommentItemData}
-        />
-      )}
-    </StyledStoryCommentsList>
-  );
-} 
-
-const StoryCommentItem = ({ 
-  id, 
-  author, 
-  created_at_i: time,
-  text, 
-  children, 
-}) => {   // deconstruct props
-  const decodedHtml = text ? decodeHTML(text) : null;
-  return (
-    <StyledStoryCommentsItem>
-      <p>{id} | {author} | {time}</p>
-      <div dangerouslySetInnerHTML={{ __html: decodedHtml }}></div>
-      { children && (
-        <StoryCommentsList storyCommentsListData={children} />
-      )}
-    </StyledStoryCommentsItem>
-  );
-}
-//#endregion
-
