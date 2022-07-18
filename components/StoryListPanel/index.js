@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useQuery } from 'react-query';
 import styled from "@emotion/styled";
 
-import { NAVIGATION_ITEMS, reactQueryParams, STORIES_PER_PAGE } from "../../../utils/constants";
-import { getInitialStoryListData, getStoryData } from "../../../utils/fetchApi";
+import { NAVIGATION_ITEMS, reactQueryParams, STORIES_PER_PAGE } from "../../utils/constants";
+import { getInitialStoryListData, getStoryData } from "../../utils/fetchApi";
 
 //#region styles
 const StyledStoryListPanel = styled.section`

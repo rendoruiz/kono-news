@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 
 import NavigationPanel from "../components/NavigationPanel";
-import StoryListPanel from "../components/app/StoryListPanel";
+import StoryListPanel from "../components/StoryListPanel";
 import StoryCommentsPanel from "../components/StoryCommentsPanel";
 
 import { parseStoryListModeId } from "../utils/fetchApi";
