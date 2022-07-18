@@ -38,8 +38,6 @@ const NavigationList = ({ storyListModeId, onListModeChange, onTogglePanel }) =>
   )
 }
 
-
-
 const NavigationItem = ({ storyMode, onListModeChange, onTogglePanel }) => {
   return (
     <button type='button' onClick={() => onListModeChange(storyMode.id)}>
