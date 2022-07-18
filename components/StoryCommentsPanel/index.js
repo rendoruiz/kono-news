@@ -129,10 +129,12 @@ const StoryCommentsContent = ({ id, author, created_at_i: time, url, title, text
       <StyledStoryCommentsOriginalPost>
         <header>
           <h2>{title}</h2>
-          <p>{id} | {author} | {time} |&nbsp;
-          <a href={url}>
-            {urlHostname}
-          </a>
+          <p>{id} | {author} | {time}&nbsp;
+          {urlHostname && (
+            <a href={url}>
+              | {urlHostname}
+            </a>
+          )}
           </p>
         </header>
         <main dangerouslySetInnerHTML={{ __html: decodedHtml }}></main>
