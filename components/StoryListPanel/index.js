@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 
 import { NAVIGATION_ITEMS, reactQueryParams, STORIES_PER_PAGE } from "../../utils/constants";
 import { getInitialStoryListData, getStoryData } from "../../utils/fetchApi";
+import { getUrlHostname } from "../../utils";
 
 //#region styles
 const StyledStoryListPanel = styled.section`
@@ -187,7 +188,7 @@ const StoryItem = ({ storyItemData, onStoryItemClick }) => {
     );
   }
 
-  if (isError) {
+  if (isError || !storyData) {
     return (
       <StyledStoryItem data-error>
         <p>Loading Story #{storyItemData} error: {error}</p>
@@ -229,8 +230,6 @@ const StoryItem = ({ storyItemData, onStoryItemClick }) => {
     </StyledStoryItem>
   );
 }
-
-const getUrlHostname = (url) => !url ? null : new URL(url).hostname.split('www.').join('');
 
 const StoryItemUrl = ({url}) => {
   if (!url) {

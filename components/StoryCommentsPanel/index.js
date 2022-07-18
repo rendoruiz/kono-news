@@ -6,7 +6,7 @@ import styled from "@emotion/styled";
 import { reactQueryParams } from "../../utils/constants";
 import { getStoryCommentsData } from "../../utils/fetchApi";
 import { viewport } from "../../styles/styledConstants";
-import { sanitizeHtmlLinks } from "../../utils";
+import { getUrlHostname, sanitizeHtmlLinks } from "../../utils";
 
 //#region styles
 const StyledStoryCommentsPanel = styled.section`
@@ -24,8 +24,7 @@ const StyledStoryCommentsContent = styled.main`
   row-gap: 20px;
 `;
 const StyledStoryCommentsOriginalPost = styled.article`
-  background: rgba(50,50,50,0.5);
-
+  padding: 10px;
   + ul {
     margin-top: 0;
     margin-left: 0;
@@ -123,12 +122,18 @@ const StoryCommentsHeader = ({
 
 const StoryCommentsContent = ({ id, author, created_at_i: time, url, title, text, children }) => {
   const decodedHtml = text ? sanitizeHtmlLinks(text) : null;
+  const urlHostname = getUrlHostname(url);
+
   return (
     <StyledStoryCommentsContent>
       <StyledStoryCommentsOriginalPost>
         <header>
           <h2>{title}</h2>
-          <p>{id} | {author} | {time} | {url}</p>
+          <p>{id} | {author} | {time} |&nbsp;
+          <a href={url}>
+            {urlHostname}
+          </a>
+          </p>
         </header>
         <main dangerouslySetInnerHTML={{ __html: decodedHtml }}></main>
       </StyledStoryCommentsOriginalPost>
