@@ -9,10 +9,12 @@ import { getStoryCommentsData } from "../../../utils/fetchApi";
 const StyledStoryCommentsPanel = styled.section`
   overflow-y: auto;
 `;
-const StyledStoryCommentsHeader = styled.div``;
+const StyledStoryCommentsHeader = styled.header``;
+const StyledStoryCommentsContent = styled.main``;
+const StyledStoryCommentsOriginalPost = styled.article``;
 const StyledStoryCommentsList = styled.ol``;
 const StyledStoryCommentsItem = styled.li`
-  font-size: 0.9em;
+  /* font-size: 0.9em; */
 `;
 //#endregion
 
@@ -46,12 +48,7 @@ const StoryCommentsPanel = ({ isOpen, storyCommentsId, onTogglePanel }) => {
         id={storyCommentsId} 
       />
 
-      {/* story comments list */}
-      {storyCommentsData.children.length === 0 ? (
-        <p>No comments.</p>
-      ) : (
-        <StoryCommentsList storyCommentsListData={storyCommentsData.children} />
-      )}
+      <StoryCommentsContent {...storyCommentsData} />
     </StyledStoryCommentsPanel>
   );
 }
@@ -67,6 +64,29 @@ const StoryCommentsHeader = ({
       <h1>{id}</h1>
     </StyledStoryCommentsHeader>
   )
+}
+
+const StoryCommentsContent = ({ id, author, time, title, text, children }) => {
+  const decodedHtml = text ? decodeHTML(text) : null;
+  return (
+    <StyledStoryCommentsContent>
+      <StyledStoryCommentsOriginalPost>
+        <header>
+          <h2>{title}</h2>
+          <p>{id} | {author} | {time}</p>
+        </header>
+        <main dangerouslySetInnerHTML={{ __html: decodedHtml }}></main>
+      </StyledStoryCommentsOriginalPost>
+
+      {/* story comments list */}
+      {children.length === 0 ? (
+        <p>No comments.</p>
+      ) : (
+        <StoryCommentsList storyCommentsListData={children} />
+      )}
+    </StyledStoryCommentsContent>
+  )
+
 }
 
 const StoryCommentsList = ({ storyCommentsListData }) => {
@@ -92,15 +112,19 @@ const StoryCommentItem = ({
   created_at_i: time,
   text, 
   children, 
-}) => {   // deconstruct props
+}) => {
   const decodedHtml = text ? decodeHTML(text) : null;
   return (
     <StyledStoryCommentsItem>
-      <p>{id} | {author} | {time}</p>
-      <div dangerouslySetInnerHTML={{ __html: decodedHtml }}></div>
-      { children && (
-        <StoryCommentsList storyCommentsListData={children} />
-      )}
+      <header>
+        <p>{id} | {author} | {time}</p>
+      </header>
+      <main>
+        <div dangerouslySetInnerHTML={{ __html: decodedHtml }}></div>
+        { children && (
+          <StoryCommentsList storyCommentsListData={children} />
+        )}
+      </main>
     </StyledStoryCommentsItem>
   );
 }
