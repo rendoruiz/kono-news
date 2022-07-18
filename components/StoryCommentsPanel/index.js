@@ -6,6 +6,7 @@ import styled from "@emotion/styled";
 import { reactQueryParams } from "../../utils/constants";
 import { getStoryCommentsData } from "../../utils/fetchApi";
 import { viewport } from "../../styles/styledConstants";
+import { sanitizeHtmlLinks } from "../../utils";
 
 //#region styles
 const StyledStoryCommentsPanel = styled.section`
@@ -60,9 +61,15 @@ const StyledStoryCommentsItem = styled.li`
     letter-spacing: 0.5px;
   }
   > main > div {
+    display: grid;
+    align-content: flex-start;
     margin-top: 4px;
     font-size: 0.9em;
   }
+
+  /* > main > div pre {
+    justify-self: flex-start;
+  } */
 `;
 //#endregion
 
@@ -114,14 +121,14 @@ const StoryCommentsHeader = ({
   )
 }
 
-const StoryCommentsContent = ({ id, author, time, title, text, children }) => {
-  const decodedHtml = text ? decodeHTML(text) : null;
+const StoryCommentsContent = ({ id, author, created_at_i: time, url, title, text, children }) => {
+  const decodedHtml = text ? sanitizeHtmlLinks(text) : null;
   return (
     <StyledStoryCommentsContent>
       <StyledStoryCommentsOriginalPost>
         <header>
           <h2>{title}</h2>
-          <p>{id} | {author} | {time}</p>
+          <p>{id} | {author} | {time} | {url}</p>
         </header>
         <main dangerouslySetInnerHTML={{ __html: decodedHtml }}></main>
       </StyledStoryCommentsOriginalPost>
@@ -161,14 +168,15 @@ const StoryCommentItem = ({
   text, 
   children, 
 }) => {
-  const decodedHtml = text ? decodeHTML(text) : null;
+  const decodedHtml = text ? sanitizeHtmlLinks(text) : null;
   return (
     <StyledStoryCommentsItem>
       <header>
         <p>{id} | {author} | {time}</p>
       </header>
       <main>
-        <div dangerouslySetInnerHTML={{ __html: decodedHtml }}></div>
+        <div dangerouslySetInnerHTML={{ __html: decodedHtml }} />
+
         { children && (
           <StoryCommentsList storyCommentsListData={children} />
         )}
