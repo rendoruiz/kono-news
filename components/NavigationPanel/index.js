@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
+import { useContext } from "react";
+import { useNavigation } from "../../contexts/navigation";
 
-import { NAVIGATION_ITEMS } from "../../utils/constants";
+import { NAVIGATION_ACTION, NAVIGATION_ITEMS } from "../../utils/constants";
 
 //#region styles
 const StyledNavigationPanel = styled.section`
@@ -11,37 +13,42 @@ const StyledNavigationList = styled.ul`
 `;
 //#endregion
 
-const NavigationPanel = ({ isOpen, storyListModeId, onListModeChange, onTogglePanel, }) => {
+const NavigationPanel = ({ isExpanded, initialStoryListModeId, onTogglePanel, }) => {
   return (
     <StyledNavigationPanel>
       <NavigationList
-        storyListModeId={storyListModeId}
-        onListModeChange={onListModeChange}
+        initialStoryListModeId={initialStoryListModeId}
         onTogglePanel={onTogglePanel}
       />
     </StyledNavigationPanel>
   );
 }
 
-const NavigationList = ({ storyListModeId, onListModeChange, onTogglePanel }) => {
+const NavigationList = ({ initialStoryListModeId }) => {
   return (
     <StyledNavigationList>
-      {NAVIGATION_ITEMS.map((storyMode) => (
+      {NAVIGATION_ITEMS.map((navigationItemData) => (
         <NavigationItem
-          key={storyMode.label}
-          storyMode={storyMode}
-          onListModeChange={onListModeChange}
-          onTogglePanel={onTogglePanel}
+          key={navigationItemData.label}
+          navigationItemData={navigationItemData}
         />
       ))}
     </StyledNavigationList>
   )
 }
 
-const NavigationItem = ({ storyMode, onListModeChange, onTogglePanel }) => {
+const NavigationItem = ({ navigationItemData }) => {
+  const dispatchNavigation = useNavigation();
+
+  const handleClick = () => {
+    dispatchNavigation({
+      type: NAVIGATION_ACTION.SET_ID,
+      id: navigationItemData.id,
+    })
+  }
   return (
-    <button type='button' onClick={() => onListModeChange(storyMode.id)}>
-      {storyMode.label}
+    <button type='button' onClick={handleClick}>
+      {navigationItemData.label}
     </button>
   )
 }

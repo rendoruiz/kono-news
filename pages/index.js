@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 
@@ -6,16 +6,14 @@ import NavigationPanel from "../components/NavigationPanel";
 import StoryListPanel from "../components/StoryListPanel";
 import StoryCommentsPanel from "../components/StoryCommentsPanel";
 
+import { NavigationContext } from "../contexts/navigation";
+import { StoryCommentsContext } from "../contexts/storyComments";
+
 import { parseStoryListModeId } from "../utils/fetchApi";
 import { NAVIGATION_ACTION, QUERY_KEY, STORYCOMMENTS_ACTION } from "../utils/constants";
 import { viewport } from "../styles/styledConstants";
 
-// shared states:
-// object currentStoryMode = (onChange) => update routeQuery:mode
-// int currentStoryModeId = (onChange) => update routeQuery:story 
-// bool isNavigationPanelOpen
-// bool isStoryCommentsPanelOpen
-
+//#region styles
 const StyledAppContainer = styled.div`
   background-color: rgb(246, 246, 239);
 `;
@@ -31,8 +29,6 @@ const StyledAppLayout = styled.div`
     grid-template-columns: auto 1fr 2fr;
   }
 `;
-
-//#region context
 //#endregion
 
 //#region reducer
@@ -80,6 +76,7 @@ const storyCommentsReducer = (state, action) => {
         return {
           ...state,
           isExpanded: false,
+          isFocused: false,
         };
       } else {
         return state;
@@ -161,29 +158,33 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
   const handleToggleStoryCommentsPanel = () => dispatchStoryComments({ type: STORYCOMMENTS_ACTION.TOGGLE_EXPANSION });
 
   return (  
-    <StyledAppContainer>
-      <StyledAppLayout>
-        <NavigationPanel  
-          isOpen={navigation.isExpanded}
-          storyListModeId={navigation.storyListModeId}
-          onListModeChange={handleStoryListModeChange}
-          onTogglePanel={handleToggleNavigationPanel}
-        />
+    <NavigationContext.Provider value={dispatchNavigation}>
+      <StoryCommentsContext.Provider value={null}>
+        <StyledAppContainer>
+          <StyledAppLayout>
+            <NavigationPanel  
+              isExpanded={navigation.isExpanded}
+              storyListModeId={navigation.storyListModeId}
+              onListModeChange={handleStoryListModeChange}
+              onTogglePanel={handleToggleNavigationPanel}
+            />
 
-        <StoryListPanel 
-          storyListModeId={navigation.storyListModeId} 
-          onStoryItemClick={handleStoryCommentsIdChange}
-          onToggleNavigationPanel={handleToggleNavigationPanel}
-          onToggleStoryCommentsPanel={handleToggleStoryCommentsPanel}
-        />
+            <StoryListPanel 
+              storyListModeId={navigation.storyListModeId} 
+              onStoryItemClick={handleStoryCommentsIdChange}
+              onToggleNavigationPanel={handleToggleNavigationPanel}
+              onToggleStoryCommentsPanel={handleToggleStoryCommentsPanel}
+            />
 
-        <StoryCommentsPanel 
-          isOpen={storyComments.isExpanded}
-          storyCommentsId={storyComments.id} 
-          onTogglePanel={handleToggleStoryCommentsPanel}
-        />
-      </StyledAppLayout>
-    </StyledAppContainer>
+            <StoryCommentsPanel 
+              isOpen={storyComments.isExpanded}
+              storyCommentsId={storyComments.id} 
+              onTogglePanel={handleToggleStoryCommentsPanel}
+            />
+          </StyledAppLayout>
+        </StyledAppContainer>
+      </StoryCommentsContext.Provider>
+    </NavigationContext.Provider>
   );
 }
 
