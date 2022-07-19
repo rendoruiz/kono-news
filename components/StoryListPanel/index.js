@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 
 import { NAVIGATION_ITEMS, reactQueryParams, STORIES_PER_PAGE } from "../../utils/constants";
 import { getInitialStoryListData, getStoryData } from "../../utils/fetchApi";
-import { getUrlHostname } from "../../utils";
+import { getNavigationItemByStoryListId, getUrlHostname } from "../../utils";
 
 //#region styles
 const StyledStoryListPanel = styled.section`
@@ -95,7 +95,7 @@ const StoryListPanel = ({ storyListModeId, onStoryItemClick, onToggleNavigationP
 }
 
 const StoryListHeader = ({ storyListModeId }) => {
-  const listModeName = NAVIGATION_ITEMS.filter((mode) => mode.id === storyListModeId).pop().label
+  const listModeName = getNavigationItemByStoryListId(storyListModeId)?.label
   return (
     <StyledStoryListHeader>
       {listModeName}

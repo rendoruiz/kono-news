@@ -1,3 +1,5 @@
+import { NAVIGATION_ITEMS } from "./constants";
+
 export const sanitizeHtmlLinks = (htmlText) => {
   if (!htmlText) {
     return null;
@@ -14,4 +16,12 @@ export const getUrlHostname = (url) => {
   }
 
   return new URL(url).hostname.split('www.').join('');
+}
+
+export const getNavigationItemByStoryListId = (storyListId) => {
+  if (!storyListId) {
+    return null;
+  }
+
+  return NAVIGATION_ITEMS.filter((item) => item.id === storyListId).pop();
 }

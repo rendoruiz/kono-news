@@ -37,30 +37,42 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
   const [isNavigationPanelOpen, setIsNavigationPanelOpen] = useState(false);
   const [isStoryCommentsPanelOpen, setIsStoryCommentsPanelOpen] = useState(false);
 
-  const handleStoryListModeChange = (newListMode) => setCurrentStoryListModeId(newListMode);;
-  const handleStoryCommentsIdChange = (newStoryCommentsId) => setCurrentStoryCommentsId(newStoryCommentsId);
-
-  useEffect(() => {
+  const handleStoryListModeChange = (newListMode) => {
     router.push(
       { query: { 
         ...router.query,
-        [QUERY_KEY.STORY_MODE]: currentStoryListModeId.toLowerCase(), 
+        [QUERY_KEY.STORY_MODE]: newListMode.toLowerCase(), 
       }}, 
       undefined, 
       { shallow: true }
     );
-  }, [currentStoryListModeId]);
-
-  useEffect(() => {
+  };
+  const handleStoryCommentsIdChange = (newStoryCommentsId) => {
     router.push(
       { query: { 
         ...router.query,
-        [QUERY_KEY.STORY_COMMENTS_ID]: currentStoryCommentsId, 
+        [QUERY_KEY.STORY_COMMENTS_ID]: newStoryCommentsId, 
       }}, 
       undefined, 
       { shallow: true }
     );
-  }, [currentStoryCommentsId])
+  };
+
+  useEffect(() => {
+    const { 
+      [QUERY_KEY.STORY_MODE]: storyListModeId, 
+      [QUERY_KEY.STORY_COMMENTS_ID]: storyCommentsId, 
+    } = router.query;
+
+    if (storyListModeId && storyListModeId != currentStoryListModeId) {
+      const parsedId = parseStoryListModeId(storyListModeId)
+      setCurrentStoryListModeId(parsedId);
+    }
+    if (storyCommentsId && storyCommentsId != currentStoryCommentsId) {
+      setCurrentStoryCommentsId(storyCommentsId);
+    }
+    // console.log(router.query)
+  }, [router.query]);
 
   const handleToggleNavigationPanel = () => setIsNavigationPanelOpen(!isNavigationPanelOpen);
   const handleToggleStoryCommentsPanel = () => setIsStoryCommentsPanelOpen(!isStoryCommentsPanelOpen);
