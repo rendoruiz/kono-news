@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
-import { useNavigation } from "../../contexts/navigation";
 import { NAVIGATION_ITEMS, QUERY_KEY } from "../../utils/constants";
 
 //#region styles
@@ -33,18 +32,15 @@ const StyledNavigationItem = styled.li`
 `;
 //#endregion
 
-const NavigationPanel = ({ isExpanded, onTogglePanel, }) => {
+const NavigationPanel = ({ isExpanded, initialSelectedItemId, onTogglePanel, }) => {
   return (
     <StyledNavigationPanel>
-      <NavigationList />
+      <NavigationList initialSelectedItemId={initialSelectedItemId} />
     </StyledNavigationPanel>
   );
 }
 
-const NavigationList = () => {
-  const initialSelectedItemId = useNavigation();
-
-  return (
+const NavigationList = ({ initialSelectedItemId }) => {return (
     <StyledNavigationList>
       {NAVIGATION_ITEMS.map((navigationItemData) => (
         <NavigationItem
