@@ -10,6 +10,7 @@ export const STORY_MODE = {
 export const QUERY_KEY = {
   STORY_MODE: 'mode',
   STORY_COMMENTS_ID: 'story',
+  IS_STORY_COMMENTS_FOCUSED: 'focus',
 }
 
 export const STORY_MODE_API_QUERY = [
@@ -70,7 +71,17 @@ export const NAVIGATION_ITEMS = [
     label: 'Job',
     icon: null,
   },
-]
+];
+
+export const NAVIGATION_ACTION = {
+  SET_ID: 'NAVIGATION_SET_ID',
+  TOGGLE_EXPANSION: 'NAVIGATION_TOGGLE_EXPANSION',
+};
+export const STORYCOMMENTS_ACTION = {
+  SET_ID: 'STORYCOMMENTS_SET_ID',
+  TOGGLE_EXPANSION: 'STORYCOMMENTS_TOGGLE_EXPANSION',
+  DISABLE_FOCUS: 'STORYCOMMENTS_DISABLE_FOCUS',
+};
 
 export const STORIES_PER_PAGE = 30;
 

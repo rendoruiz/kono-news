@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 
@@ -7,7 +7,7 @@ import StoryListPanel from "../components/StoryListPanel";
 import StoryCommentsPanel from "../components/StoryCommentsPanel";
 
 import { parseStoryListModeId } from "../utils/fetchApi";
-import { QUERY_KEY } from "../utils/constants";
+import { NAVIGATION_ACTION, QUERY_KEY, STORYCOMMENTS_ACTION } from "../utils/constants";
 import { viewport } from "../styles/styledConstants";
 
 // shared states:
@@ -32,12 +32,81 @@ const StyledAppLayout = styled.div`
   }
 `;
 
-const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryCommentsId, }) => {
+//#region context
+//#endregion
+
+//#region reducer
+const navigationReducer = (state, action) => {
+  switch (action.type) {
+    case NAVIGATION_ACTION.SET_ID: 
+      if (state.storyListModeId !== action.storyListModeId) {
+        return {
+          ...state,
+          isExpanded: false,
+          storyListModeId: action.storyListModeId,
+        };
+      } else {
+        return state;
+      }
+    case NAVIGATION_ACTION.TOGGLE_EXPANSION: 
+      return {
+        ...state, 
+        isExpanded: !state.isExpanded,
+      };
+    default:
+      throw new Error();
+  }
+}
+
+const storyCommentsReducer = (state, action) => {
+  switch (action.type) {
+    case STORYCOMMENTS_ACTION.SET_ID:
+      if (state.id !== action.id) {
+        return {
+          ...state,
+          isExpanded: true,
+          id: action.id,
+        };
+      } else {
+        return state;
+      }
+    case STORYCOMMENTS_ACTION.TOGGLE_EXPANSION:
+      return {
+        ...state,
+        isExpanded: !state.isExpanded,
+      };
+    case STORYCOMMENTS_ACTION.DISABLE_FOCUS:
+      if (state.isFocused === true) {
+        return {
+          ...state,
+          isExpanded: false,
+        };
+      } else {
+        return state;
+      }
+    default:
+      throw new Error();
+  }
+}
+//#endregion
+
+const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryCommentsId, isStoryCommentsFocused, }) => {
   const router = useRouter(); 
-  const [currentStoryListModeId, setCurrentStoryListModeId] = useState(parseStoryListModeId(initialStoryListModeId));
-  const [currentStoryCommentsId, setCurrentStoryCommentsId] = useState(initialStoryCommentsId);
-  const [isNavigationPanelOpen, setIsNavigationPanelOpen] = useState(false);
-  const [isStoryCommentsPanelOpen, setIsStoryCommentsPanelOpen] = useState(false);
+  const [navigation, dispatchNavigation] = useReducer(
+    navigationReducer, 
+    {
+      isExpanded: false,
+      storyListModeId: parseStoryListModeId(initialStoryListModeId),
+    }
+  );
+  const [storyComments, dispatchStoryComments] = useReducer(
+    storyCommentsReducer,
+    {
+      isExpanded: false,
+      isFocused: isStoryCommentsFocused ? true : false,
+      id: initialStoryCommentsId,
+    }
+  );
 
   const handleStoryListModeChange = (newListMode) => {
     router.push(
@@ -62,43 +131,55 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
 
   useEffect(() => {
     const { 
-      [QUERY_KEY.STORY_MODE]: storyListModeId, 
-      [QUERY_KEY.STORY_COMMENTS_ID]: storyCommentsId, 
+      [QUERY_KEY.STORY_MODE]: newStoryListModeId, 
+      [QUERY_KEY.STORY_COMMENTS_ID]: newStoryCommentsId, 
+      [QUERY_KEY.IS_STORY_COMMENTS_FOCUSED]: isStoryCommentsFocused,
     } = router.query;
 
-    if (storyListModeId && storyListModeId != currentStoryListModeId) {
-      const parsedId = parseStoryListModeId(storyListModeId)
-      setCurrentStoryListModeId(parsedId);
+    if (newStoryListModeId && newStoryListModeId != navigation.storyListModeId) {
+      const parsedId = parseStoryListModeId(newStoryListModeId)
+      dispatchNavigation({
+        type: NAVIGATION_ACTION.SET_ID,
+        storyListModeId: parsedId,
+      })
     }
-    if (storyCommentsId && storyCommentsId != currentStoryCommentsId) {
-      setCurrentStoryCommentsId(storyCommentsId);
+    if (newStoryCommentsId && newStoryCommentsId != storyComments.id) {
+      dispatchStoryComments({
+        type: STORYCOMMENTS_ACTION.SET_ID,
+        id: newStoryCommentsId,
+      });
+    }
+    if (isStoryCommentsFocused === undefined && storyComments.isFocused) {
+      dispatchStoryComments({
+        type: STORYCOMMENTS_ACTION.DISABLE_FOCUS,
+      });
     }
     // console.log(router.query)
   }, [router.query]);
 
-  const handleToggleNavigationPanel = () => setIsNavigationPanelOpen(!isNavigationPanelOpen);
-  const handleToggleStoryCommentsPanel = () => setIsStoryCommentsPanelOpen(!isStoryCommentsPanelOpen);
+  const handleToggleNavigationPanel = () => dispatchNavigation({ type: NAVIGATION_ACTION.TOGGLE_EXPANSION });
+  const handleToggleStoryCommentsPanel = () => dispatchStoryComments({ type: STORYCOMMENTS_ACTION.TOGGLE_EXPANSION });
 
   return (  
     <StyledAppContainer>
       <StyledAppLayout>
         <NavigationPanel  
-          isOpen={isNavigationPanelOpen}
-          storyListModeId={currentStoryListModeId}
+          isOpen={navigation.isExpanded}
+          storyListModeId={navigation.storyListModeId}
           onListModeChange={handleStoryListModeChange}
           onTogglePanel={handleToggleNavigationPanel}
         />
 
         <StoryListPanel 
-          storyListModeId={currentStoryListModeId} 
+          storyListModeId={navigation.storyListModeId} 
           onStoryItemClick={handleStoryCommentsIdChange}
           onToggleNavigationPanel={handleToggleNavigationPanel}
           onToggleStoryCommentsPanel={handleToggleStoryCommentsPanel}
         />
 
         <StoryCommentsPanel 
-          isOpen={isStoryCommentsPanelOpen}
-          storyCommentsId={currentStoryCommentsId} 
+          isOpen={storyComments.isExpanded}
+          storyCommentsId={storyComments.id} 
           onTogglePanel={handleToggleStoryCommentsPanel}
         />
       </StyledAppLayout>
@@ -109,7 +190,8 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
 export const getServerSideProps = async ({ query }) => {
   const { 
     [QUERY_KEY.STORY_MODE]: listMode, 
-    [QUERY_KEY.STORY_COMMENTS_ID]: storyCommentsId 
+    [QUERY_KEY.STORY_COMMENTS_ID]: storyCommentsId,
+    [QUERY_KEY.IS_STORY_COMMENTS_FOCUSED]: isStoryCommentsFocused,
   } = query;
 
   return {
@@ -117,8 +199,9 @@ export const getServerSideProps = async ({ query }) => {
       queryString: query,
       initialStoryListModeId: listMode ?? null, 
       initialStoryCommentsId: storyCommentsId ?? null,
+      isStoryCommentsFocused: isStoryCommentsFocused ?? null,
     }
-  }
+  };
 }
 
 export default AppDashboard;
