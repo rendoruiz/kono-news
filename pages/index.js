@@ -16,16 +16,18 @@ import { viewport } from "../styles/styledConstants";
 // bool isNavigationPanelOpen
 // bool isStoryCommentsPanelOpen
 
+const StyledAppContainer = styled.div`
+  background-color: rgb(246, 246, 239);
+`;
 const StyledAppLayout = styled.div`
   position: relative;
   display: grid;
-  min-width: 200px;
-  width: 100vw;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1536px;
   height: 100vh;
-  background-color: rgb(246, 246, 239);
 
   ${viewport.md} {
-    display: grid;
     grid-template-columns: auto 1fr 2fr;
   }
 `;
@@ -78,27 +80,29 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
   const handleToggleStoryCommentsPanel = () => setIsStoryCommentsPanelOpen(!isStoryCommentsPanelOpen);
 
   return (  
-    <StyledAppLayout>
-      <NavigationPanel  
-        isOpen={isNavigationPanelOpen}
-        storyListModeId={currentStoryListModeId}
-        onListModeChange={handleStoryListModeChange}
-        onTogglePanel={handleToggleNavigationPanel}
-      />
+    <StyledAppContainer>
+      <StyledAppLayout>
+        <NavigationPanel  
+          isOpen={isNavigationPanelOpen}
+          storyListModeId={currentStoryListModeId}
+          onListModeChange={handleStoryListModeChange}
+          onTogglePanel={handleToggleNavigationPanel}
+        />
 
-      <StoryListPanel 
-        storyListModeId={currentStoryListModeId} 
-        onStoryItemClick={handleStoryCommentsIdChange}
-        onToggleNavigationPanel={handleToggleNavigationPanel}
-        onToggleStoryCommentsPanel={handleToggleStoryCommentsPanel}
-      />
+        <StoryListPanel 
+          storyListModeId={currentStoryListModeId} 
+          onStoryItemClick={handleStoryCommentsIdChange}
+          onToggleNavigationPanel={handleToggleNavigationPanel}
+          onToggleStoryCommentsPanel={handleToggleStoryCommentsPanel}
+        />
 
-      <StoryCommentsPanel 
-        isOpen={isStoryCommentsPanelOpen}
-        storyCommentsId={currentStoryCommentsId} 
-        onTogglePanel={handleToggleStoryCommentsPanel}
-      />
-    </StyledAppLayout>
+        <StoryCommentsPanel 
+          isOpen={isStoryCommentsPanelOpen}
+          storyCommentsId={currentStoryCommentsId} 
+          onTogglePanel={handleToggleStoryCommentsPanel}
+        />
+      </StyledAppLayout>
+    </StyledAppContainer>
   );
 }
 
