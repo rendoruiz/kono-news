@@ -75,7 +75,6 @@ const StyledStoryStats = styled.p`
 `;
 //#endregion
 
-
 const StoryListPanel = ({ storyListModeId, onStoryItemClick, onToggleNavigationPanel, onToggleStoryCommentsPanel }) => {
   return (
     <StyledStoryListPanel>

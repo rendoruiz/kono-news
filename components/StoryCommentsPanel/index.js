@@ -4,8 +4,8 @@ import styled from "@emotion/styled";
 
 import { reactQueryParams } from "../../utils/constants";
 import { getStoryCommentsData } from "../../utils/fetchApi";
-import { viewport } from "../../styles/styledConstants";
 import { getUrlHostname, sanitizeHtmlLinks } from "../../utils";
+import { viewport } from "../../styles/styledConstants";
 
 //#region styles
 const StyledStoryCommentsPanel = styled.section`
