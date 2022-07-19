@@ -3,9 +3,10 @@ import { useState } from "react";
 import { useQuery } from 'react-query';
 import styled from "@emotion/styled";
 
-import { reactQueryParams, STORIES_PER_PAGE } from "../../utils/constants";
+import { QUERY_KEY, reactQueryParams, STORIES_PER_PAGE } from "../../utils/constants";
 import { getInitialStoryListData, getStoryData } from "../../utils/fetchApi";
 import { getNavigationItemByStoryListId, getUrlHostname, handleOnKeyDown } from "../../utils";
+import { useRouter } from "next/router";
 
 //#region styles
 const StyledStoryListPanel = styled.section`
@@ -75,14 +76,14 @@ const StyledStoryStats = styled.p`
 `;
 //#endregion
 
-const StoryListPanel = ({ storyListModeId, onStoryItemClick, onToggleNavigationPanel, onToggleStoryCommentsPanel }) => {
+const StoryListPanel = ({ storyListModeId, onToggleNavigationPanel }) => {
   return (
     <StyledStoryListPanel>
       {/* header w/ nav toggle */}
       <StoryListHeader storyListModeId={storyListModeId} />
 
       {/* story list */}
-      <StoryListContent storyListModeId={storyListModeId} onStoryItemClick={onStoryItemClick} />
+      <StoryListContent storyListModeId={storyListModeId} />
     </StyledStoryListPanel>
   );
 }
@@ -96,7 +97,7 @@ const StoryListHeader = ({ storyListModeId }) => {
   );
 }
 
-const StoryListContent = ({ storyListModeId, onStoryItemClick }) => {
+const StoryListContent = ({ storyListModeId }) => {
   const { isLoading, isError, data: fetchedStoryIds, error } = useQuery(
     ['storylist', storyListModeId], 
     () => getInitialStoryListData(storyListModeId, true),
@@ -131,10 +132,7 @@ const StoryListContent = ({ storyListModeId, onStoryItemClick }) => {
   
   return (
     <StyledStoryListContent>
-      <StoryList
-        storyListData={storyListData}
-        onStoryItemClick={onStoryItemClick}
-      />
+      <StoryList storyListData={storyListData} />
       {/* story list propagation button */}
       {!isPageLimitReached && (
         <button 
@@ -148,14 +146,13 @@ const StoryListContent = ({ storyListModeId, onStoryItemClick }) => {
   );
 }
 
-const StoryList = ({ storyListData, onStoryItemClick }) => {
+const StoryList = ({ storyListData }) => {
   return (
     <StyledStoryList>
       {storyListData.map((storyItemData) => (
         <StoryItem
           key={storyItemData.id}
           storyItemData={storyItemData}
-          onStoryItemClick={onStoryItemClick}
         />
       ))}
       <StyledStoryItemLoader data-loader>
@@ -180,7 +177,6 @@ const StoryItem = ({ storyItemData, onStoryItemClick }) => {
       <StyledStoryItem data-loading />
     );
   }
-
   if (isError || !storyData) {
     return (
       <StyledStoryItem data-error>
@@ -188,6 +184,8 @@ const StoryItem = ({ storyItemData, onStoryItemClick }) => {
       </StyledStoryItem>
     )
   }
+
+  const router = useRouter();
 
   const {
     id,
@@ -200,17 +198,28 @@ const StoryItem = ({ storyItemData, onStoryItemClick }) => {
   } = storyData;
   const controlId = 'story-item-' + id;
 
+  const handleStoryCommentsChange = () => {
+    router.push(
+      { query: { 
+        ...router.query,
+        [QUERY_KEY.STORY_COMMENTS_ID]: id, 
+      }}, 
+      undefined, 
+      { shallow: true }
+    );
+  }
+
   return (
     <StyledStoryItem>
       <input 
         type='radio' 
         name='story-item' 
         id={controlId} 
-        onKeyDown={(e) => handleOnKeyDown(e, onStoryItemClick(id))} 
+        onKeyDown={(e) => handleOnKeyDown(e, handleStoryCommentsChange)} 
       />
       <label 
         htmlFor={controlId} 
-        onClick={() => onStoryItemClick(id)}
+        onClick={() => handleStoryCommentsChange()}
       >
         <StyledStoryTitle>
           <StyledStoryHeading>{title}</StyledStoryHeading>

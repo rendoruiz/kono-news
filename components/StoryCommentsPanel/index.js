@@ -75,7 +75,7 @@ const StyledStoryCommentsItem = styled.li`
 `;
 //#endregion
 
-const StoryCommentsPanel = ({ isOpen, storyCommentsId, onTogglePanel }) => {
+const StoryCommentsPanel = ({ isExpanded, isFocused, storyCommentsId, onTogglePanel }) => {
   const { isLoading, isError, data: storyCommentsData, error } = useQuery(
     ['storycommentsdata', storyCommentsId], 
     () => getStoryCommentsData(storyCommentsId),

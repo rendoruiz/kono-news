@@ -105,14 +105,6 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
   );
 
   const handleStoryCommentsIdChange = (newStoryCommentsId) => {
-    router.push(
-      { query: { 
-        ...router.query,
-        [QUERY_KEY.STORY_COMMENTS_ID]: newStoryCommentsId, 
-      }}, 
-      undefined, 
-      { shallow: true }
-    );
   };
 
   useEffect(() => {
@@ -158,13 +150,12 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
 
           <StoryListPanel 
             storyListModeId={navigation.storyListModeId} 
-            onStoryItemClick={handleStoryCommentsIdChange}
             onToggleNavigationPanel={handleToggleNavigationPanel}
-            onToggleStoryCommentsPanel={handleToggleStoryCommentsPanel}
           />
 
           <StoryCommentsPanel 
-            isOpen={storyComments.isExpanded}
+            isExpanded={storyComments.isExpanded}
+            isFocused={storyComments.isFocused}
             storyCommentsId={storyComments.id} 
             onTogglePanel={handleToggleStoryCommentsPanel}
           />
