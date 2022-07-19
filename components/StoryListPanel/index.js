@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 
 import { reactQueryParams, STORIES_PER_PAGE } from "../../utils/constants";
 import { getInitialStoryListData, getStoryData } from "../../utils/fetchApi";
-import { getNavigationItemByStoryListId, getUrlHostname } from "../../utils";
+import { getNavigationItemByStoryListId, getUrlHostname, handleOnKeyDown } from "../../utils";
 
 //#region styles
 const StyledStoryListPanel = styled.section`
@@ -200,20 +200,20 @@ const StoryItem = ({ storyItemData, onStoryItemClick }) => {
     time,
     descendants: post_count,
   } = storyData;
-
-  const handleKeyPress = (e) => {
-    const keyCode = e.code.toUpperCase();
-    if (keyCode === "ENTER" || keyCode === "SPACE") {
-      onStoryItemClick(id);
-    }
-  }
-
   const controlId = 'story-item-' + id;
 
   return (
     <StyledStoryItem>
-      <input type='radio' name='story-item' id={controlId} onKeyDown={handleKeyPress}  />
-      <label htmlFor={controlId} onClick={() => onStoryItemClick(id)}>
+      <input 
+        type='radio' 
+        name='story-item' 
+        id={controlId} 
+        onKeyDown={(e) => handleOnKeyDown(e, onStoryItemClick(id))} 
+      />
+      <label 
+        htmlFor={controlId} 
+        onClick={() => onStoryItemClick(id)}
+      >
         <StyledStoryTitle>
           <StyledStoryHeading>{title}</StyledStoryHeading>
           <StoryItemUrl url={url} />

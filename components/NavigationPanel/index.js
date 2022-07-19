@@ -1,10 +1,15 @@
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
+import { handleOnKeyDown } from "../../utils";
 import { NAVIGATION_ITEMS, QUERY_KEY } from "../../utils/constants";
 
 //#region styles
-const StyledNavigationPanel = styled.section`
-
+const StyledNavigationPanel = styled.section``;
+const StyledNavigationToggle = styled.button`
+  border: none;
+  padding: 10px 3px;
+  background: ${({isExpanded}) => isExpanded ? 'red' : 'none'};
+  cursor: pointer;
 `;
 const StyledNavigationList = styled.ul`
   display: grid;
@@ -21,7 +26,7 @@ const StyledNavigationItem = styled.li`
 
   input[type="radio"] {
     position: absolute;
-    visibility: hidden;
+    /* visibility: hidden; */
     opacity: 0;
     pointer-events: none;
   }
@@ -35,23 +40,36 @@ const StyledNavigationItem = styled.li`
 const NavigationPanel = ({ isExpanded, initialSelectedItemId, onTogglePanel, }) => {
   return (
     <StyledNavigationPanel>
+      <NavigationToggle 
+        isExpanded={isExpanded} 
+        onTogglePanel={onTogglePanel} 
+      />
       <NavigationList initialSelectedItemId={initialSelectedItemId} />
     </StyledNavigationPanel>
   );
 }
 
-const NavigationList = ({ initialSelectedItemId }) => {return (
-    <StyledNavigationList>
-      {NAVIGATION_ITEMS.map((navigationItemData) => (
-        <NavigationItem
-          key={navigationItemData.label}
-          navigationItemData={navigationItemData}
-          initialSelectedItem={navigationItemData.id === initialSelectedItemId ? true : undefined}
-        />
-      ))}
-    </StyledNavigationList>
-  )
-}
+const NavigationToggle = ({ isExpanded, onTogglePanel }) => (
+  <StyledNavigationToggle 
+    type='button'
+    isExpanded={isExpanded}
+    onClick={onTogglePanel}
+  >
+    toggle
+  </StyledNavigationToggle>
+);
+
+const NavigationList = ({ initialSelectedItemId }) => (
+  <StyledNavigationList>
+    {NAVIGATION_ITEMS.map((navigationItemData) => (
+      <NavigationItem
+        key={navigationItemData.label}
+        navigationItemData={navigationItemData}
+        initialSelectedItem={navigationItemData.id === initialSelectedItemId ? true : undefined}
+      />
+    ))}
+  </StyledNavigationList>
+);
 
 const NavigationItem = ({ navigationItemData, initialSelectedItem }) => {
   const router = useRouter();
@@ -67,12 +85,6 @@ const NavigationItem = ({ navigationItemData, initialSelectedItem }) => {
       { shallow: true }
     );
   }
-  const handleKeyPress = (e) => {
-    const keyCode = e.code.toUpperCase();
-    if (keyCode === "ENTER" || keyCode === "SPACE") {
-      handleNavigationChange();
-    }
-  }
   
   return (
     <StyledNavigationItem>
@@ -80,11 +92,11 @@ const NavigationItem = ({ navigationItemData, initialSelectedItem }) => {
         type="radio" 
         name='navigation-item' 
         id={controlId} 
-        onKeyDown={handleKeyPress} 
+        onKeyDown={(e) => handleOnKeyDown(e, handleNavigationChange)} 
         defaultChecked={initialSelectedItem}
       />
       <label 
-        for={controlId} 
+        htmlFor={controlId} 
         onClick={() => handleNavigationChange()}
       >
         {navigationItemData.label}

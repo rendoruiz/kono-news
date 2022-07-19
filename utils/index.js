@@ -25,3 +25,10 @@ export const getNavigationItemByStoryListId = (storyListId) => {
 
   return NAVIGATION_ITEMS.filter((item) => item.id === storyListId).pop();
 }
+
+export const handleOnKeyDown = (e, dispatch) => {
+  const keyCode = e.code.toUpperCase();
+    if (keyCode === "ENTER" || keyCode === "SPACE") {
+      dispatch();
+    }
+}
