@@ -8,6 +8,8 @@ const getStoryDataEndpoint = (storyId) => `${HN_API_ENDPOINT}item/${storyId}.jso
 const ALGOLIA_API_ENDPOINT = 'https://hn.algolia.com/api/v1/';
 const getStoryCommentsDataEndpoint = (commentDataId) =>`${ALGOLIA_API_ENDPOINT}items/${commentDataId}`;
 
+const getServerErrorMessage = (serverEndpoint) => `Failed to fetch resource: ${serverEndpoint}`;
+
 export const parseStoryListModeId = (modeString) => {
   if (!modeString) {
     return STORY_MODE.TOP;
@@ -26,7 +28,7 @@ export const getStoryListIds = async (listMode, isListModeParsed = false) => {
     const response = await axios.get(endpoint);
     return response.data;
   } catch {
-    throw new Error('Failed to fetch story ids.');
+    throw new Error(getServerErrorMessage(endpoint));
   }
 }
 
@@ -41,7 +43,7 @@ export const getStoryData = async (storyId) => {
     const response = await axios.get(endpoint);
     return response.data;
   } catch {
-    throw new Error('Failed to fetch story: ' + endpoint);
+    throw new Error(getServerErrorMessage(endpoint));
   }
 }
 
@@ -51,21 +53,32 @@ export const getStoryCommentsData = async (storyCommentId) => {
     return null;
   }
 
-  const storyEndpoint = getStoryDataEndpoint(storyCommentId);
+  let commentData = null;
   const commentEndpoint = getStoryCommentsDataEndpoint(storyCommentId);
   try {
-    const response = await Promise.all(
-      [commentEndpoint, storyEndpoint].map((endpoint) => axios.get(endpoint))
-    );
-    return {
-      ...response[0].data,
-      post_count: response[1].data.descendants,
-    };
+    const response = await axios.get(commentEndpoint);
+    commentData = response.data;
   } catch {
-    throw new Error('Failed to get story comment data id: ' + storyCommentId);
+    throw new Error(getServerErrorMessage(commentEndpoint));
+  }
+  
+  let storyData = null;
+  const storyEndpoint = getStoryDataEndpoint(commentData.story_id ? commentData.story_id : storyCommentId);
+  try {
+    const response = await axios.get(storyEndpoint);
+    storyData = response.data;
+  } catch {
+    throw new Error(getServerErrorMessage(storyEndpoint));
+  }
+
+  return {
+    ...commentData,
+    post_count: storyData.descendants
   }
 }
 
+// returns: [...{storyData}]
+// the number of fetched full story data is based on STORIES_PER_PAGE
 export const getInitialStoryListData = async (listMode, isListModeParsed) => {
   try {
     const storyListIds = await getStoryListIds(listMode, isListModeParsed);
@@ -87,8 +100,4 @@ export const getInitialStoryListData = async (listMode, isListModeParsed) => {
   } catch {
     throw new Error('Failed to fetch initial story list data.');
   }
-  // const maxStoryPerPage = 30;
-  // const storyIdList = await getStoryIdList(storyType);
-  // const storyListData = await getStoryListData(storyIdList.slice(0, ));
-  // return [storyIdList, storyListData];
 }

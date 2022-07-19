@@ -1,6 +1,5 @@
 
 import { useQuery } from "react-query";
-import { decodeHTML } from "entities";
 import styled from "@emotion/styled";
 
 import { reactQueryParams } from "../../utils/constants";
@@ -65,6 +64,10 @@ const StyledStoryCommentsItem = styled.li`
     margin-top: 4px;
     font-size: 0.9em;
   }
+  &[data-deleted] > main > div {
+    opacity: 0.6;
+    font-style: italic;
+  }
 
   /* > main > div pre {
     justify-self: flex-start;
@@ -87,10 +90,11 @@ const StoryCommentsPanel = ({ isOpen, storyCommentsId, onTogglePanel }) => {
     );
   }
 
+
   if (isError) {
     return (
       <StyledStoryCommentsPanel data-error>
-        <p>Loading Story #{storyCommentsId} error: {error}</p>
+        <p>Loading Story #{storyCommentsId} error: {error.message}</p>
       </StyledStoryCommentsPanel>
     )
   }
@@ -165,9 +169,9 @@ const StoryCommentsList = ({ storyCommentsListData }) => {
         />
       )}
     </StyledStoryCommentsList>
+  
   );
 } 
-
 const StoryCommentItem = ({ 
   id, 
   author, 
@@ -175,14 +179,24 @@ const StoryCommentItem = ({
   text, 
   children, 
 }) => {
+  // dont show deleted items with no children (id and time only)
+  if (text === null && (children.length === 0)) {
+    return null; 
+  }
+
   const decodedHtml = text ? sanitizeHtmlLinks(text) : null;
   return (
-    <StyledStoryCommentsItem>
+    <StyledStoryCommentsItem data-deleted={decodedHtml ? undefined : ""}>
       <header>
         <p>{id} | {author} | {time}</p>
       </header>
       <main>
-        <div dangerouslySetInnerHTML={{ __html: decodedHtml }} />
+        {decodedHtml ? (
+          <div dangerouslySetInnerHTML={{ __html: decodedHtml }} />
+        ) : (
+          <div>deleted comment</div>
+        )}
+        
 
         { children && (
           <StoryCommentsList storyCommentsListData={children} />

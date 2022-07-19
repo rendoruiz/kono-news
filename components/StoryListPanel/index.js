@@ -123,7 +123,7 @@ const StoryListContent = ({ storyListModeId, onStoryItemClick }) => {
   if (isError) {
     return (
       <StyledStoryList data-error>
-        <p>Loading List IDs error: {error}</p>
+        <p>Loading List IDs error: {error.message}</p>
       </StyledStoryList>
     );
   }
@@ -191,7 +191,7 @@ const StoryItem = ({ storyItemData, onStoryItemClick }) => {
   if (isError || !storyData) {
     return (
       <StyledStoryItem data-error>
-        <p>Loading Story #{storyItemData} error: {error}</p>
+        <p>Loading Story #{storyItemData} error: {error.message}</p>
       </StyledStoryItem>
     )
   }
