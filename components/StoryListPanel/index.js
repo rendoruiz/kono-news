@@ -21,11 +21,6 @@ const StyledStoryListContent = styled.main`
 const StyledStoryList = styled.ol`
   display: grid;
   gap: 2px;
-
-  [data-loading],
-  [data-loading] ~ [data-loading] {
-
-  }
 `;
 const StyledStoryItem = styled.li`
   display: flex;
@@ -35,7 +30,6 @@ const StyledStoryItem = styled.li`
     flex: 1;
     border: none;
     padding: 2px 8px;
-    width: 100%;
     text-align: left;
     cursor: pointer;
   }
@@ -50,6 +44,7 @@ const StyledStoryItem = styled.li`
 
   input[type="radio"] {
     position: absolute;
+    visibility: hidden;
     opacity: 0;
     pointer-events: none;
   }
@@ -213,7 +208,7 @@ const StoryItem = ({ storyItemData, onStoryItemClick }) => {
     }
   }
 
-  const controlId = `story-item-${id}`;
+  const controlId = 'story-item-' + id;
 
   return (
     <StyledStoryItem>

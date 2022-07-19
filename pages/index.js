@@ -93,7 +93,7 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
     navigationReducer, 
     {
       isExpanded: false,
-      storyListModeId: parseStoryListModeId(initialStoryListModeId),
+      storyListModeId: initialStoryListModeId,
     }
   );
   const [storyComments, dispatchStoryComments] = useReducer(
@@ -105,16 +105,6 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
     }
   );
 
-  const handleStoryListModeChange = (newListMode) => {
-    router.push(
-      { query: { 
-        ...router.query,
-        [QUERY_KEY.STORY_MODE]: newListMode.toLowerCase(), 
-      }}, 
-      undefined, 
-      { shallow: true }
-    );
-  };
   const handleStoryCommentsIdChange = (newStoryCommentsId) => {
     router.push(
       { query: { 
@@ -158,14 +148,12 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
   const handleToggleStoryCommentsPanel = () => dispatchStoryComments({ type: STORYCOMMENTS_ACTION.TOGGLE_EXPANSION });
 
   return (  
-    <NavigationContext.Provider value={dispatchNavigation}>
+    <NavigationContext.Provider value={initialStoryListModeId}>
       <StoryCommentsContext.Provider value={null}>
         <StyledAppContainer>
           <StyledAppLayout>
             <NavigationPanel  
               isExpanded={navigation.isExpanded}
-              storyListModeId={navigation.storyListModeId}
-              onListModeChange={handleStoryListModeChange}
               onTogglePanel={handleToggleNavigationPanel}
             />
 
@@ -198,7 +186,7 @@ export const getServerSideProps = async ({ query }) => {
   return {
     props: {
       queryString: query,
-      initialStoryListModeId: listMode ?? null, 
+      initialStoryListModeId: parseStoryListModeId(listMode), 
       initialStoryCommentsId: storyCommentsId ?? null,
       isStoryCommentsFocused: isStoryCommentsFocused ?? null,
     }
