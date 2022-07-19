@@ -44,7 +44,6 @@ const StyledStoryItem = styled.li`
 
   input[type="radio"] {
     position: absolute;
-    visibility: hidden;
     opacity: 0;
     pointer-events: none;
   }
