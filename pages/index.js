@@ -113,7 +113,7 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
       [QUERY_KEY.IS_NAVIGATION_EXPANDED]: isExpanded,
     } = router.query;
 
-    if (isExpanded) {
+    if (!isExpanded) {
       if (newStoryListModeId && newStoryListModeId !== navigation.storyListModeId) {
         const parsedId = parseStoryListModeId(newStoryListModeId)
         dispatchNavigation({
@@ -121,10 +121,10 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
           storyListModeId: parsedId,
         })
       } else {
-        dispatchNavigation({ type: NAVIGATION_ACTION.EXPAND_PANEL })
+        dispatchNavigation({ type: NAVIGATION_ACTION.RETRACT_PANEL })
       }
     } else {
-      dispatchNavigation({ type: NAVIGATION_ACTION.RETRACT_PANEL })
+      dispatchNavigation({ type: NAVIGATION_ACTION.EXPAND_PANEL })
     }
   }, [router.query, navigation.storyListModeId, navigation.isExpanded])
 
