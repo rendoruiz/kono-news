@@ -9,6 +9,7 @@ import StoryCommentsPanel from "../components/StoryCommentsPanel";
 import { parseStoryListModeId } from "../utils/fetchApi";
 import { NAVIGATION_ACTION, QUERY_KEY, STORYCOMMENTS_ACTION } from "../utils/constants";
 import { viewport } from "../styles/styledConstants";
+import { StoryCommentsContext } from "../contexts/storyComments";
 
 //#region styles
 const StyledAppContainer = styled.div`
@@ -22,7 +23,7 @@ const StyledAppLayout = styled.div`
   max-width: 1536px;
   height: 100vh;
 
-  ${viewport.md} {
+  ${viewport.lg} {
     grid-template-columns: auto 1fr 2fr;
   }
 `;
@@ -32,15 +33,13 @@ const StyledAppLayout = styled.div`
 const navigationReducer = (state, action) => {
   switch (action.type) {
     case NAVIGATION_ACTION.SET_ID: 
-      if (state.storyListModeId !== action.storyListModeId) {
-        return {
-          ...state,
-          isExpanded: false,
-          storyListModeId: action.storyListModeId,
-        };
-      } else {
-        return state;
-      }
+      return {
+        ...state,
+        isExpanded: !state.isExpanded,
+        storyListModeId: (state.storyListModeId !== action.storyListModeId) 
+          ? action.storyListModeId 
+          : state.storyCommentsId,
+      };
     case NAVIGATION_ACTION.TOGGLE_EXPANSION: 
       return {
         ...state, 
@@ -54,19 +53,20 @@ const navigationReducer = (state, action) => {
 const storyCommentsReducer = (state, action) => {
   switch (action.type) {
     case STORYCOMMENTS_ACTION.SET_ID:
-      if (state.id !== action.id) {
-        return {
-          ...state,
-          isExpanded: true,
-          id: action.id,
-        };
-      } else {
-        return state;
-      }
-    case STORYCOMMENTS_ACTION.TOGGLE_EXPANSION:
       return {
         ...state,
-        isExpanded: !state.isExpanded,
+        isExpanded: true,
+        id: (state.id !== action.id) ? action.id : state.id
+      }
+    case STORYCOMMENTS_ACTION.EXPAND_PANEL:
+      return {
+        ...state,
+        isExpanded: true,
+      };
+    case STORYCOMMENTS_ACTION.RETRACT_PANEL:
+      return {
+        ...state,
+        isExpanded: false,
       };
     case STORYCOMMENTS_ACTION.DISABLE_FOCUS:
       if (state.isFocused === true) {
@@ -107,8 +107,10 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
       [QUERY_KEY.STORY_MODE]: newStoryListModeId, 
       [QUERY_KEY.STORY_COMMENTS_ID]: newStoryCommentsId, 
       [QUERY_KEY.IS_STORY_COMMENTS_FOCUSED]: isStoryCommentsFocused,
+      [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: isStoryCommentsExpanded,
     } = router.query;
 
+    // navigation panel | story list mode
     if (newStoryListModeId && newStoryListModeId != navigation.storyListModeId) {
       const parsedId = parseStoryListModeId(newStoryListModeId)
       dispatchNavigation({
@@ -116,12 +118,25 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
         storyListModeId: parsedId,
       })
     }
-    if (newStoryCommentsId && newStoryCommentsId != storyComments.id) {
+    // story comments panel
+    // oldId === newId && expanded
+    if (isStoryCommentsExpanded) {
+      if (newStoryCommentsId && newStoryCommentsId !== storyComments.id) {
+        dispatchStoryComments({
+          type: STORYCOMMENTS_ACTION.SET_ID,
+          id: newStoryCommentsId,
+        });
+      } else if (newStoryCommentsId && newStoryCommentsId === storyComments.id) {
+        dispatchStoryComments({
+          type: STORYCOMMENTS_ACTION.EXPAND_PANEL,
+        });
+      }
+    } else {
       dispatchStoryComments({
-        type: STORYCOMMENTS_ACTION.SET_ID,
-        id: newStoryCommentsId,
+        type: STORYCOMMENTS_ACTION.RETRACT_PANEL,
       });
     }
+    // story comments panel | isFocused
     if (isStoryCommentsFocused === undefined && storyComments.isFocused) {
       dispatchStoryComments({
         type: STORYCOMMENTS_ACTION.DISABLE_FOCUS,
@@ -130,23 +145,28 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
     // console.log(router.query)
   }, [router.query]);
 
-  const handleToggleNavigationPanel = () => dispatchNavigation({ type: NAVIGATION_ACTION.TOGGLE_EXPANSION });
-  const handleToggleStoryCommentsPanel = () => dispatchStoryComments({ type: STORYCOMMENTS_ACTION.TOGGLE_EXPANSION });
+  const handleToggleNavigationPanel = () => {
+    console.log(navigation.isExpanded);
+    dispatchNavigation({ type: NAVIGATION_ACTION.TOGGLE_EXPANSION })
+  };
+  const handleToggleStoryCommentsPanel = () => dispatchStoryComments({ type: STORYCOMMENTS_ACTION.RETRACT_PANEL });
 
   return (  
     <StyledAppContainer>
       <StyledAppLayout>
-        <NavigationPanel  
-          isExpanded={navigation.isExpanded}
-          initialSelectedItemId={initialStoryListModeId}
-          onTogglePanel={handleToggleNavigationPanel}
-        />
-
-        <StoryListPanel 
-          storyListModeId={navigation.storyListModeId} 
-          onToggleNavigationPanel={handleToggleNavigationPanel}
-        />
-
+        {!storyComments.isFocused && (
+          <>
+            <NavigationPanel  
+              isExpanded={navigation.isExpanded}
+              initialSelectedItemId={initialStoryListModeId}
+              onTogglePanel={handleToggleNavigationPanel}
+            />
+            <StoryListPanel 
+              storyListModeId={navigation.storyListModeId} 
+              onToggleNavigationPanel={handleToggleNavigationPanel}
+            />
+          </>
+        )}
         <StoryCommentsPanel 
           isExpanded={storyComments.isExpanded}
           isFocused={storyComments.isFocused}

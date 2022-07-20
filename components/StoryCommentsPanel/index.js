@@ -10,10 +10,16 @@ import { viewport } from "../../styles/styledConstants";
 
 //#region styles
 const StyledStoryCommentsPanel = styled.section`
-  position: relative;
+  /* position: relative; */
   display: grid;
   grid-template-rows: auto 1fr;
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  background: rgb(246, 246, 239);
   overflow-y: auto;
+  transform: translateX(${({isExpanded}) => isExpanded ? '0' : '100%'});
+  transition: transform 200ms ease-in-out;
 `;
 const StyledStoryCommentsHeader = styled.header``;
 const StyledStoryCommentsContent = styled.main`
@@ -76,50 +82,45 @@ const StyledStoryCommentsItem = styled.li`
 `;
 //#endregion
 
-const StoryCommentsPanel = ({ isExpanded, isFocused, storyCommentsId, onTogglePanel }) => {
+const StoryCommentsPanel = ({ isExpanded, isFocused, storyCommentsId }) => {
   const { isLoading, isError, data: storyCommentsData, error } = useQuery(
     ['storycommentsdata', storyCommentsId], 
     () => getStoryCommentsData(storyCommentsId),
     reactQueryParams
   );
 
-  if (isLoading) {
-    return (
-      <StyledStoryCommentsPanel data-loading>
-        Loading story...
-      </StyledStoryCommentsPanel>
-    );
-  }
-  if (isError) {
-    return (
-      <StyledStoryCommentsPanel data-error>
+  return (
+    <StyledStoryCommentsPanel 
+      isExpanded={isExpanded}
+      data-loading={isLoading ? null : undefined}
+      data-error={isError ? null : undefined}
+    >
+      {isLoading && ('Loading story...')}
+      {isError && (
         <p>Loading Story #{storyCommentsId} error: {error.message}</p>
-      </StyledStoryCommentsPanel>
-    )
-  }
+      )}
 
-  return storyCommentsData && (
-    <StyledStoryCommentsPanel>
-      {/* header with: back button (close story), full screen, story urls */}
-      <StoryCommentsHeader 
-        title={storyCommentsData.title}
-        isExpanded={isExpanded}
-        isFocused={isFocused}
-        onTogglePanel={onTogglePanel}
-      />
-
-      <StoryCommentsContent {...storyCommentsData} />
+      {storyCommentsData && (
+        <>
+          <StoryCommentsHeader 
+            title={storyCommentsData.title}
+            isExpanded={isExpanded}
+            isFocused={isFocused}
+          />
+          <StoryCommentsContent {...storyCommentsData} />
+        </>
+      )}
     </StyledStoryCommentsPanel>
   );
 }
 
-const StoryCommentsHeader = ({ title, isExpanded, isFocused, onTogglePanel }) => {
+const StoryCommentsHeader = ({ title, isExpanded, isFocused }) => {
   const router = useRouter();
 
   const handleTogglePanel = () => {
     if (isFocused) {
       const { 
-        [QUERY_KEY.IS_STORY_COMMENTS_FOCUSED]: focused, 
+        [QUERY_KEY.IS_STORY_COMMENTS_FOCUSED]: focused,
         ...newRouterQuery 
       } = router.query;
       router.replace(
@@ -128,7 +129,15 @@ const StoryCommentsHeader = ({ title, isExpanded, isFocused, onTogglePanel }) =>
         { shallow: true }
       );
     } else if (isExpanded) {
-      onTogglePanel();
+      const { 
+        [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: expanded,
+        ...newRouterQuery 
+      } = router.query;
+      router.push(
+        { query: newRouterQuery }, 
+        undefined, 
+        { shallow: true }
+      );
     }
   }
 
@@ -183,6 +192,7 @@ const StoryCommentsList = ({ storyCommentsListData }) => {
   if (!storyCommentsListData) {
     return null;
   }
+
   return (
     <StyledStoryCommentsList>
       {storyCommentsListData.map((storyCommentItemData) =>

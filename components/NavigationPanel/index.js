@@ -4,11 +4,31 @@ import { handleOnKeyDown } from "../../utils";
 import { NAVIGATION_ITEMS, QUERY_KEY } from "../../utils/constants";
 
 //#region styles
-const StyledNavigationPanel = styled.section``;
+const StyledNavigationPanel = styled.section`
+  position: fixed;
+  z-index: 1000;
+  inset: 0 auto 0 0;
+  width: 80%;
+  min-width: 120px;
+  max-width: 300px;
+  background: rgb(246, 246, 239);
+  overflow-y: auto;
+  transform: translateX(${({isExpanded}) => !isExpanded ? '-110%' : '0'});
+  transition: transform 200ms ease-in-out;
+`;
+const StyledNavigationPanelOverlay = styled.div`
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  opacity: ${({isExpanded}) => !isExpanded ? '0' : '1' };
+  transform: translateX(${({isExpanded}) => !isExpanded ? '-110%' : '0'});
+  transition: opacity 200ms ease-in-out;
+`;
+
 const StyledNavigationToggle = styled.button`
   border: none;
   padding: 10px 3px;
-  background: ${({isExpanded}) => isExpanded ? 'red' : 'none'};
   cursor: pointer;
 `;
 const StyledNavigationList = styled.ul`
@@ -38,13 +58,19 @@ const StyledNavigationItem = styled.li`
 
 const NavigationPanel = ({ isExpanded, initialSelectedItemId, onTogglePanel, }) => {
   return (
-    <StyledNavigationPanel>
-      <NavigationToggle 
+    <>
+      <StyledNavigationPanelOverlay 
         isExpanded={isExpanded} 
-        onTogglePanel={onTogglePanel} 
+        onClick={onTogglePanel}
       />
-      <NavigationList initialSelectedItemId={initialSelectedItemId} />
-    </StyledNavigationPanel>
+      <StyledNavigationPanel isExpanded={isExpanded}>
+        <NavigationToggle 
+          isExpanded={isExpanded} 
+          onTogglePanel={onTogglePanel} 
+        />
+        <NavigationList initialSelectedItemId={initialSelectedItemId} />
+      </StyledNavigationPanel>
+    </>
   );
 }
 
@@ -54,7 +80,7 @@ const NavigationToggle = ({ isExpanded, onTogglePanel }) => (
     isExpanded={isExpanded}
     onClick={onTogglePanel}
   >
-    toggle
+    toggle {isExpanded ? 'Expanded' : 'Retracted'}
   </StyledNavigationToggle>
 );
 

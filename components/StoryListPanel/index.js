@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 
 //#region styles
 const StyledStoryListPanel = styled.section`
-  position: relative;
+  /* position: relative; */
   display: grid;
   grid-template-rows: auto 1fr;
   overflow-y: auto;
@@ -80,7 +80,10 @@ const StoryListPanel = ({ storyListModeId, onToggleNavigationPanel }) => {
   return (
     <StyledStoryListPanel>
       {/* header w/ nav toggle */}
-      <StoryListHeader storyListModeId={storyListModeId} />
+      <StoryListHeader 
+        storyListModeId={storyListModeId} 
+        onToggleNavigationPanel={onToggleNavigationPanel} 
+      />
 
       {/* story list */}
       <StoryListContent storyListModeId={storyListModeId} />
@@ -88,10 +91,16 @@ const StoryListPanel = ({ storyListModeId, onToggleNavigationPanel }) => {
   );
 }
 
-const StoryListHeader = ({ storyListModeId }) => {
+const StoryListHeader = ({ storyListModeId, onToggleNavigationPanel }) => {
   const listModeName = getNavigationItemByStoryListId(storyListModeId)?.label
   return (
     <StyledStoryListHeader>
+      <button
+        type='button'
+        onClick={onToggleNavigationPanel}
+      >
+        toggle nav
+      </button>
       {listModeName}
     </StyledStoryListHeader>
   );
@@ -162,7 +171,7 @@ const StoryList = ({ storyListData }) => {
   )
 }
 
-const StoryItem = ({ storyItemData, onStoryItemClick }) => {
+const StoryItem = ({ storyItemData }) => {
   const { isLoading, isError, data: storyData, error } = useQuery(
     ['storydata', storyItemData.id], 
     () => getStoryData(storyItemData.id),
@@ -203,6 +212,7 @@ const StoryItem = ({ storyItemData, onStoryItemClick }) => {
       { query: { 
         ...router.query,
         [QUERY_KEY.STORY_COMMENTS_ID]: id, 
+        [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: true,
       }}, 
       undefined, 
       { shallow: true }
