@@ -9,7 +9,6 @@ import StoryCommentsPanel from "../components/StoryCommentsPanel";
 import { parseStoryListModeId } from "../utils/fetchApi";
 import { NAVIGATION_ACTION, QUERY_KEY, STORYCOMMENTS_ACTION } from "../utils/constants";
 import { viewport } from "../styles/styledConstants";
-import { StoryCommentsContext } from "../contexts/storyComments";
 
 //#region styles
 const StyledAppContainer = styled.div`
