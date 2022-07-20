@@ -107,6 +107,23 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
     }
   );
 
+  // remove expansion flags on first mount
+  useEffect(() => {
+    const {
+      [QUERY_KEY.IS_NAVIGATION_EXPANDED]: isExpanded,
+      [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: isStoryCommentsExpanded,
+      ...cleanedQuery
+    } = router.query;
+    if (isExpanded || isStoryCommentsExpanded) {
+      router.replace(
+        { query: cleanedQuery},
+        undefined, 
+        { shallow: true }
+      )
+    }
+  }, [])
+
+  // handle navigation panel expansion and set new storylistid
   useEffect(() => {
     const { 
       [QUERY_KEY.STORY_MODE]: newStoryListModeId, 
@@ -128,6 +145,7 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
     }
   }, [router.query, navigation.storyListModeId, navigation.isExpanded])
 
+  // handle story comments panel expansion and set new stroycommentsid
   useEffect(() => {
     const { 
       [QUERY_KEY.STORY_COMMENTS_ID]: newStoryCommentsId, 
@@ -148,6 +166,7 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
     }
   }, [router.query, storyComments.id])
 
+  // handle story comments panel focused state
   useEffect(() => {
     const { 
       [QUERY_KEY.IS_STORY_COMMENTS_FOCUSED]: isStoryCommentsFocused,
@@ -157,7 +176,6 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
       dispatchStoryComments({
         type: STORYCOMMENTS_ACTION.DISABLE_FOCUS,
       }); 
-      console.log('useeffect focused')
     }
   }, [router.query, storyComments.isFocused])
 
