@@ -6,8 +6,6 @@ import NavigationPanel from "../components/NavigationPanel";
 import StoryListPanel from "../components/StoryListPanel";
 import StoryCommentsPanel from "../components/StoryCommentsPanel";
 
-import { StoryCommentsContext } from "../contexts/storyComments";
-
 import { parseStoryListModeId } from "../utils/fetchApi";
 import { NAVIGATION_ACTION, QUERY_KEY, STORYCOMMENTS_ACTION } from "../utils/constants";
 import { viewport } from "../styles/styledConstants";
@@ -136,29 +134,27 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
   const handleToggleStoryCommentsPanel = () => dispatchStoryComments({ type: STORYCOMMENTS_ACTION.TOGGLE_EXPANSION });
 
   return (  
-    <StoryCommentsContext.Provider value={null}>
-      <StyledAppContainer>
-        <StyledAppLayout>
-          <NavigationPanel  
-            isExpanded={navigation.isExpanded}
-            initialSelectedItemId={initialStoryListModeId}
-            onTogglePanel={handleToggleNavigationPanel}
-          />
+    <StyledAppContainer>
+      <StyledAppLayout>
+        <NavigationPanel  
+          isExpanded={navigation.isExpanded}
+          initialSelectedItemId={initialStoryListModeId}
+          onTogglePanel={handleToggleNavigationPanel}
+        />
 
-          <StoryListPanel 
-            storyListModeId={navigation.storyListModeId} 
-            onToggleNavigationPanel={handleToggleNavigationPanel}
-          />
+        <StoryListPanel 
+          storyListModeId={navigation.storyListModeId} 
+          onToggleNavigationPanel={handleToggleNavigationPanel}
+        />
 
-          <StoryCommentsPanel 
-            isExpanded={storyComments.isExpanded}
-            isFocused={storyComments.isFocused}
-            storyCommentsId={storyComments.id} 
-            onTogglePanel={handleToggleStoryCommentsPanel}
-          />
-        </StyledAppLayout>
-      </StyledAppContainer>
-    </StoryCommentsContext.Provider>
+        <StoryCommentsPanel 
+          isExpanded={storyComments.isExpanded}
+          isFocused={storyComments.isFocused}
+          storyCommentsId={storyComments.id} 
+          onTogglePanel={handleToggleStoryCommentsPanel}
+        />
+      </StyledAppLayout>
+    </StyledAppContainer>
   );
 }
 

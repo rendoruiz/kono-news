@@ -1,8 +1,9 @@
 
 import { useQuery } from "react-query";
+import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 
-import { reactQueryParams } from "../../utils/constants";
+import { QUERY_KEY, reactQueryParams } from "../../utils/constants";
 import { getStoryCommentsData } from "../../utils/fetchApi";
 import { getUrlHostname, sanitizeHtmlLinks } from "../../utils";
 import { viewport } from "../../styles/styledConstants";
@@ -101,7 +102,10 @@ const StoryCommentsPanel = ({ isExpanded, isFocused, storyCommentsId, onTogglePa
     <StyledStoryCommentsPanel>
       {/* header with: back button (close story), full screen, story urls */}
       <StoryCommentsHeader 
-        id={storyCommentsId} 
+        title={storyCommentsData.title}
+        isExpanded={isExpanded}
+        isFocused={isFocused}
+        onTogglePanel={onTogglePanel}
       />
 
       <StoryCommentsContent {...storyCommentsData} />
@@ -109,17 +113,39 @@ const StoryCommentsPanel = ({ isExpanded, isFocused, storyCommentsId, onTogglePa
   );
 }
 
-const StoryCommentsHeader = ({ 
-  id, 
-  title, 
-  url, 
-  author, 
-}) => {
+const StoryCommentsHeader = ({ title, isExpanded, isFocused, onTogglePanel }) => {
+  const router = useRouter();
+
+  const handleTogglePanel = () => {
+    if (isFocused) {
+      const { 
+        [QUERY_KEY.IS_STORY_COMMENTS_FOCUSED]: focused, 
+        ...newRouterQuery 
+      } = router.query;
+      router.replace(
+        { query: newRouterQuery }, 
+        undefined, 
+        { shallow: true }
+      );
+    } else if (isExpanded) {
+      onTogglePanel();
+    }
+  }
+
   return (
     <StyledStoryCommentsHeader>
-      <h1>{id}</h1>
+      {(isExpanded || isFocused) && (
+        <button
+          type='button'
+          onClick={handleTogglePanel}
+        >
+          { isExpanded && 'expanded' }
+          { isFocused && 'focused' }
+        </button>
+      )}
+      <h1>{title}</h1>
     </StyledStoryCommentsHeader>
-  )
+  );
 }
 
 const StoryCommentsContent = ({ id, author, created_at_i: time, url, title, text, children }) => {
