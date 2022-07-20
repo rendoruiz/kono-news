@@ -89,8 +89,6 @@ const StoryCommentsPanel = ({ isExpanded, isFocused, storyCommentsId, onTogglePa
       </StyledStoryCommentsPanel>
     );
   }
-
-
   if (isError) {
     return (
       <StyledStoryCommentsPanel data-error>
@@ -159,7 +157,6 @@ const StoryCommentsList = ({ storyCommentsListData }) => {
   if (!storyCommentsListData) {
     return null;
   }
-
   return (
     <StyledStoryCommentsList>
       {storyCommentsListData.map((storyCommentItemData) =>
@@ -172,6 +169,7 @@ const StoryCommentsList = ({ storyCommentsListData }) => {
   
   );
 } 
+
 const StoryCommentItem = ({ 
   id, 
   author, 

@@ -104,9 +104,6 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
     }
   );
 
-  const handleStoryCommentsIdChange = (newStoryCommentsId) => {
-  };
-
   useEffect(() => {
     const { 
       [QUERY_KEY.STORY_MODE]: newStoryListModeId, 
