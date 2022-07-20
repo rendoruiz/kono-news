@@ -183,8 +183,6 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
         { shallow: true }
       );
     }
-    console.log(navigation.isExpanded);
-    // dispatchNavigation({ type: NAVIGATION_ACTION.TOGGLE_EXPANSION })
   };
 
   return (  
