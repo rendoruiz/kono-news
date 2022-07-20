@@ -126,7 +126,7 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
     } else {
       dispatchNavigation({ type: NAVIGATION_ACTION.RETRACT_PANEL })
     }
-  }, [router.query, navigation.storyCommentsId, navigation.isExpanded])
+  }, [router.query, navigation.storyListModeId, navigation.isExpanded])
 
   useEffect(() => {
     const { 
