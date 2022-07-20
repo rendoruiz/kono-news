@@ -161,50 +161,6 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
     }
   }, [router.query, storyComments.isFocused])
 
-  // useEffect(() => {
-  //   const { 
-  //     [QUERY_KEY.STORY_MODE]: newStoryListModeId, 
-  //     [QUERY_KEY.STORY_COMMENTS_ID]: newStoryCommentsId, 
-  //     [QUERY_KEY.IS_STORY_COMMENTS_FOCUSED]: isStoryCommentsFocused,
-  //     [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: isStoryCommentsExpanded,
-  //   } = router.query;
-
-  //   // navigation panel | story list mode
-  //   if (newStoryListModeId && newStoryListModeId !== navigation.storyListModeId) {
-  //     const parsedId = parseStoryListModeId(newStoryListModeId)
-  //     dispatchNavigation({
-  //       type: NAVIGATION_ACTION.SET_ID,
-  //       storyListModeId: parsedId,
-  //     })
-  //   }
-  //   // story comments panel
-  //   // oldId === newId && expanded
-  //   if (isStoryCommentsExpanded) {
-  //     if (newStoryCommentsId && newStoryCommentsId !== storyComments.id) {
-  //       dispatchStoryComments({
-  //         type: STORYCOMMENTS_ACTION.SET_ID,
-  //         id: newStoryCommentsId,
-  //       });
-  //     } else if (newStoryCommentsId && newStoryCommentsId === storyComments.id) {
-  //       dispatchStoryComments({
-  //         type: STORYCOMMENTS_ACTION.EXPAND_PANEL,
-  //       });
-  //     }
-  //   } else {
-  //     dispatchStoryComments({
-  //       type: STORYCOMMENTS_ACTION.RETRACT_PANEL,
-  //     });
-  //   }
-  //   // story comments panel | isFocused
-  //   if (isStoryCommentsFocused === undefined && storyComments.isFocused) {
-  //     dispatchStoryComments({
-  //       type: STORYCOMMENTS_ACTION.DISABLE_FOCUS,
-  //     });
-  //   }
-  //   console.log(router.query)
-  //   console.log('app useeffect')
-  // }, [router.query]);
-
   const handleToggleNavigationPanel = () => {
     console.log('isexpanded: ' + navigation.isExpanded)
     const {
