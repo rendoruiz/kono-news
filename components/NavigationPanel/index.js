@@ -101,9 +101,13 @@ const NavigationItem = ({ navigationItemData, initialSelectedItem }) => {
   const controlId = 'nav-item-' + navigationItemData.id;
 
   const handleNavigationChange = () => {
-    router.push(
+    const { 
+      [QUERY_KEY.IS_NAVIGATION_EXPANDED]: isNavOpen, 
+      ...newRouterQuery
+    } = router.query
+    router.replace(
       { query: { 
-        ...router.query,
+        ...newRouterQuery,
         [QUERY_KEY.STORY_MODE]: navigationItemData.id, 
       }}, 
       undefined, 

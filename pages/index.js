@@ -40,10 +40,15 @@ const navigationReducer = (state, action) => {
           ? action.storyListModeId 
           : state.storyCommentsId,
       };
-    case NAVIGATION_ACTION.TOGGLE_EXPANSION: 
+    case NAVIGATION_ACTION.EXPAND_PANEL: 
       return {
         ...state, 
-        isExpanded: !state.isExpanded,
+        isExpanded: true,
+      };
+    case NAVIGATION_ACTION.RETRACT_PANEL: 
+      return {
+        ...state, 
+        isExpanded: false,
       };
     default:
       throw new Error();
@@ -105,51 +110,126 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
   useEffect(() => {
     const { 
       [QUERY_KEY.STORY_MODE]: newStoryListModeId, 
-      [QUERY_KEY.STORY_COMMENTS_ID]: newStoryCommentsId, 
-      [QUERY_KEY.IS_STORY_COMMENTS_FOCUSED]: isStoryCommentsFocused,
-      [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: isStoryCommentsExpanded,
+      [QUERY_KEY.IS_NAVIGATION_EXPANDED]: isExpanded,
     } = router.query;
 
-    // navigation panel | story list mode
-    if (newStoryListModeId && newStoryListModeId != navigation.storyListModeId) {
-      const parsedId = parseStoryListModeId(newStoryListModeId)
-      dispatchNavigation({
-        type: NAVIGATION_ACTION.SET_ID,
-        storyListModeId: parsedId,
-      })
+    if (isExpanded) {
+      if (newStoryListModeId && newStoryListModeId !== navigation.storyListModeId) {
+        const parsedId = parseStoryListModeId(newStoryListModeId)
+        dispatchNavigation({
+          type: NAVIGATION_ACTION.SET_ID,
+          storyListModeId: parsedId,
+        })
+      } else {
+        dispatchNavigation({ type: NAVIGATION_ACTION.EXPAND_PANEL })
+      }
+    } else {
+      dispatchNavigation({ type: NAVIGATION_ACTION.RETRACT_PANEL })
     }
-    // story comments panel
-    // oldId === newId && expanded
+  }, [router.query, navigation.storyCommentsId, navigation.isExpanded])
+
+  useEffect(() => {
+    const { 
+      [QUERY_KEY.STORY_COMMENTS_ID]: newStoryCommentsId, 
+      [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: isStoryCommentsExpanded,
+    } = router.query;
+    
     if (isStoryCommentsExpanded) {
       if (newStoryCommentsId && newStoryCommentsId !== storyComments.id) {
         dispatchStoryComments({
           type: STORYCOMMENTS_ACTION.SET_ID,
           id: newStoryCommentsId,
         });
-      } else if (newStoryCommentsId && newStoryCommentsId === storyComments.id) {
-        dispatchStoryComments({
-          type: STORYCOMMENTS_ACTION.EXPAND_PANEL,
-        });
+      } else {
+        dispatchStoryComments({ type: STORYCOMMENTS_ACTION.EXPAND_PANEL });
       }
     } else {
-      dispatchStoryComments({
-        type: STORYCOMMENTS_ACTION.RETRACT_PANEL,
-      });
+      dispatchStoryComments({ type: STORYCOMMENTS_ACTION.RETRACT_PANEL });
     }
-    // story comments panel | isFocused
+  }, [router.query, storyComments.id])
+
+  useEffect(() => {
+    const { 
+      [QUERY_KEY.IS_STORY_COMMENTS_FOCUSED]: isStoryCommentsFocused,
+    } = router.query;
+
     if (isStoryCommentsFocused === undefined && storyComments.isFocused) {
       dispatchStoryComments({
         type: STORYCOMMENTS_ACTION.DISABLE_FOCUS,
-      });
+      }); 
+      console.log('useeffect focused')
     }
-    // console.log(router.query)
-  }, [router.query]);
+  }, [router.query, storyComments.isFocused])
+
+  // useEffect(() => {
+  //   const { 
+  //     [QUERY_KEY.STORY_MODE]: newStoryListModeId, 
+  //     [QUERY_KEY.STORY_COMMENTS_ID]: newStoryCommentsId, 
+  //     [QUERY_KEY.IS_STORY_COMMENTS_FOCUSED]: isStoryCommentsFocused,
+  //     [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: isStoryCommentsExpanded,
+  //   } = router.query;
+
+  //   // navigation panel | story list mode
+  //   if (newStoryListModeId && newStoryListModeId !== navigation.storyListModeId) {
+  //     const parsedId = parseStoryListModeId(newStoryListModeId)
+  //     dispatchNavigation({
+  //       type: NAVIGATION_ACTION.SET_ID,
+  //       storyListModeId: parsedId,
+  //     })
+  //   }
+  //   // story comments panel
+  //   // oldId === newId && expanded
+  //   if (isStoryCommentsExpanded) {
+  //     if (newStoryCommentsId && newStoryCommentsId !== storyComments.id) {
+  //       dispatchStoryComments({
+  //         type: STORYCOMMENTS_ACTION.SET_ID,
+  //         id: newStoryCommentsId,
+  //       });
+  //     } else if (newStoryCommentsId && newStoryCommentsId === storyComments.id) {
+  //       dispatchStoryComments({
+  //         type: STORYCOMMENTS_ACTION.EXPAND_PANEL,
+  //       });
+  //     }
+  //   } else {
+  //     dispatchStoryComments({
+  //       type: STORYCOMMENTS_ACTION.RETRACT_PANEL,
+  //     });
+  //   }
+  //   // story comments panel | isFocused
+  //   if (isStoryCommentsFocused === undefined && storyComments.isFocused) {
+  //     dispatchStoryComments({
+  //       type: STORYCOMMENTS_ACTION.DISABLE_FOCUS,
+  //     });
+  //   }
+  //   console.log(router.query)
+  //   console.log('app useeffect')
+  // }, [router.query]);
 
   const handleToggleNavigationPanel = () => {
+    console.log('isexpanded: ' + navigation.isExpanded)
+    const {
+      [QUERY_KEY.IS_NAVIGATION_EXPANDED]: isExpanded,
+      ...newRouterQuery
+    } = router.query;
+    if (navigation.isExpanded) {
+      router.replace(
+        { query: newRouterQuery}, 
+        undefined, 
+        { shallow: true }
+      );
+    } else {
+      router.push(
+        { query: {
+          ...newRouterQuery,
+          [QUERY_KEY.IS_NAVIGATION_EXPANDED]: true,
+        }}, 
+        undefined, 
+        { shallow: true }
+      );
+    }
     console.log(navigation.isExpanded);
-    dispatchNavigation({ type: NAVIGATION_ACTION.TOGGLE_EXPANSION })
+    // dispatchNavigation({ type: NAVIGATION_ACTION.TOGGLE_EXPANSION })
   };
-  const handleToggleStoryCommentsPanel = () => dispatchStoryComments({ type: STORYCOMMENTS_ACTION.RETRACT_PANEL });
 
   return (  
     <StyledAppContainer>
@@ -171,7 +251,6 @@ const AppDashboard = ({ queryString, initialStoryListModeId, initialStoryComment
           isExpanded={storyComments.isExpanded}
           isFocused={storyComments.isFocused}
           storyCommentsId={storyComments.id} 
-          onTogglePanel={handleToggleStoryCommentsPanel}
         />
       </StyledAppLayout>
     </StyledAppContainer>

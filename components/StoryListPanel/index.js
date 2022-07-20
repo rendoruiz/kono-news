@@ -172,6 +172,7 @@ const StoryList = ({ storyListData }) => {
 }
 
 const StoryItem = ({ storyItemData }) => {
+  const router = useRouter();
   const { isLoading, isError, data: storyData, error } = useQuery(
     ['storydata', storyItemData.id], 
     () => getStoryData(storyItemData.id),
@@ -193,8 +194,6 @@ const StoryItem = ({ storyItemData }) => {
       </StyledStoryItem>
     )
   }
-
-  const router = useRouter();
 
   const {
     id,

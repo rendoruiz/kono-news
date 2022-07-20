@@ -133,7 +133,7 @@ const StoryCommentsHeader = ({ title, isExpanded, isFocused }) => {
         [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: expanded,
         ...newRouterQuery 
       } = router.query;
-      router.push(
+      router.replace(
         { query: newRouterQuery }, 
         undefined, 
         { shallow: true }
