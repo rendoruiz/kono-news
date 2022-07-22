@@ -1,91 +1,38 @@
-import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { handleOnKeyDown } from "../../utils";
 import { NAVIGATION_ITEMS, QUERY_KEY } from "../../utils/constants";
-
-//#region styles
-const StyledNavigationPanel = styled.section`
-  position: fixed;
-  z-index: 1000;
-  inset: 0 auto 0 0;
-  width: 80%;
-  min-width: 120px;
-  max-width: 300px;
-  background: rgb(246, 246, 239);
-  overflow-y: auto;
-  transform: translateX(${({isExpanded}) => !isExpanded ? '-110%' : '0'});
-  transition: transform 200ms ease-in-out;
-`;
-const StyledNavigationPanelOverlay = styled.div`
-  position: fixed;
-  z-index: 1000;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  opacity: ${({isExpanded}) => !isExpanded ? '0' : '1' };
-  transform: translateX(${({isExpanded}) => !isExpanded ? '-110%' : '0'});
-  transition: opacity 200ms ease-in-out;
-`;
-
-const StyledNavigationToggle = styled.button`
-  border: none;
-  padding: 10px 3px;
-  cursor: pointer;
-`;
-const StyledNavigationList = styled.ul`
-  display: grid;
-`;
-const StyledNavigationItem = styled.li`
-  display: flex;
-  position: relative;
-
-  label {
-    flex: 1;
-    padding: 10px 3px;
-    cursor: pointer;
-  }
-
-  input[type="radio"] {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  input[type="radio"]:checked + label {
-    background: rgba(0,0,0,0.25);
-  }
-`;
-//#endregion
+import * as Styled from "./styles";
 
 const NavigationPanel = ({ isExpanded, initialSelectedItemId, onTogglePanel, }) => {
   return (
     <>
-      <StyledNavigationPanelOverlay 
+      <Styled.NavigationPanelOverlay 
         isExpanded={isExpanded} 
         onClick={onTogglePanel}
       />
-      <StyledNavigationPanel isExpanded={isExpanded}>
+      <Styled.NavigationPanel isExpanded={isExpanded}>
         <NavigationToggle 
           isExpanded={isExpanded} 
           onTogglePanel={onTogglePanel} 
         />
         <NavigationList initialSelectedItemId={initialSelectedItemId} />
-      </StyledNavigationPanel>
+      </Styled.NavigationPanel>
     </>
   );
 }
 
 const NavigationToggle = ({ isExpanded, onTogglePanel }) => (
-  <StyledNavigationToggle 
+  <Styled.NavigationToggle 
     type='button'
     isExpanded={isExpanded}
     onClick={onTogglePanel}
   >
     toggle {isExpanded ? 'Expanded' : 'Retracted'}
-  </StyledNavigationToggle>
+  </Styled.NavigationToggle>
 );
 
 const NavigationList = ({ initialSelectedItemId }) => (
-  <StyledNavigationList>
+  <Styled.NavigationList>
     {NAVIGATION_ITEMS.map((navigationItemData) => (
       <NavigationItem
         key={navigationItemData.label}
@@ -93,7 +40,7 @@ const NavigationList = ({ initialSelectedItemId }) => (
         initialSelectedItem={navigationItemData.id === initialSelectedItemId ? true : undefined}
       />
     ))}
-  </StyledNavigationList>
+  </Styled.NavigationList>
 );
 
 const NavigationItem = ({ navigationItemData, initialSelectedItem }) => {
@@ -116,7 +63,7 @@ const NavigationItem = ({ navigationItemData, initialSelectedItem }) => {
   }
   
   return (
-    <StyledNavigationItem>
+    <Styled.NavigationItem>
       <input 
         type="radio" 
         name='navigation-item' 
@@ -130,7 +77,7 @@ const NavigationItem = ({ navigationItemData, initialSelectedItem }) => {
       >
         {navigationItemData.label}
       </label>
-    </StyledNavigationItem>
+    </Styled.NavigationItem>
   )
 }
 
