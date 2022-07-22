@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { DefaultIconStyle, transitionFunction } from "../../styles/styledConstants";
+import { DefaultIconStyle, primaryColor, secondaryColor, transitionFunction } from "../../styles/styledConstants";
 
 /*
   === Structure ====
@@ -14,10 +14,11 @@ export const NavigationPanel = styled.section`
   position: fixed;
   z-index: 1000;
   inset: 0 auto 0 0;
+  padding: 4px;
   width: 80%;
   min-width: 120px;
   max-width: 300px;
-  background: rgb(246, 246, 239);
+  background: ${secondaryColor};
   overflow-y: auto;
   transform: translateX(${({isExpanded}) => !isExpanded ? '-110%' : '0'});
   transition-property: transform;
@@ -35,13 +36,9 @@ export const NavigationPanelOverlay = styled.div`
   cursor: pointer;
 `;
 
-export const NavigationToggle = styled.button`
-  border: none;
-  padding: 10px 3px;
-  cursor: pointer;
-`;
 export const NavigationList = styled.ul`
   display: grid;
+  padding: 5px 0;
 `;
 export const NavigationItem = styled.li`
   display: flex;
@@ -51,13 +48,14 @@ export const NavigationItem = styled.li`
     flex: 1;
     display: flex;
     align-items: center;
-    padding: 5px 3px;
+    border-radius: 4px;
+    padding: 5px 3px 5px 0;
     user-select: none;
     cursor: pointer;
     
     span {
-      margin-left: 6px;
-    line-height: 1;
+      margin-left: 4px;
+      line-height: 1;
     }
   }
 
@@ -67,7 +65,18 @@ export const NavigationItem = styled.li`
     pointer-events: none;
 
     &:checked + label {
-      background: rgba(0,0,0,0.25);
+      background: rgba(0,0,0,0.10);
+    }
+    &:checked + label::before {
+      content: ' ';
+      position: absolute;
+      inset: 0 auto 0 0;
+      border-radius: 4px;
+      margin: auto 0;
+      width: 3px;
+      height: 50%;
+      background: ${primaryColor};
+      pointer-events: none;
     }
   }
 `;

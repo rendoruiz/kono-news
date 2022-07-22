@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
-import { viewport } from "../../styles/styledConstants";
+import { secondaryColor, viewport } from "../../styles/styledConstants";
 
 export const AppContainer = styled.div`
-  background-color: rgb(246, 246, 239);
+  background-color: ${secondaryColor};
 `;
 export const AppLayout = styled.div`
   position: relative;

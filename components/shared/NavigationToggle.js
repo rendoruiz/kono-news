@@ -6,6 +6,7 @@ import { FluentLineHorizontal3Regular } from "./FluentIcons";
 const StyledNavigationToggle = styled.button`
   ${DefaultIconStyle}
   border: 1px solid rgba(200, 200, 200, 1);
+  line-height: 0;
   cursor: pointer;
 `;
 

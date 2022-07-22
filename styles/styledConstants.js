@@ -9,15 +9,18 @@ export const viewport = {
   xxl: getMediaQuery(2560),
 }
 
+export const primaryColor = '#ff6600';
+export const secondaryColor = '#f6f6ef';
+
 export const transitionFunction = css`
-  transition-duration: 0.5s;
+  transition-duration: 0.4s;
   transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
 `;
 
 export const DefaultIconStyle = css`
   border: 1px solid transparent;
   border-radius: 4px;
-  padding: 4px 8px;
+  padding: 6px 12px;
   background: transparent;
   line-height: 1;
   transition: opacity 100ms linear;
