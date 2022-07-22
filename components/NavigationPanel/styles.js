@@ -75,7 +75,7 @@ export const NavigationItem = styled.li`
       margin: auto 0;
       width: 3px;
       height: 50%;
-      background: ${primaryColor};
+      background: ${primaryColor()};
       pointer-events: none;
     }
   }

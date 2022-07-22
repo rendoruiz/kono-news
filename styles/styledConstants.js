@@ -9,7 +9,7 @@ export const viewport = {
   xxl: getMediaQuery(2560),
 }
 
-export const primaryColor = '#ff6600';
+export const primaryColor = (opacity = 1) => `rgba(255, 102, 0, ${opacity})`;
 export const secondaryColor = '#f6f6ef';
 
 export const transitionFunction = css`

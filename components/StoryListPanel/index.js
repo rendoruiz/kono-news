@@ -26,7 +26,7 @@ const StoryListHeader = ({ storyListModeId, onToggleNavigationPanel }) => {
   return (
     <Styled.StoryListHeader>
       <NavigationToggle onClick={onToggleNavigationPanel} />
-      {listModeName}
+      <h2>{listModeName}</h2>
     </Styled.StoryListHeader>
   );
 }
@@ -47,7 +47,6 @@ const StoryListContent = ({ storyListModeId }) => {
       </Styled.StoryList>
     );
   }
-
   if (isError) {
     return (
       <Styled.StoryList data-error>
@@ -55,29 +54,31 @@ const StoryListContent = ({ storyListModeId }) => {
       </Styled.StoryList>
     );
   }
-  
-  const currentItemCount = STORIES_PER_PAGE * currentPage;
-  const isPageLimitReached = currentItemCount >= fetchedStoryIds.length
-    ? true 
-    : false;
-  const storyListData = isPageLimitReached 
-    ? fetchedStoryIds 
-    : fetchedStoryIds.slice(0, currentItemCount);
-  
-  return (
-    <Styled.StoryListContent>
-      <StoryList storyListData={storyListData} />
-      {/* story list propagation button */}
-      {!isPageLimitReached && (
-        <button 
-          type='button'
-          onClick={handlePageChange}
-        >
-          load more
-        </button>
-      )}
-    </Styled.StoryListContent>
-  );
+
+  if (fetchedStoryIds) {
+    const currentItemCount = STORIES_PER_PAGE * currentPage;
+    const isPageLimitReached = currentItemCount >= fetchedStoryIds.length
+      ? true 
+      : false;
+    const storyListData = isPageLimitReached 
+      ? fetchedStoryIds 
+      : fetchedStoryIds.slice(0, currentItemCount);
+    
+    return (
+      <Styled.StoryListContent>
+        <StoryList storyListData={storyListData} />
+        {/* story list propagation button */}
+        {!isPageLimitReached && (
+          <button 
+            type='button'
+            onClick={handlePageChange}
+          >
+            Load More
+          </button>
+        )}
+      </Styled.StoryListContent>
+    );
+  }
 }
 
 const StoryList = ({ storyListData }) => {

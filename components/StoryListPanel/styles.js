@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { viewport } from "../../styles/styledConstants";
+import { primaryColor, viewport } from "../../styles/styledConstants";
 
 /*
   === Structure ===
@@ -23,13 +23,37 @@ export const StoryListPanel = styled.section`
   grid-template-rows: auto 1fr;
   overflow-y: auto;
 `;
-export const StoryListHeader = styled.header``;
+export const StoryListHeader = styled.header`
+  display: flex;
+  align-items: center;
+  padding: 4px;
+
+  h2 {
+    margin-left: 8px;
+    font-size: 1.15em;
+    font-weight: medium;
+  }
+`;
 export const StoryListContent = styled.main`
+  padding: 4px;
   overflow-y: auto;
+
+  & > button {
+    border: none;
+    border-radius: 4px;
+    margin-top: 4px;
+    padding: 12px 4px;
+    width: 100%;
+    background: none;
+    font-size: 1em;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+  }
 `;
 export const StoryList = styled.ol`
   display: grid;
-  gap: 2px;
 `;
 export const StoryItem = styled.li`
   display: flex;
@@ -38,9 +62,13 @@ export const StoryItem = styled.li`
   label {
     flex: 1;
     border: none;
-    padding: 2px 8px;
+    padding: 6px 8px 6px 12px;
     text-align: left;
     cursor: pointer;
+  }
+
+  &:not(:last-of-type) {
+    border-bottom: 1px solid rgba(0,0,0,0.1);
   }
 
   &[data-loading] ~ [data-loader] {
@@ -55,9 +83,22 @@ export const StoryItem = styled.li`
     position: absolute;
     opacity: 0;
     pointer-events: none;
-  }
-  input[type="radio"]:checked + label {
-    background: rgba(0,0,0,0.25);
+
+    &:checked + label {
+      background: rgba(0,0,0,0.05);
+    }
+
+    &:checked + label::before {
+      content: ' ';
+      position: absolute;
+      inset: 0 auto 0 0;
+      border-radius: 4px;
+      margin: auto 0;
+      width: 3px;
+      height: 70%;
+      background: ${primaryColor()};
+      pointer-events: none;
+    }
   }
 `;
 export const StoryItemLoader = styled.li`
@@ -79,6 +120,7 @@ export const StoryUrl = styled.span`
   }
 `;
 export const StoryStats = styled.p`
+margin-top: 6px;
   font-size: 0.75em;
   opacity: 0.6;
 `;
