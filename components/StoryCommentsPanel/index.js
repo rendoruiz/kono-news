@@ -1,86 +1,11 @@
 
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
-import styled from "@emotion/styled";
 
 import { QUERY_KEY, reactQueryParams } from "../../utils/constants";
 import { getStoryCommentsData } from "../../utils/fetchApi";
 import { getUrlHostname, sanitizeHtmlLinks } from "../../utils";
-import { viewport } from "../../styles/styledConstants";
-
-//#region styles
-const StyledStoryCommentsPanel = styled.section`
-  /* position: relative; */
-  display: grid;
-  grid-template-rows: auto 1fr;
-  position: fixed;
-  z-index: 1000;
-  inset: 0;
-  background: rgb(246, 246, 239);
-  overflow-y: auto;
-  transform: translateX(${({isExpanded}) => isExpanded ? '0' : '100%'});
-  transition: transform 200ms ease-in-out;
-`;
-const StyledStoryCommentsHeader = styled.header``;
-const StyledStoryCommentsContent = styled.main`
-
-  overflow-y: auto;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  row-gap: 20px;
-`;
-const StyledStoryCommentsOriginalPost = styled.article`
-  padding: 10px;
-  + ul {
-    margin-top: 0;
-    margin-left: 0;
-    padding: 0 10px;
-  }
-  + ul::before {
-    content: none;
-  }
-`;
-const StyledStoryCommentsList = styled.ul`
-  position: relative;
-  margin-top: 16px;
-  margin-left: 10px;
-
-  ::before {
-    content: ' ';
-    position: absolute;
-    inset: 0 auto 0 -10px;
-    border-left: 1.5px solid red;
-  }
-
-  ${viewport.md} {
-    margin-left: 14px;
-
-    ::before {
-      left: -14px;
-    }
-  } 
-`;
-const StyledStoryCommentsItem = styled.li`
-  > header {
-    font-size: 0.8em;
-    letter-spacing: 0.5px;
-  }
-  > main > div {
-    display: grid;
-    align-content: flex-start;
-    margin-top: 4px;
-    font-size: 0.9em;
-  }
-  &[data-deleted] > main > div {
-    opacity: 0.6;
-    font-style: italic;
-  }
-
-  /* > main > div pre {
-    justify-self: flex-start;
-  } */
-`;
-//#endregion
+import * as Styled from "./styles";
 
 const StoryCommentsPanel = ({ isExpanded, isFocused, storyCommentsId }) => {
   const { isLoading, isError, data: storyCommentsData, error } = useQuery(
@@ -90,7 +15,7 @@ const StoryCommentsPanel = ({ isExpanded, isFocused, storyCommentsId }) => {
   );
 
   return (
-    <StyledStoryCommentsPanel 
+    <Styled.StoryCommentsPanel 
       isExpanded={isExpanded}
       data-loading={isLoading ? null : undefined}
       data-error={isError ? null : undefined}
@@ -110,7 +35,7 @@ const StoryCommentsPanel = ({ isExpanded, isFocused, storyCommentsId }) => {
           <StoryCommentsContent {...storyCommentsData} />
         </>
       )}
-    </StyledStoryCommentsPanel>
+    </Styled.StoryCommentsPanel>
   );
 }
 
@@ -142,7 +67,7 @@ const StoryCommentsHeader = ({ title, isExpanded, isFocused }) => {
   }
 
   return (
-    <StyledStoryCommentsHeader>
+    <Styled.StoryCommentsHeader>
       {(isExpanded || isFocused) && (
         <button
           type='button'
@@ -153,7 +78,7 @@ const StoryCommentsHeader = ({ title, isExpanded, isFocused }) => {
         </button>
       )}
       <h1>{title}</h1>
-    </StyledStoryCommentsHeader>
+    </Styled.StoryCommentsHeader>
   );
 }
 
@@ -162,8 +87,8 @@ const StoryCommentsContent = ({ id, author, created_at_i: time, url, title, text
   const urlHostname = getUrlHostname(url);
 
   return (
-    <StyledStoryCommentsContent>
-      <StyledStoryCommentsOriginalPost>
+    <Styled.StoryCommentsContent>
+      <Styled.StoryCommentsOriginalPost>
         <header>
           <h2>{title}</h2>
           <p>{id} | {author} | {time}&nbsp;
@@ -175,7 +100,7 @@ const StoryCommentsContent = ({ id, author, created_at_i: time, url, title, text
           </p>
         </header>
         <main dangerouslySetInnerHTML={{ __html: decodedHtml }}></main>
-      </StyledStoryCommentsOriginalPost>
+      </Styled.StoryCommentsOriginalPost>
 
       {/* story comments list */}
       {children.length === 0 ? (
@@ -183,7 +108,7 @@ const StoryCommentsContent = ({ id, author, created_at_i: time, url, title, text
       ) : (
         <StoryCommentsList storyCommentsListData={children} />
       )}
-    </StyledStoryCommentsContent>
+    </Styled.StoryCommentsContent>
   )
 
 }
@@ -194,14 +119,14 @@ const StoryCommentsList = ({ storyCommentsListData }) => {
   }
 
   return (
-    <StyledStoryCommentsList>
+    <Styled.StoryCommentsList>
       {storyCommentsListData.map((storyCommentItemData) =>
         <StoryCommentItem
           key={storyCommentItemData.id}
           {...storyCommentItemData}
         />
       )}
-    </StyledStoryCommentsList>
+    </Styled.StoryCommentsList>
   
   );
 } 
@@ -220,7 +145,7 @@ const StoryCommentItem = ({
 
   const decodedHtml = text ? sanitizeHtmlLinks(text) : null;
   return (
-    <StyledStoryCommentsItem data-deleted={decodedHtml ? undefined : ""}>
+    <Styled.StoryCommentsItem data-deleted={decodedHtml ? undefined : ""}>
       <header>
         <p>{id} | {author} | {time}</p>
       </header>
@@ -236,7 +161,7 @@ const StoryCommentItem = ({
           <StoryCommentsList storyCommentsListData={children} />
         )}
       </main>
-    </StyledStoryCommentsItem>
+    </Styled.StoryCommentsItem>
   );
 }
 
