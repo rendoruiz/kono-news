@@ -1,84 +1,16 @@
 
 import { useState } from "react";
 import { useQuery } from 'react-query';
-import styled from "@emotion/styled";
+import { useRouter } from "next/router";
 
 import { QUERY_KEY, reactQueryParams, STORIES_PER_PAGE } from "../../utils/constants";
 import { getInitialStoryListData, getStoryData } from "../../utils/fetchApi";
 import { getNavigationItemByStoryListId, getUrlHostname, handleOnKeyDown } from "../../utils";
-import { useRouter } from "next/router";
-
-//#region styles
-const StyledStoryListPanel = styled.section`
-  /* position: relative; */
-  display: grid;
-  grid-template-rows: auto 1fr;
-  overflow-y: auto;
-`;
-const StyledStoryListHeader = styled.header``;
-const StyledStoryListContent = styled.main`
-  overflow-y: auto;
-`;
-const StyledStoryList = styled.ol`
-  display: grid;
-  gap: 2px;
-`;
-const StyledStoryItem = styled.li`
-  display: flex;
-  position: relative;
-
-  label {
-    flex: 1;
-    border: none;
-    padding: 2px 8px;
-    text-align: left;
-    cursor: pointer;
-  }
-
-  &[data-loading] ~ [data-loader] {
-    display: block !important;
-  }
-
-  &[data-loading] {
-    display: none !important;
-  }
-
-  input[type="radio"] {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-  }
-  input[type="radio"]:checked + label {
-    background: rgba(0,0,0,0.25);
-  }
-`;
-const StyledStoryItemLoader = styled.li`
-  display: none;
-`
-const StyledStoryTitle = styled.div`
-  /* display: inline; */
-`
-const StyledStoryHeading = styled.h3`
-  display: inline;
-  font-size: 1.1em;
-`;
-const StyledStoryUrl = styled.span`
-  font-size: 0.75em;
-  opacity: 0.6;
-  
-  ::before {
-    content: '  ';
-  }
-`;
-const StyledStoryStats = styled.p`
-  font-size: 0.75em;
-  opacity: 0.6;
-`;
-//#endregion
+import * as Styled from "./styles";
 
 const StoryListPanel = ({ storyListModeId, onToggleNavigationPanel }) => {
   return (
-    <StyledStoryListPanel>
+    <Styled.StoryListPanel>
       {/* header w/ nav toggle */}
       <StoryListHeader 
         storyListModeId={storyListModeId} 
@@ -87,14 +19,14 @@ const StoryListPanel = ({ storyListModeId, onToggleNavigationPanel }) => {
 
       {/* story list */}
       <StoryListContent storyListModeId={storyListModeId} />
-    </StyledStoryListPanel>
+    </Styled.StoryListPanel>
   );
 }
 
 const StoryListHeader = ({ storyListModeId, onToggleNavigationPanel }) => {
   const listModeName = getNavigationItemByStoryListId(storyListModeId)?.label
   return (
-    <StyledStoryListHeader>
+    <Styled.StoryListHeader>
       <button
         type='button'
         onClick={onToggleNavigationPanel}
@@ -102,7 +34,7 @@ const StoryListHeader = ({ storyListModeId, onToggleNavigationPanel }) => {
         toggle nav
       </button>
       {listModeName}
-    </StyledStoryListHeader>
+    </Styled.StoryListHeader>
   );
 }
 
@@ -117,17 +49,17 @@ const StoryListContent = ({ storyListModeId }) => {
 
   if (isLoading) {
     return (
-      <StyledStoryList data-loading>
+      <Styled.StoryList data-loading>
         <p>Loading List IDs...</p>
-      </StyledStoryList>
+      </Styled.StoryList>
     );
   }
 
   if (isError) {
     return (
-      <StyledStoryList data-error>
+      <Styled.StoryList data-error>
         <p>Loading List IDs error: {error.message}</p>
-      </StyledStoryList>
+      </Styled.StoryList>
     );
   }
   
@@ -140,7 +72,7 @@ const StoryListContent = ({ storyListModeId }) => {
     : fetchedStoryIds.slice(0, currentItemCount);
   
   return (
-    <StyledStoryListContent>
+    <Styled.StoryListContent>
       <StoryList storyListData={storyListData} />
       {/* story list propagation button */}
       {!isPageLimitReached && (
@@ -151,23 +83,23 @@ const StoryListContent = ({ storyListModeId }) => {
           load more
         </button>
       )}
-    </StyledStoryListContent>
+    </Styled.StoryListContent>
   );
 }
 
 const StoryList = ({ storyListData }) => {
   return (
-    <StyledStoryList>
+    <Styled.StoryList>
       {storyListData.map((storyItemData) => (
         <StoryItem
           key={storyItemData.id}
           storyItemData={storyItemData}
         />
       ))}
-      <StyledStoryItemLoader data-loader>
+      <Styled.StoryItemLoader data-loader>
         Loading items...
-      </StyledStoryItemLoader>
-    </StyledStoryList>
+      </Styled.StoryItemLoader>
+    </Styled.StoryList>
   )
 }
 
@@ -184,14 +116,14 @@ const StoryItem = ({ storyItemData }) => {
 
   if (isLoading) {
     return (
-      <StyledStoryItem data-loading />
+      <Styled.StoryItem data-loading />
     );
   }
   if (isError || !storyData) {
     return (
-      <StyledStoryItem data-error>
+      <Styled.StoryItem data-error>
         <p>Loading Story #{storyItemData} error: {error.message}</p>
-      </StyledStoryItem>
+      </Styled.StoryItem>
     )
   }
 
@@ -219,7 +151,7 @@ const StoryItem = ({ storyItemData }) => {
   }
 
   return (
-    <StyledStoryItem>
+    <Styled.StoryItem>
       <input 
         type='radio' 
         name='story-item' 
@@ -230,15 +162,15 @@ const StoryItem = ({ storyItemData }) => {
         htmlFor={controlId} 
         onClick={() => handleStoryCommentsChange()}
       >
-        <StyledStoryTitle>
-          <StyledStoryHeading>{title}</StyledStoryHeading>
+        <Styled.StoryTitle>
+          <Styled.StoryHeading>{title}</Styled.StoryHeading>
           <StoryItemUrl url={url} />
-        </StyledStoryTitle>
-        <StyledStoryStats>
+        </Styled.StoryTitle>
+        <Styled.StoryStats>
           {points} points | {post_count} comments | {author} | {time}
-        </StyledStoryStats>
+        </Styled.StoryStats>
       </label>
-    </StyledStoryItem>
+    </Styled.StoryItem>
   );
 }
 
@@ -249,9 +181,9 @@ const StoryItemUrl = ({url}) => {
 
   const urlHostname = getUrlHostname(url);
   return (
-    <StyledStoryUrl>
+    <Styled.StoryUrl>
       ({urlHostname})
-    </StyledStoryUrl>
+    </Styled.StoryUrl>
   )
 }
 
