@@ -6,17 +6,15 @@ import { QUERY_KEY, reactQueryParams, STORIES_PER_PAGE } from "../../utils/const
 import { getInitialStoryListData, getStoryData } from "../../utils/fetchApi";
 import { getNavigationItemByStoryListId, getUrlHostname, handleOnKeyDown } from "../../utils";
 import * as Styled from "./styles";
+import NavigationToggle from "../shared/NavigationToggle";
 
 const StoryListPanel = ({ storyListModeId, onToggleNavigationPanel }) => {
   return (
     <Styled.StoryListPanel>
-      {/* header w/ nav toggle */}
       <StoryListHeader 
         storyListModeId={storyListModeId} 
         onToggleNavigationPanel={onToggleNavigationPanel} 
       />
-
-      {/* story list */}
       <StoryListContent storyListModeId={storyListModeId} />
     </Styled.StoryListPanel>
   );
@@ -26,12 +24,7 @@ const StoryListHeader = ({ storyListModeId, onToggleNavigationPanel }) => {
   const listModeName = getNavigationItemByStoryListId(storyListModeId)?.label
   return (
     <Styled.StoryListHeader>
-      <button
-        type='button'
-        onClick={onToggleNavigationPanel}
-      >
-        toggle nav
-      </button>
+      <NavigationToggle onClick={onToggleNavigationPanel} />
       {listModeName}
     </Styled.StoryListHeader>
   );

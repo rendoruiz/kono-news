@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 
 import { handleOnKeyDown } from "../../utils";
 import { NAVIGATION_ITEMS, QUERY_KEY } from "../../utils/constants";
+import NavigationToggle from "../shared/NavigationToggle";
 import * as Styled from "./styles";
 
 const NavigationPanel = ({ isExpanded, initialSelectedItemId, onTogglePanel, }) => {
@@ -12,25 +13,12 @@ const NavigationPanel = ({ isExpanded, initialSelectedItemId, onTogglePanel, }) 
         onClick={onTogglePanel}
       />
       <Styled.NavigationPanel isExpanded={isExpanded}>
-        <NavigationToggle 
-          isExpanded={isExpanded} 
-          onTogglePanel={onTogglePanel} 
-        />
+        <NavigationToggle onClick={onTogglePanel} />
         <NavigationList initialSelectedItemId={initialSelectedItemId} />
       </Styled.NavigationPanel>
     </>
   );
 }
-
-const NavigationToggle = ({ isExpanded, onTogglePanel }) => (
-  <Styled.NavigationToggle 
-    type='button'
-    isExpanded={isExpanded}
-    onClick={onTogglePanel}
-  >
-    toggle {isExpanded ? 'Expanded' : 'Retracted'}
-  </Styled.NavigationToggle>
-);
 
 const NavigationList = ({ initialSelectedItemId }) => (
   <Styled.NavigationList>

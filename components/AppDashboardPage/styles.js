@@ -10,7 +10,7 @@ export const AppLayout = styled.div`
   margin: 0 auto;
   width: 100%;
   max-width: 1536px;
-  height: 100vh;
+  min-height: 100vh;
 
   ${viewport.lg} {
     grid-template-columns: auto 1fr 2fr;
