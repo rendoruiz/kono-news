@@ -17,7 +17,6 @@ import { viewport } from "../../styles/styledConstants";
   ---> StoryItemLoader
 */
 
-
 export const StoryListPanel = styled.section`
   /* position: relative; */
   display: grid;
