@@ -6,7 +6,7 @@ import NavigationToggle from "../shared/NavigationToggle";
 
 import { QUERY_KEY, reactQueryParams, STORIES_PER_PAGE } from "../../utils/constants";
 import { getInitialStoryListData, getStoryData } from "../../utils/fetchApi";
-import { getNavigationItemByStoryListId, getUrlHostname, handleOnKeyDown } from "../../utils";
+import { getNavigationItemByStoryListId, handleOnKeyDown } from "../../utils";
 import * as Styled from "./styles";
 
 const StoryListPanel = ({ storyListModeId, onToggleNavigationPanel }) => {
@@ -156,29 +156,15 @@ const StoryItem = ({ storyItemData }) => {
         htmlFor={controlId} 
         onClick={() => handleStoryCommentsChange()}
       >
-        <Styled.StoryTitle>
-          <Styled.StoryHeading>{title}</Styled.StoryHeading>
-          <StoryItemUrl url={url} />
-        </Styled.StoryTitle>
-        <Styled.StoryStats>
+        <Styled.StoryItemHeading>
+          {title}
+        </Styled.StoryItemHeading>
+        <Styled.StoryItemStats>
           {points} points | {post_count} comments | {author} | {time}
-        </Styled.StoryStats>
+        </Styled.StoryItemStats>
       </label>
     </Styled.StoryItem>
   );
-}
-
-const StoryItemUrl = ({url}) => {
-  if (!url) {
-    return null;
-  }
-
-  const urlHostname = getUrlHostname(url);
-  return (
-    <Styled.StoryUrl>
-      ({urlHostname})
-    </Styled.StoryUrl>
-  )
 }
 
 export default StoryListPanel;

@@ -104,23 +104,13 @@ export const StoryItem = styled.li`
 export const StoryItemLoader = styled.li`
   display: none;
 `
-export const StoryTitle = styled.div`
-  /* display: inline; */
-`
-export const StoryHeading = styled.h3`
-  display: inline;
+
+export const StoryItemHeading = styled.h3`
   font-size: 1.1em;
 `;
-export const StoryUrl = styled.span`
-  font-size: 0.75em;
-  opacity: 0.6;
-  
-  ::before {
-    content: '  ';
-  }
-`;
-export const StoryStats = styled.p`
-margin-top: 6px;
+
+export const StoryItemStats = styled.p`
+  margin-top: 6px;
   font-size: 0.75em;
   opacity: 0.6;
 `;
