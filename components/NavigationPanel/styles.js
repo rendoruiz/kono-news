@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { DefaultIconStyle, transitionFunction } from "../../styles/styledConstants";
 
 /*
   === Structure ====
@@ -19,7 +20,7 @@ export const NavigationPanel = styled.section`
   background: rgb(246, 246, 239);
   overflow-y: auto;
   transform: translateX(${({isExpanded}) => !isExpanded ? '-110%' : '0'});
-  transition: transform 200ms ease-in-out;
+  ${transitionFunction('transform')}
 `;
 export const NavigationPanelOverlay = styled.div`
   position: fixed;
@@ -28,7 +29,8 @@ export const NavigationPanelOverlay = styled.div`
   background: rgba(0,0,0,0.5);
   opacity: ${({isExpanded}) => !isExpanded ? '0' : '1' };
   transform: translateX(${({isExpanded}) => !isExpanded ? '-110%' : '0'});
-  transition: opacity 200ms ease-in-out;
+  ${transitionFunction('opacity')}
+  cursor: pointer;
 `;
 
 export const NavigationToggle = styled.button`
@@ -45,17 +47,29 @@ export const NavigationItem = styled.li`
 
   label {
     flex: 1;
-    padding: 10px 3px;
+    display: flex;
+    align-items: center;
+    padding: 5px 3px;
+    user-select: none;
     cursor: pointer;
+    
+    span {
+      margin-left: 6px;
+    line-height: 1;
+    }
   }
 
   input[type="radio"] {
     position: absolute;
     opacity: 0;
     pointer-events: none;
-  }
 
-  input[type="radio"]:checked + label {
-    background: rgba(0,0,0,0.25);
+    &:checked + label {
+      background: rgba(0,0,0,0.25);
+    }
   }
 `;
+
+export const NavigationItemIcon = styled.div`
+  ${DefaultIconStyle}
+`

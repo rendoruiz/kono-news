@@ -12,6 +12,7 @@ const NavigationPanel = ({ isExpanded, initialSelectedItemId, onTogglePanel, }) 
       <Styled.NavigationPanelOverlay 
         isExpanded={isExpanded} 
         onClick={onTogglePanel}
+        title='toggle off navigation panel'
       />
       <Styled.NavigationPanel isExpanded={isExpanded}>
         <NavigationToggle onClick={onTogglePanel} />
@@ -65,7 +66,8 @@ const NavigationItem = ({ navigationItemData, initialSelectedItem }) => {
         htmlFor={controlId} 
         onClick={() => handleNavigationChange()}
       >
-        {navigationItemData.label}
+        <Styled.NavigationItemIcon>{navigationItemData.icon}</Styled.NavigationItemIcon>
+        <span>{navigationItemData.label}</span>
       </label>
     </Styled.NavigationItem>
   )
