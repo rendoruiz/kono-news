@@ -9,8 +9,9 @@ export const viewport = {
   xxl: getMediaQuery(2560),
 }
 
-export const transitionFunction = (transitionTarget) => css`
-  transition: ${transitionTarget ?? 'all'} 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+export const transitionFunction = css`
+  transition-duration: 0.5s;
+  transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
 `;
 
 export const DefaultIconStyle = css`

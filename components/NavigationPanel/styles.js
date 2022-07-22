@@ -20,7 +20,8 @@ export const NavigationPanel = styled.section`
   background: rgb(246, 246, 239);
   overflow-y: auto;
   transform: translateX(${({isExpanded}) => !isExpanded ? '-110%' : '0'});
-  ${transitionFunction('transform')}
+  transition-property: transform;
+  ${transitionFunction}
 `;
 export const NavigationPanelOverlay = styled.div`
   position: fixed;
@@ -29,7 +30,8 @@ export const NavigationPanelOverlay = styled.div`
   background: rgba(0,0,0,0.5);
   opacity: ${({isExpanded}) => !isExpanded ? '0' : '1' };
   transform: translateX(${({isExpanded}) => !isExpanded ? '-110%' : '0'});
-  ${transitionFunction('opacity')}
+  transition-property: opacity;
+  ${transitionFunction}
   cursor: pointer;
 `;
 
