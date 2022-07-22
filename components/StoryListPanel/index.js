@@ -2,11 +2,12 @@ import { useState } from "react";
 import { useQuery } from 'react-query';
 import { useRouter } from "next/router";
 
+import NavigationToggle from "../shared/NavigationToggle";
+
 import { QUERY_KEY, reactQueryParams, STORIES_PER_PAGE } from "../../utils/constants";
 import { getInitialStoryListData, getStoryData } from "../../utils/fetchApi";
 import { getNavigationItemByStoryListId, getUrlHostname, handleOnKeyDown } from "../../utils";
 import * as Styled from "./styles";
-import NavigationToggle from "../shared/NavigationToggle";
 
 const StoryListPanel = ({ storyListModeId, onToggleNavigationPanel }) => {
   return (

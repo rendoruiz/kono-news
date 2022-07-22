@@ -1,8 +1,9 @@
 import { useRouter } from "next/router";
 
+import NavigationToggle from "../shared/NavigationToggle";
+
 import { handleOnKeyDown } from "../../utils";
 import { NAVIGATION_ITEMS, QUERY_KEY } from "../../utils/constants";
-import NavigationToggle from "../shared/NavigationToggle";
 import * as Styled from "./styles";
 
 const NavigationPanel = ({ isExpanded, initialSelectedItemId, onTogglePanel, }) => {
