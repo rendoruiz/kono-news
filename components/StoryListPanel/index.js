@@ -6,7 +6,7 @@ import NavigationToggle from "../shared/NavigationToggle";
 
 import { QUERY_KEY, reactQueryParams, STORIES_PER_PAGE } from "../../utils/constants";
 import { getInitialStoryListData, getStoryData } from "../../utils/fetchApi";
-import { getNavigationItemByStoryListId, handleOnKeyDown } from "../../utils";
+import { getNavigationItemByStoryListId, getShortTime, handleOnKeyDown } from "../../utils";
 import * as Styled from "./styles";
 
 const StoryListPanel = ({ storyListModeId, onToggleNavigationPanel }) => {
@@ -131,6 +131,7 @@ const StoryItem = ({ storyItemData }) => {
     descendants: post_count,
   } = storyData;
   const controlId = 'story-item-' + id;
+  const shortTime = getShortTime(time);
 
   const handleStoryCommentsChange = () => {
     router.push(
@@ -160,7 +161,8 @@ const StoryItem = ({ storyItemData }) => {
           {title}
         </Styled.StoryItemHeading>
         <Styled.StoryItemStats>
-          {points} points | {post_count} comments | {author} | {time}
+          <p>{points} points • {post_count} comments • {author}</p>
+          <span>{shortTime}</span> 
         </Styled.StoryItemStats>
       </label>
     </Styled.StoryItem>

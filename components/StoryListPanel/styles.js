@@ -18,15 +18,20 @@ import { primaryColor, viewport } from "../../styles/styledConstants";
 */
 
 export const StoryListPanel = styled.section`
-  /* position: relative; */
+  position: relative;
   display: grid;
   grid-template-rows: auto 1fr;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 `;
 export const StoryListHeader = styled.header`
+  position: sticky;
+  z-index: 10;
+  top: 0;
   display: flex;
   align-items: center;
-  padding: 4px;
+  padding: 6px 4px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 
   h2 {
     margin-left: 8px;
@@ -45,7 +50,6 @@ export const StoryListContent = styled.main`
     padding: 12px 4px;
     width: 100%;
     background: none;
-    font-size: 1em;
     line-height: 1;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -86,18 +90,18 @@ export const StoryItem = styled.li`
 
     &:checked + label {
       background: rgba(0,0,0,0.05);
-    }
-
-    &:checked + label::before {
-      content: ' ';
-      position: absolute;
-      inset: 0 auto 0 0;
-      border-radius: 4px;
-      margin: auto 0;
-      width: 3px;
-      height: 70%;
-      background: ${primaryColor()};
-      pointer-events: none;
+      
+      ::before {
+        content: ' ';
+        position: absolute;
+        inset: 0 auto 0 0;
+        border-radius: 4px;
+        margin: auto 0;
+        width: 3px;
+        height: 70%;
+        background: ${primaryColor()};
+        pointer-events: none;
+      }
     }
   }
 `;
@@ -106,11 +110,18 @@ export const StoryItemLoader = styled.li`
 `
 
 export const StoryItemHeading = styled.h3`
-  font-size: 1.1em;
+  font-size: 1em;
 `;
 
-export const StoryItemStats = styled.p`
+export const StoryItemStats = styled.div`
+  display: flex;
   margin-top: 6px;
-  font-size: 0.75em;
-  opacity: 0.6;
+  font-size: 0.8em;
+  color: rgb(130, 130, 130);
+
+  span {
+    flex-shrink: 0;
+    margin-left: auto;
+    padding-left: 2px;
+  }
 `;

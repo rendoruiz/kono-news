@@ -14,7 +14,7 @@ export const NavigationPanel = styled.section`
   position: fixed;
   z-index: 1000;
   inset: 0 auto 0 0;
-  padding: 4px;
+  padding: 6px 4px 4px;
   width: 80%;
   min-width: 120px;
   max-width: 300px;

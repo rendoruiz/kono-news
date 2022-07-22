@@ -1,3 +1,6 @@
+import TimeAgo from "javascript-time-ago";
+import en from 'javascript-time-ago/locale/en'
+
 import { NAVIGATION_ITEMS } from "./constants";
 
 export const sanitizeHtmlLinks = (htmlText) => {
@@ -32,3 +35,8 @@ export const handleOnKeyDown = (e, dispatch) => {
       dispatch();
     }
 }
+
+TimeAgo.addDefaultLocale(en);
+const timeAgo = new TimeAgo('en-US')
+export const getShortTime = (unixTime) =>
+  timeAgo.format(new Date(unixTime * 1000), 'twitter');
