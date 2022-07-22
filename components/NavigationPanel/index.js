@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+
 import { handleOnKeyDown } from "../../utils";
 import { NAVIGATION_ITEMS, QUERY_KEY } from "../../utils/constants";
 import * as Styled from "./styles";
