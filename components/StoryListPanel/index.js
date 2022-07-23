@@ -160,7 +160,7 @@ const StoryItem = ({ storyItemData }) => {
             {title}
           </Styled.StoryItemHeading>
           <Styled.StoryItemStats>
-            <p>{points} points • {post_count} comments • {author}</p>
+            <p>{points} points • {post_count ?? 'no'} comments • {author}</p>
             <span>{shortTime}</span> 
           </Styled.StoryItemStats>
         </label>

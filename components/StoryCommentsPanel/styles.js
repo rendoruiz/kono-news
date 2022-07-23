@@ -24,7 +24,31 @@ export const StoryCommentsPanel = styled.section`
   transform: translateX(${({isExpanded}) => isExpanded ? '0' : '100%'});
   transition: transform 200ms ease-in-out;
   
-  overscroll-behavior: contain;
+  &[data-loading] {
+    place-items: center;
+
+    p {
+      font-size: 1.5em;
+    }
+  }
+
+  &[data-error] > div {
+    display: grid;
+    align-content: center;
+    padding: 20px 16px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.25;
+
+    h3 {
+      font-size: 1.75em;
+    }
+    p {
+      margin-top: 16px;
+      font-size: 1.2em;
+      color: rgb(255, 50, 50);
+    }
+  }
 `;
 
 export const StoryCommentsHeader = styled.header`
@@ -114,7 +138,7 @@ export const StoryCommentsOriginalPost = styled.article`
   }
 
   + ul {
-    margin-top: 0;
+    margin-top: 4px;
     margin-left: 0;
     padding: 0 10px;
 

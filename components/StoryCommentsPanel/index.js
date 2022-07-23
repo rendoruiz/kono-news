@@ -18,23 +18,25 @@ const StoryCommentsPanel = ({ isExpanded, isFocused, storyCommentsId }) => {
   return (
     <Styled.StoryCommentsPanel 
       isExpanded={isExpanded}
-      data-loading={isLoading ? null : undefined}
-      data-error={isError ? null : undefined}
+      data-loading={isLoading ? "" : undefined}
+      data-error={isError ? "" : undefined}
     >
-      {isLoading && ('Loading story...')}
-      {isError && (
-        <p>Loading Story #{storyCommentsId} error: {error.message}</p>
+      <StoryCommentsHeader 
+        title={storyCommentsData?.title}
+        isExpanded={isExpanded}
+        isFocused={isFocused}
+      />
+      {isLoading && (
+        <p>Loading story...</p>
       )}
-
+      {isError && (
+        <div>
+          <h3>Cannot fetch Story Comments.</h3>
+          <p>{error?.message}</p>
+        </div>
+      )}
       {storyCommentsData && (
-        <>
-          <StoryCommentsHeader 
-            title={storyCommentsData.title}
-            isExpanded={isExpanded}
-            isFocused={isFocused}
-          />
-          <StoryCommentsContent {...storyCommentsData} />
-        </>
+        <StoryCommentsContent {...storyCommentsData} />
       )}
     </Styled.StoryCommentsPanel>
   );
@@ -72,12 +74,12 @@ const StoryCommentsHeader = ({ title, isExpanded, isFocused }) => {
       <button
         type='button'
         onClick={handleTogglePanel}
+        disabled={!isExpanded}
       >
-        {isExpanded && (
-          <FluentArrowLeftRegular />
-        )}
-        {isFocused && (
+        {isFocused ? (
           <FluentDismissRegular />
+        ): (
+          <FluentArrowLeftRegular />
         )}
       </button>
       <p>{title}</p>
