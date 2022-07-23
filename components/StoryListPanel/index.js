@@ -41,8 +41,8 @@ const StoryListContent = ({ storyListModeId }) => {
   if (isLoading) {
     return (
       <Styled.StoryList data-list-loading>
-        {[...Array(8)].map((_) => (
-          <Styled.StoryItem data-loading />
+        {[...Array(8)].map((_, index) => (
+          <Styled.StoryItem key={index} data-loading />
         ))}
       </Styled.StoryList>
     );
