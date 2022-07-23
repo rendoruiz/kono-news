@@ -53,6 +53,9 @@ export const getStoryCommentsData = async (storyCommentId) => {
     return null;
   }
 
+  const getStringCount = (object, identifier) => 
+    object.length <= 0 ? 0 : (JSON.stringify(object).split(identifier).length - 1);
+
   let commentData = null;
   const commentEndpoint = getStoryCommentsDataEndpoint(storyCommentId);
   try {
@@ -62,18 +65,31 @@ export const getStoryCommentsData = async (storyCommentId) => {
     throw new Error(getServerErrorMessage(commentEndpoint));
   }
   
-  let storyData = null;
-  const storyEndpoint = getStoryDataEndpoint(commentData.story_id ? commentData.story_id : storyCommentId);
-  try {
-    const response = await axios.get(storyEndpoint);
-    storyData = response.data;
-  } catch {
-    throw new Error(getServerErrorMessage(storyEndpoint));
-  }
+  let storyData;
+  if (commentData.story_id) {
+    const storyEndpoint = getStoryDataEndpoint(commentData.story_id);
+    try {
+      const response = await axios.get(storyEndpoint);
+      storyData = response.data;
+    } catch {
+      throw new Error(getServerErrorMessage(storyEndpoint));
+    }
+    const commentCount = getStringCount(storyData.children, '"title":null');
+    const deadCommentCount = getStringCount(storyData.children, '"text":null');
 
-  return {
-    ...commentData,
-    post_count: storyData.descendants
+    return {
+      ...storyData,
+      children: [{...commentData}],
+      post_count: commentCount - deadCommentCount,
+      permalink: true,
+    }
+  } else {
+    const commentCount = getStringCount(commentData.children, '"title":null');
+    const deadCommentCount = getStringCount(commentData.children, '"text":null');
+    return {
+      ...commentData,
+      post_count: commentCount - deadCommentCount,
+    }
   }
 }
 
