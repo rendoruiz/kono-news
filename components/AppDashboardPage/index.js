@@ -91,15 +91,15 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
   useEffect(() => {
     const {
       [QUERY_KEY.IS_NAVIGATION_EXPANDED]: isExpanded,
-      [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: isStoryCommentsExpanded,
+      // [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: isStoryCommentsExpanded,
       ...cleanedQuery
     } = router.query;
-    if (isExpanded || isStoryCommentsExpanded) {
+    if (isExpanded) {
       router.replace(
         { query: cleanedQuery},
         undefined, 
         { shallow: true }
-      )
+      );
     }
   }, [])
 
