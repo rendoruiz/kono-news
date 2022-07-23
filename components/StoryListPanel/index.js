@@ -9,17 +9,15 @@ import { getInitialStoryListData, getStoryData } from "../../utils/fetchApi";
 import { getNavigationItemByStoryListId, getShortTime, handleOnKeyDown } from "../../utils";
 import * as Styled from "./styles";
 
-const StoryListPanel = ({ storyListModeId, onToggleNavigationPanel }) => {
-  return (
-    <Styled.StoryListPanel>
-      <StoryListHeader 
-        storyListModeId={storyListModeId} 
-        onToggleNavigationPanel={onToggleNavigationPanel} 
-      />
-      <StoryListContent storyListModeId={storyListModeId} />
-    </Styled.StoryListPanel>
-  );
-}
+const StoryListPanel = ({ storyListModeId, onToggleNavigationPanel }) => (
+  <Styled.StoryListPanel>
+    <StoryListHeader 
+      storyListModeId={storyListModeId} 
+      onToggleNavigationPanel={onToggleNavigationPanel} 
+    />
+    <StoryListContent storyListModeId={storyListModeId} />
+  </Styled.StoryListPanel>
+);
 
 const StoryListHeader = ({ storyListModeId, onToggleNavigationPanel }) => {
   const listModeName = getNavigationItemByStoryListId(storyListModeId)?.label
@@ -42,15 +40,18 @@ const StoryListContent = ({ storyListModeId }) => {
 
   if (isLoading) {
     return (
-      <Styled.StoryList data-loading>
-        <p>Loading List IDs...</p>
+      <Styled.StoryList data-list-loading>
+        {[...Array(8)].map((_) => (
+          <Styled.StoryItem data-loading />
+        ))}
       </Styled.StoryList>
     );
   }
   if (isError) {
     return (
-      <Styled.StoryList data-error>
-        <p>Loading List IDs error: {error.message}</p>
+      <Styled.StoryList data-list-error>
+        <h3>Cannot fetch Story IDs.</h3>
+        <p>{error?.message}</p>
       </Styled.StoryList>
     );
   }
@@ -90,9 +91,6 @@ const StoryList = ({ storyListData }) => {
           storyItemData={storyItemData}
         />
       ))}
-      <Styled.StoryItemLoader data-loader>
-        Loading items...
-      </Styled.StoryItemLoader>
     </Styled.StoryList>
   )
 }

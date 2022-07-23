@@ -13,7 +13,7 @@ import { viewport } from "../../styles/styledConstants";
 */
 
 export const StoryCommentsPanel = styled.section`
-  /* position: relative; */
+  position: relative;
   display: grid;
   grid-template-rows: auto 1fr;
   position: fixed;
@@ -23,6 +23,8 @@ export const StoryCommentsPanel = styled.section`
   overflow-y: auto;
   transform: translateX(${({isExpanded}) => isExpanded ? '0' : '100%'});
   transition: transform 200ms ease-in-out;
+  
+  overscroll-behavior: contain;
 `;
 export const StoryCommentsHeader = styled.header``;
 export const StoryCommentsContent = styled.main`

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { primaryColor, viewport } from "../../styles/styledConstants";
+import { pulseAnimation, primaryColor, viewport } from "../../styles/styledConstants";
 
 /*
   === Structure ===
@@ -21,8 +21,9 @@ export const StoryListPanel = styled.section`
   position: relative;
   display: grid;
   grid-template-rows: auto 1fr;
-  /* overflow-y: auto; */
+  overflow-y: auto;
 `;
+
 export const StoryListHeader = styled.header`
   position: sticky;
   z-index: 10;
@@ -58,10 +59,28 @@ export const StoryListContent = styled.main`
 `;
 export const StoryList = styled.ol`
   display: grid;
+  align-content: flex-start;
+
+  &[data-list-error] {
+    align-content: center;
+    padding: 20px 16px;
+    font-weight: 500;
+    text-align: center;
+
+    h3 {
+      font-size: 1.75em;
+    }
+    p {
+      margin-top: 16px;
+      font-size: 1.2em;
+      color: rgb(255, 50, 50);
+    }
+  }
 `;
 export const StoryItem = styled.li`
   display: flex;
   position: relative;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
 
   label {
     flex: 1;
@@ -71,16 +90,41 @@ export const StoryItem = styled.li`
     cursor: pointer;
   }
 
-  &:not(:last-of-type) {
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-  }
-
-  &[data-loading] ~ [data-loader] {
-    display: block !important;
-  }
-
   &[data-loading] {
-    display: none !important;
+    &:not(:nth-of-type(-n+8)) {
+      display: none;
+    }
+  
+    &:nth-of-type(-n+8) {
+      position: relative;
+      display: grid;
+      gap: 6px;
+      padding: 6px 8px;
+
+      &::before,
+      &::after {
+        content: ' ';
+        position: relative;
+        border-radius: 4px;
+        width: 90%;
+        height: 1.75em;
+        background: rgba(0,0,0,0.3);
+        animation: ${pulseAnimation} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+      &::after {
+        width: 50%;
+        height: 1.25em;
+      }
+
+      &:nth-of-type(odd) {
+        &::before {
+          width: 75%;
+        }
+        &::after {
+          width: 60%;
+        }
+      }
+    }
   }
 
   input[type="radio"] {
@@ -105,9 +149,6 @@ export const StoryItem = styled.li`
     }
   }
 `;
-export const StoryItemLoader = styled.li`
-  display: none;
-`
 
 export const StoryItemHeading = styled.h3`
   font-size: 1em;

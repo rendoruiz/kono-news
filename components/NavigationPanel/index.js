@@ -6,21 +6,23 @@ import { handleOnKeyDown } from "../../utils";
 import { NAVIGATION_ITEMS, QUERY_KEY } from "../../utils/constants";
 import * as Styled from "./styles";
 
-const NavigationPanel = ({ isExpanded, initialSelectedItemId, onTogglePanel, }) => {
-  return (
-    <>
-      <Styled.NavigationPanelOverlay 
-        isExpanded={isExpanded} 
-        onClick={onTogglePanel}
-        title='toggle off navigation panel'
-      />
-      <Styled.NavigationPanel isExpanded={isExpanded}>
-        <NavigationToggle onClick={onTogglePanel} />
-        <NavigationList initialSelectedItemId={initialSelectedItemId} />
-      </Styled.NavigationPanel>
-    </>
-  );
-}
+const NavigationPanel = ({ 
+  isExpanded, 
+  initialSelectedItemId, 
+  onTogglePanel, 
+}) => (
+  <>
+    <Styled.NavigationPanelOverlay 
+      isExpanded={isExpanded} 
+      onClick={onTogglePanel}
+      title='toggle off navigation panel'
+    />
+    <Styled.NavigationPanel isExpanded={isExpanded}>
+      <NavigationToggle onClick={onTogglePanel} />
+      <NavigationList initialSelectedItemId={initialSelectedItemId} />
+    </Styled.NavigationPanel>
+  </>
+);
 
 const NavigationList = ({ initialSelectedItemId }) => (
   <Styled.NavigationList>
@@ -34,7 +36,10 @@ const NavigationList = ({ initialSelectedItemId }) => (
   </Styled.NavigationList>
 );
 
-const NavigationItem = ({ navigationItemData, initialSelectedItem }) => {
+const NavigationItem = ({ 
+  navigationItemData, 
+  initialSelectedItem,
+}) => {
   const router = useRouter();
   const controlId = 'nav-item-' + navigationItemData.id;
 

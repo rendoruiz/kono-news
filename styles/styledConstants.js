@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 
 const getMediaQuery = (size) => `@media (min-width: ${size}px)`;
 
@@ -39,3 +39,12 @@ export const DefaultIconStyle = css`
     height: 20px;
   }
 `;
+
+export const pulseAnimation = keyframes`
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .5;
+  }
+`

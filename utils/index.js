@@ -36,7 +36,7 @@ export const handleOnKeyDown = (e, dispatch) => {
     }
 }
 
-TimeAgo.addDefaultLocale(en);
+TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo('en-US')
 export const getShortTime = (unixTime) =>
   timeAgo.format(new Date(unixTime * 1000), 'twitter');

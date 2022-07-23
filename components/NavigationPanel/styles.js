@@ -30,9 +30,9 @@ export const NavigationPanelOverlay = styled.div`
   inset: 0;
   background: rgba(0,0,0,0.5);
   opacity: ${({isExpanded}) => !isExpanded ? '0' : '1' };
-  transform: translateX(${({isExpanded}) => !isExpanded ? '-110%' : '0'});
   transition-property: opacity;
   ${transitionFunction}
+  pointer-events: ${({isExpanded}) => !isExpanded ? 'none' : 'all' };
   cursor: pointer;
 `;
 
