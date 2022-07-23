@@ -3,8 +3,10 @@ import { useRouter } from "next/router";
 
 import { QUERY_KEY, reactQueryParams } from "../../utils/constants";
 import { getStoryCommentsData } from "../../utils/fetchApi";
-import { getUrlHostname, sanitizeHtmlLinks } from "../../utils";
+import { getRoundTime, getShortTime, getUrlHostname, sanitizeHtmlLinks } from "../../utils";
 import * as Styled from "./styles";
+import { FluentArrowLeftRegular, FluentDismissRegular } from "../shared/FluentIcons";
+import HtmlContent from "../shared/HtmlContent";
 
 const StoryCommentsPanel = ({ isExpanded, isFocused, storyCommentsId }) => {
   const { isLoading, isError, data: storyCommentsData, error } = useQuery(
@@ -67,38 +69,45 @@ const StoryCommentsHeader = ({ title, isExpanded, isFocused }) => {
 
   return (
     <Styled.StoryCommentsHeader>
-      {(isExpanded || isFocused) && (
-        <button
-          type='button'
-          onClick={handleTogglePanel}
-        >
-          { isExpanded && 'expanded' }
-          { isFocused && 'focused' }
-        </button>
-      )}
-      <h1>{title}</h1>
+      <button
+        type='button'
+        onClick={handleTogglePanel}
+      >
+        {isExpanded && (
+          <FluentArrowLeftRegular />
+        )}
+        {isFocused && (
+          <FluentDismissRegular />
+        )}
+      </button>
+      <p>{title}</p>
     </Styled.StoryCommentsHeader>
   );
 }
 
 const StoryCommentsContent = ({ id, author, created_at_i: time, url, title, text, children }) => {
-  const decodedHtml = text ? sanitizeHtmlLinks(text) : null;
   const urlHostname = getUrlHostname(url);
+  const shortTime = getRoundTime(time);
 
   return (
     <Styled.StoryCommentsContent>
       <Styled.StoryCommentsOriginalPost>
         <header>
           <h2>{title}</h2>
-          <p>{id} | {author} | {time}&nbsp;
+          <p>by {author} • {shortTime}</p>
           {urlHostname && (
-            <a href={url}>
-              | {urlHostname}
+            <a 
+              href={url}
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              {urlHostname}
             </a>
           )}
-          </p>
         </header>
-        <main dangerouslySetInnerHTML={{ __html: decodedHtml }}></main>
+        <main>
+          <HtmlContent htmlString={text} />
+        </main>
       </Styled.StoryCommentsOriginalPost>
 
       {/* story comments list */}
@@ -140,28 +149,27 @@ const StoryCommentItem = ({
   // dont show deleted items with no children (id and time only)
   if (text === null && (children.length === 0)) {
     return null; 
+  } else {
+    const shortTime = getShortTime(time);
+    return (
+      <Styled.StoryCommentsItem data-deleted={text ? undefined : ""}>
+        <header>
+          <p>{author} • {shortTime}</p>
+        </header>
+        <main>
+          {text ? (
+            <HtmlContent htmlString={text} />
+          ) : (
+            <div>deleted comment</div>
+          )}
+  
+          { children && (
+            <StoryCommentsList storyCommentsListData={children} />
+          )}
+        </main>
+      </Styled.StoryCommentsItem>
+    );
   }
-
-  const decodedHtml = text ? sanitizeHtmlLinks(text) : null;
-  return (
-    <Styled.StoryCommentsItem data-deleted={decodedHtml ? undefined : ""}>
-      <header>
-        <p>{id} | {author} | {time}</p>
-      </header>
-      <main>
-        {decodedHtml ? (
-          <div dangerouslySetInnerHTML={{ __html: decodedHtml }} />
-        ) : (
-          <div>deleted comment</div>
-        )}
-        
-
-        { children && (
-          <StoryCommentsList storyCommentsListData={children} />
-        )}
-      </main>
-    </Styled.StoryCommentsItem>
-  );
 }
 
 export default StoryCommentsPanel;

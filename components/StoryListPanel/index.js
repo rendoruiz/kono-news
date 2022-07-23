@@ -119,52 +119,54 @@ const StoryItem = ({ storyItemData }) => {
     )
   }
 
-  const {
-    id,
-    title,
-    url,
-    by: author,
-    score: points,
-    time,
-    descendants: post_count,
-  } = storyData;
-  const controlId = 'story-item-' + id;
-  const shortTime = getShortTime(time);
-
-  const handleStoryCommentsChange = () => {
-    router.push(
-      { query: { 
-        ...router.query,
-        [QUERY_KEY.STORY_COMMENTS_ID]: id, 
-        [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: true,
-      }}, 
-      undefined, 
-      { shallow: true }
+  if (storyData) {
+    const {
+      id,
+      title,
+      url,
+      by: author,
+      score: points,
+      time,
+      descendants: post_count,
+    } = storyData;
+    const controlId = 'story-item-' + id;
+    const shortTime = getShortTime(time);
+  
+    const handleStoryCommentsChange = () => {
+      router.push(
+        { query: { 
+          ...router.query,
+          [QUERY_KEY.STORY_COMMENTS_ID]: id, 
+          [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: true,
+        }}, 
+        undefined, 
+        { shallow: true }
+      );
+    }
+  
+    return (
+      <Styled.StoryItem>
+        <input 
+          type='radio' 
+          name='story-item' 
+          id={controlId} 
+          onKeyDown={(e) => handleOnKeyDown(e, handleStoryCommentsChange)} 
+        />
+        <label 
+          htmlFor={controlId} 
+          onClick={() => handleStoryCommentsChange()}
+        >
+          <Styled.StoryItemHeading>
+            {title}
+          </Styled.StoryItemHeading>
+          <Styled.StoryItemStats>
+            <p>{points} points • {post_count} comments • {author}</p>
+            <span>{shortTime}</span> 
+          </Styled.StoryItemStats>
+        </label>
+      </Styled.StoryItem>
     );
   }
-
-  return (
-    <Styled.StoryItem>
-      <input 
-        type='radio' 
-        name='story-item' 
-        id={controlId} 
-        onKeyDown={(e) => handleOnKeyDown(e, handleStoryCommentsChange)} 
-      />
-      <label 
-        htmlFor={controlId} 
-        onClick={() => handleStoryCommentsChange()}
-      >
-        <Styled.StoryItemHeading>
-          {title}
-        </Styled.StoryItemHeading>
-        <Styled.StoryItemStats>
-          <p>{points} points • {post_count} comments • {author}</p>
-          <span>{shortTime}</span> 
-        </Styled.StoryItemStats>
-      </label>
-    </Styled.StoryItem>
-  );
 }
 
 export default StoryListPanel;

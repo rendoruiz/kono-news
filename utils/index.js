@@ -40,3 +40,4 @@ TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo('en-US')
 export const getShortTime = (unixTime) =>
   timeAgo.format(new Date(unixTime * 1000), 'twitter');
+export const getRoundTime = (unixTime) => timeAgo.format(new Date(unixTime * 1000), 'round');

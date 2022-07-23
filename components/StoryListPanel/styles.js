@@ -152,6 +152,8 @@ export const StoryItem = styled.li`
 
 export const StoryItemHeading = styled.h3`
   font-size: 1em;
+  line-height: 1.15;
+  word-break: break-word;
 `;
 
 export const StoryItemStats = styled.div`
