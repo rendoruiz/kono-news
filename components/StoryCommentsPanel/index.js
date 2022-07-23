@@ -5,7 +5,7 @@ import { QUERY_KEY, reactQueryParams } from "../../utils/constants";
 import { getStoryCommentsData } from "../../utils/fetchApi";
 import { getRoundTime, getShortTime, getUrlHostname, sanitizeHtmlLinks } from "../../utils";
 import * as Styled from "./styles";
-import { FluentArrowLeftRegular, FluentDismissRegular } from "../shared/FluentIcons";
+import { FluentArrowLeftRegular, FluentCommentRegular, FluentDismissRegular, FluentKeyboardShiftRegular } from "../shared/FluentIcons";
 import HtmlContent from "../shared/HtmlContent";
 
 const StoryCommentsPanel = ({ isExpanded, isFocused, storyCommentsId }) => {
@@ -85,16 +85,16 @@ const StoryCommentsHeader = ({ title, isExpanded, isFocused }) => {
   );
 }
 
-const StoryCommentsContent = ({ id, author, created_at_i: time, url, title, text, children }) => {
+const StoryCommentsContent = ({ id, author, created_at_i: time, url, title, text, children, points, post_count }) => {
   const urlHostname = getUrlHostname(url);
-  const shortTime = getRoundTime(time);
+  const roundTime = getRoundTime(time);
 
   return (
     <Styled.StoryCommentsContent>
       <Styled.StoryCommentsOriginalPost>
         <header>
           <h2>{title}</h2>
-          <p>by {author} • {shortTime}</p>
+          <p>by {author} • {roundTime}</p>
           {urlHostname && (
             <a 
               href={url}
@@ -108,6 +108,16 @@ const StoryCommentsContent = ({ id, author, created_at_i: time, url, title, text
         <main>
           <HtmlContent htmlString={text} />
         </main>
+        <footer>
+          <span>
+            <FluentKeyboardShiftRegular />
+            {points}
+          </span>
+          <span>
+            <FluentCommentRegular />
+            {post_count}
+          </span>
+        </footer>
       </Styled.StoryCommentsOriginalPost>
 
       {/* story comments list */}

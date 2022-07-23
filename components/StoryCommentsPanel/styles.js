@@ -58,7 +58,7 @@ export const StoryCommentsContent = styled.main`
 `;
 export const StoryCommentsOriginalPost = styled.article`
   border-bottom: 3px solid rgba(0,0,0,0.1);
-  padding: 10px 10px 16px;
+  padding: 10px;
 
   > header {
     display: flex;
@@ -88,8 +88,29 @@ export const StoryCommentsOriginalPost = styled.article`
     }
   }
 
-  main:not(:empty) {
+  > main:not(:empty) {
     margin-top: 12px;
+  }
+
+  > footer {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: flex-start;
+    column-gap: 12px;
+    margin-top: 12px;
+
+    span {
+      display: flex;
+      align-items: center;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: rgb(130, 130, 130);
+
+      svg {
+        margin-right: 4px;
+        width: 16px;
+      }
+    }
   }
 
   + ul {
