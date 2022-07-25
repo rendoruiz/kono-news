@@ -7,7 +7,10 @@ import StoryCommentsPanel from "../StoryCommentsPanel";
 
 import { NAVIGATION_ACTION, QUERY_KEY, STORYCOMMENTS_ACTION } from "../../utils/constants";
 import { parseStoryListModeId } from "../../utils/fetchApi";
-import * as Styled from "./styles";
+
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react"
+import { breakpoint, color } from "../../styles/emotionConstants";
 
 //#region reducer
 const navigationReducer = (state, action) => {
@@ -184,8 +187,21 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
   };
 
   return (  
-    <Styled.AppContainer>
-      <Styled.AppLayout>
+    <div css={css`
+      background-color: ${color.brandSecondary};
+    `}>
+      <div css={css`
+        position: relative;
+        display: grid;
+        margin: 0 auto;
+        width: 100%;
+        height: 100vh;
+        max-width: 1536px;
+
+        ${breakpoint.md} {
+          grid-template-columns: 1fr 2.5fr;
+        }
+      `}>
         {!storyComments.isFocused && (
           <>
             <NavigationPanel  
@@ -204,8 +220,8 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
           isFocused={storyComments.isFocused}
           storyCommentsId={storyComments.id} 
         />
-      </Styled.AppLayout>
-    </Styled.AppContainer>
+      </div>
+    </div>
   );
 }
 
