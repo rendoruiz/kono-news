@@ -36,6 +36,9 @@ export const handleOnKeyDown = (e, dispatch) => {
     }
 }
 
+export const getStringCount = (object, identifier) => 
+    object.length <= 0 ? 0 : (JSON.stringify(object).split(identifier).length - 1);
+
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo('en-US')
 export const getShortTime = (unixTime) =>

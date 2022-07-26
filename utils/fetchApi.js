@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getStringCount } from ".";
 import { STORIES_PER_PAGE, STORY_MODE, STORY_MODE_API_QUERY } from "./constants";
 
 const HN_API_ENDPOINT = 'https://hacker-news.firebaseio.com/v0/'
@@ -52,9 +53,6 @@ export const getStoryCommentsData = async (storyCommentId) => {
   if (!storyCommentId) {
     return null;
   }
-
-  const getStringCount = (object, identifier) => 
-    object.length <= 0 ? 0 : (JSON.stringify(object).split(identifier).length - 1);
 
   let commentData = null;
   const commentEndpoint = getStoryCommentsDataEndpoint(storyCommentId);

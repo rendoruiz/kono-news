@@ -13,6 +13,7 @@ module.exports = {
         brandSecondary: 'rgb(130, 130, 130)',
         modalOverlay: 'rgba(0, 0, 0, 0.5)',
         itemSelected: 'rgba(0, 0, 0, 0.05)',
+        commentThread: 'rgb(255, 194, 153)',
       },
       fontSize: {
         heading1: '1.75em',

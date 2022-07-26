@@ -1,3 +1,4 @@
+import React from 'react';
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
 import clsx from "clsx";
@@ -7,7 +8,7 @@ import { FluentArrowLeftRegular, FluentCommentRegular, FluentDismissRegular, Flu
 
 import { QUERY_KEY, reactQueryParams } from "../../utils/constants";
 import { getStoryCommentsData } from "../../utils/fetchApi";
-import { getRoundTime, getShortTime, getUrlHostname } from "../../utils";
+import { getRoundTime, getShortTime, getStringCount, getUrlHostname } from "../../utils";
 
 const StoryCommentsPanel = ({ isExpanded, isFocused, storyCommentsId }) => {
   const { isLoading, isError, data: storyCommentsData, error } = useQuery(
@@ -114,7 +115,7 @@ const StoryCommentsHeader = ({ title, isExpanded, isFocused }) => {
 const StoryCommentsContent = ({ children, ...originalPostData }) => {
 
   return (
-    <main className='grid grid-rows-[auto,1fr] gap-y-2 overflow-y-auto'>
+    <main className='grid grid-rows-[auto,1fr] gap-y-2 pb-3 overflow-y-auto'>
       <StoryCommentsOriginalPost {...originalPostData} />
 
       {/* story comments list */}
@@ -133,11 +134,10 @@ const StoryCommentsOriginalPost = ({ id, title, author, created_at_i: time, url,
 
   return (
     <article className={clsx(
-      'border-b-3 border-b-black/10 py-2 px-4',
-      '[&+ul]:mt-1 [&+ul]:ml-0 [&+ul]:py-0 [&+ul]:px-4',
+      'border-b-3 border-b-black/10 py-2 px-3',
+      '[&+ul]:mt-1 [&+ul]:ml-0 [&+ul]:py-0 [&+ul]:px-3',
       '[&+ul:before]:content-none',
-      'md:px-3',
-      'md:[&+ul]:px-3'
+      '[&+ul>li:first-of-type]:mt-0',
     )}>
       <header className='flex flex-col'>
         <h2 className='text-title leading-tight'>
@@ -182,8 +182,8 @@ const StoryCommentsList = ({ storyCommentsListData }) => {
   } else {
     return (
       <ul className={clsx(
-        'relative mt-4 ml-[10px]',
-        'before:absolute before:inset-y-0 before:right-auto before:left-[-10px] before:border-l-1.5 before:border-l-brandOrange/80',
+        'relative ml-[10px]',
+        'before:absolute before:inset-y-0 before:right-auto before:left-[-10px] before:border-l-1.5 before:border-l-commentThread',
         'md:ml-[14px]',
         'md:before:left-[-14px]'
       )}>
@@ -206,26 +206,47 @@ const StoryCommentItem = ({
   children, 
 }) => {
   // dont show deleted items with no children (id and time only)
-  if (text === null && (children.length === 0)) {
+  if (text === null && children.length === 0) {
     return null; 
   } else {
+    // return nothing if the whole comment thread only has empty comment text
+    if (text === null) {
+      const userCount = getStringCount(children, '"title":null');
+      const emptyCommentCount = getStringCount(children, '"text":null');
+      if (userCount === emptyCommentCount) {
+        return null;
+      }
+    }
+
     const shortTime = getShortTime(time);
+    const radioId = `story-comment-item-${id}`;
     return (
-      <li>
-        <header className={clsx(
-          'flex justify-between items-center pb-2px text-[0.8em] text-brandSecondary tracking-wide',
-          'md:justify-start'
-        )}>
-          <p>
-            {author}
-          </p>
-          <span className={clsx(
-            'hidden mx-1',
-            'md:inline-block'
-          )}>•</span>
-          <span>{shortTime}</span>
+      <li className='grid grid-cols-[auto,1fr] mt-4'>
+        <StoryItemCommentVisibilityToggle radioButtonId={radioId}/>
+
+        <header className='col-start-2'>
+          <label 
+            for={radioId}
+            className={clsx(
+              'flex justify-between items-center pb-2px text-[0.8em] text-brandSecondary tracking-wide cursor-pointer',
+              'md:justify-start',
+            )}
+            title='comment expansion toggle'
+          >
+            <p>
+              {author}
+            </p>
+            <span className={clsx(
+              'hidden mx-1',
+              'md:inline-block'
+            )}>•</span>
+            <span>{shortTime}</span>
+          </label>
         </header>
-        <main className='mt-2px'>
+        <main className={clsx(
+          'col-span-2 mt-2px',
+          'peer-checked:hidden'
+        )}>
           {text ? (
             <HtmlContent htmlString={text} />
           ) : (
@@ -234,7 +255,7 @@ const StoryCommentItem = ({
             </p>
           )}
 
-          { children && (
+          { children && children.length > 0 && (
             <StoryCommentsList storyCommentsListData={children} />
           )}
         </main>
@@ -242,5 +263,27 @@ const StoryCommentItem = ({
     );
   }
 }
+
+const StoryItemCommentVisibilityToggle = React.memo(({ radioButtonId }) => (
+  <>
+    <input type='checkbox' name='story-comment-item' id={radioButtonId} 
+      className='peer absolute opacity-0 pointer-events-none'
+    />
+    <label 
+      for={radioButtonId} 
+      className='col-start-1 hidden pr-1 font-mono text-[0.8em] text-brandOrange select-none cursor-pointer peer-checked:block'
+      title='expand comment thread'
+    >
+      [+]
+    </label>
+    <label 
+      for={radioButtonId} 
+      className='col-start-1 block pr-1 font-mono text-[0.8em] text-brandOrange/80 select-none cursor-pointer peer-checked:hidden'
+      title='retract comment thread'
+    >
+      [-]
+    </label>
+  </>
+));
 
 export default StoryCommentsPanel;
