@@ -210,10 +210,17 @@ const StoryCommentItem = ({
     const shortTime = getShortTime(time);
     return (
       <li>
-        <header className='flex justify-between items-center pb-2px text-[0.8em] text-brandSecondary tracking-wide'>
+        <header className={clsx(
+          'flex justify-between items-center pb-2px text-[0.8em] text-brandSecondary tracking-wide',
+          'md:justify-start'
+        )}>
           <p>
             {author}
           </p>
+          <span className={clsx(
+            'hidden mx-1',
+            'md:inline-block'
+          )}>•</span>
           <span>{shortTime}</span>
         </header>
         <main className='mt-2px'>

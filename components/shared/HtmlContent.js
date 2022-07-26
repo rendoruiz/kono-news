@@ -12,7 +12,7 @@ const HtmlContent = ({ htmlString }) => {
       <div 
         dangerouslySetInnerHTML={{ __html: decodedHtml }} 
         className={clsx(
-          'html-content text-contentPrimary leading-tight'
+          'html-content max-w-3xl text-contentPrimary leading-tight'
         )}
       />
     );
