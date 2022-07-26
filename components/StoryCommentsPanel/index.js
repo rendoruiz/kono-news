@@ -155,7 +155,7 @@ const StoryCommentsContent = React.memo(({ children, ...originalPostData }) => {
 
 const StoryCommentsOriginalPost = React.memo(({ id, title, author, created_at_i: time, url, text, points, post_count, permalink }) => {
   const urlHostname = getUrlHostname(url);
-  const roundTime = React.useMemo(() => getRoundTime(time), [time]);
+  const roundTime = getRoundTime(time);
 
   return (
     <article className={clsx(
@@ -263,7 +263,7 @@ const StoryCommentItem = React.memo(({
       }
     }
 
-    const shortTime = React.useMemo(() => getShortTime(time), [time]);
+    const shortTime = getShortTime(time);
     const radioId = `story-comment-item-${id}`;
     return (
       <li className='grid grid-cols-[auto,1fr] mt-4'>
@@ -348,7 +348,7 @@ const StoryCommentsUserLink = React.memo(({ userId, ...props }) => (
   >
     {userId}
   </a>
-))
+));
 
 const StoryItemCommentVisibilityToggle = React.memo(({ radioButtonId }) => (
   <>

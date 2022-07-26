@@ -137,7 +137,7 @@ const StoryItem = React.memo(({ storyItemData }) => {
       descendants: post_count,
     } = storyData;
     const controlId = 'story-item-' + id;
-    const shortTime = React.useMemo(() => getShortTime(time), [time]);
+    const shortTime = getShortTime(time);
   
     const handleStoryCommentsChange = () => {
       router.push(

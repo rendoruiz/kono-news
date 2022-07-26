@@ -182,7 +182,7 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
     }
   };
 
-  return (  
+  return ( 
     <div className='bg-brandBackground'>
       <div className={clsx(
         'relative grid mx-auto w-full h-screen max-w-screen-2xl',

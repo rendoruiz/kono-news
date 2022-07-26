@@ -36,7 +36,7 @@ const NavigationPanelOverlay = ({ isExpanded, onClick }) => (
     onClick={onClick}
     title='navigation panel toggleable overlay'
   />
-)
+);
 
 const NavigationList = React.memo(({ initialSelectedItemId }) => (
   <ul className='grid py-1'>

@@ -1,10 +1,17 @@
+import Head from 'next/head';
+
 import AppDashboardPage from "../components/AppDashboardPage";
 
 import { parseStoryListModeId } from "../utils/fetchApi";
 import { QUERY_KEY } from "../utils/constants";
 
 const HomePage = (props) => (
-  <AppDashboardPage {...props} />
+  <>
+    <Head>
+      <title>Kono News - A Hacker News Viewer</title>
+    </Head>
+    <AppDashboardPage {...props} />
+  </>
 );
 
 export const getServerSideProps = async ({ query }) => {
