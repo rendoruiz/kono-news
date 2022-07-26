@@ -1,23 +1,16 @@
-import styled from "@emotion/styled";
-import { DefaultIconStyle } from "../../styles/styledConstants";
-
 import { FluentLineHorizontal3Regular } from "./FluentIcons";
 
-const StyledNavigationToggle = styled.button`
-  ${DefaultIconStyle}
-  border: 1px solid rgba(200, 200, 200, 1);
-  line-height: 0;
-  cursor: pointer;
-`;
-
 const NavigationToggle = ({ onClick }) => (
-  <StyledNavigationToggle
+  <button
     type='button'
-    title='navigation button'
+    title='navigation panel toggle button'
+    className='group border-1 border-transparent rounded ml-1 px-2 py-1 leading-none transition-opacity cursor-pointer hover:opacity-50'
     onClick={onClick}
   >
-    <FluentLineHorizontal3Regular />
-  </StyledNavigationToggle>
-)
+    <FluentLineHorizontal3Regular 
+      className='w-7 h-7 group-active:scale-[0.8] origin-center transition-transform'
+    />
+  </button>
+);
  
 export default NavigationToggle;

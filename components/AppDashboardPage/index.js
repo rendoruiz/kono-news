@@ -1,13 +1,11 @@
 import { useEffect, useReducer } from "react";
 import { useRouter } from "next/router";
 
+import { NAVIGATION_ACTION, QUERY_KEY, STORYCOMMENTS_ACTION } from "../../utils/constants";
+import { parseStoryListModeId } from "../../utils/fetchApi";
 import NavigationPanel from "../NavigationPanel";
 import StoryListPanel from "../StoryListPanel";
 import StoryCommentsPanel from "../StoryCommentsPanel";
-
-import { NAVIGATION_ACTION, QUERY_KEY, STORYCOMMENTS_ACTION } from "../../utils/constants";
-import { parseStoryListModeId } from "../../utils/fetchApi";
-import * as Styled from "./styles";
 
 //#region reducer
 const navigationReducer = (state, action) => {
@@ -184,8 +182,8 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
   };
 
   return (  
-    <Styled.AppContainer>
-      <Styled.AppLayout>
+    <div className='bg-brandBackground'>
+      <div className='relative grid mx-0 w-full h-screen max-w-screen-2xl md:grid-cols-[1fr,2fr]'>
         {!storyComments.isFocused && (
           <>
             <NavigationPanel  
@@ -204,8 +202,8 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
           isFocused={storyComments.isFocused}
           storyCommentsId={storyComments.id} 
         />
-      </Styled.AppLayout>
-    </Styled.AppContainer>
+      </div>
+    </div>
   );
 }
 
