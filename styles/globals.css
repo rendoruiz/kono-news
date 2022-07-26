@@ -6,6 +6,23 @@
   @apply ease-panel duration-panel;
 }
 
+.html-content > :not(:first-child) {
+  @apply mt-6px;
+}
+.html-content a,
+.html-content p, 
+.html-content span {
+  @apply break-words;
+  /* word-break: break-word; */
+}
+.html-content a {
+  @apply text-brandOrange/80;
+}
+.html-content pre {
+  @apply flex py-[5px] px-2px bg-itemSelected font-mono whitespace-pre-wrap break-all overflow-x-auto;
+  /* overflow-wrap: anywhere; */
+}
+
 /* html,
 body {
   padding: 0;
