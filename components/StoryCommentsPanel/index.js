@@ -135,7 +135,9 @@ const StoryCommentsOriginalPost = ({ id, title, author, created_at_i: time, url,
     <article className={clsx(
       'border-b-3 border-b-black/10 py-2 px-4',
       '[&+ul]:mt-1 [&+ul]:ml-0 [&+ul]:py-0 [&+ul]:px-4',
-      '[&+ul:before]:content-none'
+      '[&+ul:before]:content-none',
+      'md:px-3',
+      'md:[&+ul]:px-3'
     )}>
       <header className='flex flex-col'>
         <h2 className='text-title leading-tight'>
