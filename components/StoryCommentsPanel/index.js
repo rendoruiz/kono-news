@@ -21,7 +21,7 @@ const StoryCommentsPanel = ({ isExpanded, isFocused, storyCommentsId }) => {
 
   return (
     <> 
-      {isExpanded && storyCommentsData && (
+      {(isExpanded || isFocused) && storyCommentsData && (
         <Head>
           <title>Kono News | {storyCommentsData.title}</title>
         </Head>
