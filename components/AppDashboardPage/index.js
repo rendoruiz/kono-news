@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 import { NAVIGATION_ACTION, QUERY_KEY, STORYCOMMENTS_ACTION } from "../../utils/constants";
 import { parseStoryListModeId } from "../../utils/fetchApi";
+import NavigationPanel from "../NavigationPanel";
 
 //#region reducer
 const navigationReducer = (state, action) => {
@@ -181,20 +182,20 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
   return (  
     <div className='bg-brandBackground'>
       <div className='relative grid mx-0 w-full h-screen max-w-screen-2xl md:grid-cols-[1fr,2.5fr]'>
-        {/* {!storyComments.isFocused && (
+        {!storyComments.isFocused && (
           <>
             <NavigationPanel  
               isExpanded={navigation.isExpanded}
               initialSelectedItemId={initialStoryListModeId}
               onTogglePanel={handleToggleNavigationPanel}
             />
-            <StoryListPanel 
+            {/* <StoryListPanel 
               storyListModeId={navigation.storyListModeId} 
               onToggleNavigationPanel={handleToggleNavigationPanel}
-            />
+            /> */}
           </>
         )}
-        <StoryCommentsPanel 
+        {/* <StoryCommentsPanel 
           isExpanded={storyComments.isExpanded}
           isFocused={storyComments.isFocused}
           storyCommentsId={storyComments.id} 

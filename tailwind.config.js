@@ -11,6 +11,8 @@ module.exports = {
         brandBackground: 'rgb(246, 246, 239)',
         textPrimary: 'rgb(30, 30, 30)',
         textSecondary: 'rgb(130, 130, 130)',
+        modalOverlay: 'rgba(0, 0, 0, 0.5)',
+        itemSelected: 'rgba(0, 0, 0, 0.10)',
       },
       fontSize: {
         heading1: '',
@@ -23,6 +25,19 @@ module.exports = {
       spacing: {
         '1px': '0.0625rem',
         '2px': '0.125rem',
+      },
+      zIndex: {
+        modal: '1000',
+      },
+      transitionTimingFunction: {
+        'panel': 'cubic-bezier(0.77, 0, 0.175, 1)',
+      },
+      transitionDuration: {
+        'panel': '400ms',
+      },
+      borderWidth: {
+        1: '1px',
+        1.5: '1.5px',
       }
     },
   },

@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.panel-transition {
+  @apply ease-panel duration-panel;
+}
+
 /* html,
 body {
   padding: 0;
