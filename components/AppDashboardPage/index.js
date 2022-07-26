@@ -91,7 +91,6 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
   React.useEffect(() => {
     const {
       [QUERY_KEY.IS_NAVIGATION_EXPANDED]: isNavigationExpanded,
-      // [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: isStoryCommentsExpanded,
       ...cleanedQuery
     } = router.query;
     if (isNavigationExpanded) {
