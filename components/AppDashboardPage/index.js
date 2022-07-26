@@ -160,7 +160,6 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
   }, [router.query, storyComments.isFocused]);
 
   const handleToggleNavigationPanel = () => {
-    console.log('isexpanded: ' + navigation.isExpanded)
     const {
       [QUERY_KEY.IS_NAVIGATION_EXPANDED]: isExpanded,
       ...newRouterQuery

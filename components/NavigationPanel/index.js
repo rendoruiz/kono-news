@@ -1,3 +1,4 @@
+import React from 'react';
 import { useRouter } from "next/router";
 import clsx from "clsx";
 
@@ -49,7 +50,7 @@ const NavigationList = ({ initialSelectedItemId }) => (
   </ul>
 );
 
-const NavigationItem = ({ 
+const NavigationItem = React.memo(({ 
   navigationItemData, 
   initialSelectedItem,
 }) => {
@@ -99,6 +100,6 @@ const NavigationItem = ({
       </label>
     </li>
   );
-}
+});
 
 export default NavigationPanel;
