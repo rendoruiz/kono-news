@@ -10,7 +10,7 @@ import { getInitialStoryListData, getStoryData } from "../../utils/fetchApi";
 import { getNavigationItemByStoryListId, getShortTime, handleOnKeyDown } from "../../utils";
 
 const StoryListPanel = ({ storyListModeId, onToggleNavigationPanel }) => (
-  <section className='relative grid grid-rows-[auto,1fr] overflow-y-auto'>
+  <section className='relative overflow-y-auto'>
     <StoryListHeader 
       storyListModeId={storyListModeId} 
       onToggleNavigationPanel={onToggleNavigationPanel} 
@@ -22,7 +22,7 @@ const StoryListPanel = ({ storyListModeId, onToggleNavigationPanel }) => (
 const StoryListHeader = ({ storyListModeId, onToggleNavigationPanel }) => {
   const listModeName = getNavigationItemByStoryListId(storyListModeId)?.label;
   return (
-    <header className='sticky z-10 top-0 flex items-center pt-2 p-1 backdrop-blur-md'>
+    <header className='sticky z-10 top-0 flex items-center py-2 px-1 bg-brandBackground/60 backdrop-blur-sm'>
       <NavigationToggle onClick={onToggleNavigationPanel} />
       <h2 className='ml-2 text-heading2 font-medium'>
         {listModeName}
@@ -78,7 +78,7 @@ const StoryListContent = ({ storyListModeId }) => {
         {!isPageLimitReached && (
           <button 
             type='button'
-            className='border-none rounded mt-1 px-3 py-1 w-full bg-none leading-none uppercase tracking-wide cursor-pointer'
+            className='rounded mt-1 p-3 w-full uppercase tracking-wide cursor-pointer select-none'
             onClick={handlePageChange}
           >
             Load More
