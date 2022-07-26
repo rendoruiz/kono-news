@@ -16,13 +16,13 @@ const NavigationPanel = ({
       isExpanded={isExpanded}
       onClick={onTogglePanel}
     />
-    <div className={clsx(
-      'fixed z-modal inset-0 right-auto p-4 w-4/5 min-w-[120px] max-w-[300px] bg-brandBackground -translate-x-full transition-transform panel-transition overflow-y-auto pointer-events-none',
+    <section className={clsx(
+      'fixed z-modal inset-0 right-auto px-1 py-2 w-4/5 min-w-[120px] max-w-[300px] bg-brandBackground -translate-x-full transition-transform panel-transition overflow-y-auto pointer-events-none',
       {'translate-x-0 pointer-events-auto': isExpanded}
     )}>
       <NavigationToggle onClick={onTogglePanel} />
       <NavigationList initialSelectedItemId={initialSelectedItemId} />
-    </div>
+    </section>
   </>
 );
 
@@ -78,22 +78,22 @@ const NavigationItem = ({
         name='navigation-item' 
         id={controlId} 
         defaultChecked={initialSelectedItem}
-        className='absolute opacity-0 pointer-events-none'
+        className='peer absolute opacity-0 pointer-events-none'
         onKeyDown={(e) => handleOnKeyDown(e, handleNavigationChange)} 
       />
       <label 
         htmlFor={controlId} 
-        className='
-          flex-1 flex items-center rounded px-[3px] py-[5px] leading-none select-none cursor-pointer 
-          peer-checked:bg-itemSelected
-          peer-checked:before:absolute peer-checked:before:inset-0 peer-checked:before:right-auto peer-checked:before:rounded peer-checked:before:my-auto peer-checked:before:w-1 peer-checked:before:h-1/2 peer-checked:before:to-brandOrange peer-checked:before:pointer-events-none 
-        '
+        className={clsx([
+          'flex-1 flex items-center border-1 border-transparent rounded pl-3 pr-2 py-3 leading-none select-none cursor-pointer',
+          'peer-checked:bg-itemSelected',
+          'peer-checked:before:absolute peer-checked:before:inset-0 peer-checked:before:right-auto peer-checked:before:rounded peer-checked:before:my-auto peer-checked:before:w-1 peer-checked:before:h-1/2 peer-checked:before:bg-brandOrange peer-checked:before:pointer-events-none'
+        ])}
         onClick={() => handleNavigationChange()}
       >
-        <div className='w-5 h-5 mr-1'>
+        <div className='w-7 h-7 mr-4'>
           {navigationItemData.icon}
         </div>
-        <span>{navigationItemData.label}</span>
+        <span className='text-title'>{navigationItemData.label}</span>
       </label>
     </li>
   );

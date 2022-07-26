@@ -12,12 +12,13 @@ module.exports = {
         textPrimary: 'rgb(30, 30, 30)',
         textSecondary: 'rgb(130, 130, 130)',
         modalOverlay: 'rgba(0, 0, 0, 0.5)',
-        itemSelected: 'rgba(0, 0, 0, 0.10)',
+        itemSelected: 'rgba(0, 0, 0, 0.05)',
       },
       fontSize: {
-        heading1: '',
-        heading2: '',
-        heading3: '',
+        heading1: '1.75em',
+        heading2: '1.2em',
+        heading3: '1.1em',
+        title: '1.15em',
         base: '1em',
         contentPrimary: '0.9em',
         contentSecondary: '0.85em',
@@ -25,6 +26,7 @@ module.exports = {
       spacing: {
         '1px': '0.0625rem',
         '2px': '0.125rem',
+        '6px': '0.375rem',
       },
       zIndex: {
         modal: '1000',
