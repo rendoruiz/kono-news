@@ -172,9 +172,11 @@ const StoryItem = ({ storyItemData }) => {
           <h3 className='text-base leading-tight break-words'>
             {title}
           </h3>
-          <div className='flex mt-1 text-contentSecondary text-textSecondary leading-none'>
+          <div className='flex mt-1 text-contentSecondary text-textSecondary leading-none stroke-textSecondary'>
             <p>{points} points • {post_count ?? 'no'} comments • {author}</p>
-            <span className='shrink-0 ml-auto pl-2px'>{shortTime}</span> 
+            <span className='shrink-0 ml-auto pl-2px'>
+              {shortTime}
+            </span> 
           </div>
         </label>
       </li>
