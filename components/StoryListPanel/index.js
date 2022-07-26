@@ -42,8 +42,8 @@ const StoryListContent = ({ storyListModeId }) => {
 
   if (isLoading) {
     return (
-      <ol className='grid content-start'>
-        {[...Array(8)].map((_, index) => (
+      <ol className='grid content-start px-2 py-1 overflow-y-visible'>
+        {[...Array(10)].map((_, index) => (
           <StoryItemSkeletonLoader key={index} />
         ))}
       </ol>
@@ -72,7 +72,7 @@ const StoryListContent = ({ storyListModeId }) => {
       : fetchedStoryIds.slice(0, currentItemCount);
     
     return (
-      <main className='px-2 py-1 overflow-y-auto'>
+      <main className='px-1 py-1 overflow-y-auto'>
         <StoryList storyListData={storyListData} />
         {/* story list propagation button */}
         {!isPageLimitReached && (
@@ -185,9 +185,9 @@ const StoryItem = ({ storyItemData }) => {
 }
 
 const StoryItemSkeletonLoader = () => (
-  <li className='hidden [&:nth-of-type(-n+8)]:grid [&:nth-of-type(-n+8)]:gap-y-[6px]'>
-    <span className='rounded w-11/12 h-7 bg-black/30 animate-pulse odd:w-3/4' />
-    <span className='rounded w-1/2 h-5 bg-black/30 animate-pulse odd:w-3/5' />
+  <li className='group hidden py-1 [&:nth-of-type(-n+10)]:grid [&:nth-of-type(-n+10)]:gap-y-1'>
+    <span className='rounded w-11/12 h-7 bg-black/30 animate-pulse group-odd:w-3/4' />
+    <span className='rounded w-1/2 h-5 bg-black/30 animate-pulse group-odd:w-3/5' />
   </li>
 );
 
