@@ -1,8 +1,9 @@
+import React from 'react';
 import clsx from "clsx";
 
 import { sanitizeHtmlLinks } from "../../utils";
 
-const HtmlContent = ({ htmlString }) => {
+const HtmlContent = React.memo(({ htmlString }) => {
   if (!htmlString) {
     return null;
   } else {
@@ -17,6 +18,6 @@ const HtmlContent = ({ htmlString }) => {
       />
     );
   }
-}
+});
  
 export default HtmlContent;

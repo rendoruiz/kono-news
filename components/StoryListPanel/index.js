@@ -1,13 +1,13 @@
-import { useState } from "react";
+import React from "react";
 import { useQuery } from 'react-query';
 import { useRouter } from "next/router";
 import clsx from "clsx";
 
 import NavigationToggle from "../shared/NavigationToggle";
 
+import { getNavigationItemByStoryListId, getShortTime, handleOnKeyDown } from "../../utils";
 import { QUERY_KEY, reactQueryParams, STORIES_PER_PAGE } from "../../utils/constants";
 import { getInitialStoryListData, getStoryData } from "../../utils/fetchApi";
-import { getNavigationItemByStoryListId, getShortTime, handleOnKeyDown } from "../../utils";
 
 const StoryListPanel = ({ storyListModeId, onToggleNavigationPanel }) => (
   <section className='relative overflow-y-auto'>
@@ -31,13 +31,13 @@ const StoryListHeader = ({ storyListModeId, onToggleNavigationPanel }) => {
   );
 }
 
-const StoryListContent = ({ storyListModeId }) => {
+const StoryListContent = React.memo(({ storyListModeId }) => {
   const { isLoading, isError, data: fetchedStoryIds, error } = useQuery(
     ['storylist', storyListModeId], 
     () => getInitialStoryListData(storyListModeId, true),
     reactQueryParams
   );
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = React.useState(1);
   const handlePageChange = () => setCurrentPage(currentPage + 1);
 
   if (isLoading) {
@@ -87,9 +87,9 @@ const StoryListContent = ({ storyListModeId }) => {
       </main>
     );
   }
-}
+});
 
-const StoryList = ({ storyListData }) => {
+const StoryList = React.memo(({ storyListData }) => {
   return (
     <ol className='grid content-start gap-y-[2px]'>
       {storyListData.map((storyItemData) => (
@@ -100,9 +100,9 @@ const StoryList = ({ storyListData }) => {
       ))}
     </ol>
   )
-}
+});
 
-const StoryItem = ({ storyItemData }) => {
+const StoryItem = React.memo(({ storyItemData }) => {
   const router = useRouter();
   const { isLoading, isError, data: storyData, error } = useQuery(
     ['storydata', storyItemData.id], 
@@ -137,7 +137,7 @@ const StoryItem = ({ storyItemData }) => {
       descendants: post_count,
     } = storyData;
     const controlId = 'story-item-' + id;
-    const shortTime = getShortTime(time);
+    const shortTime = React.useMemo(() => getShortTime(time), [time]);
   
     const handleStoryCommentsChange = () => {
       router.push(
@@ -182,9 +182,9 @@ const StoryItem = ({ storyItemData }) => {
       </li>
     );
   }
-}
+});
 
-const StoryItemSkeletonLoader = () => (
+const StoryItemSkeletonLoader = React.memo(() => (
   <li className={clsx(
     'group hidden py-1',
     '[&:nth-of-type(-n+10)]:grid [&:nth-of-type(-n+10)]:gap-y-1'
@@ -198,6 +198,6 @@ const StoryItemSkeletonLoader = () => (
       'group-odd:w-3/5'
     )} />
   </li>
-);
+));
 
 export default StoryListPanel;

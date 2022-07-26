@@ -38,7 +38,7 @@ const NavigationPanelOverlay = ({ isExpanded, onClick }) => (
   />
 )
 
-const NavigationList = ({ initialSelectedItemId }) => (
+const NavigationList = React.memo(({ initialSelectedItemId }) => (
   <ul className='grid py-1'>
     {NAVIGATION_ITEMS.map((navigationItemData) => (
       <NavigationItem
@@ -48,7 +48,7 @@ const NavigationList = ({ initialSelectedItemId }) => (
       />
     ))}
   </ul>
-);
+));
 
 const NavigationItem = React.memo(({ 
   navigationItemData, 

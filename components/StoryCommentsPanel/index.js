@@ -8,9 +8,9 @@ import clsx from "clsx";
 import HtmlContent from "../shared/HtmlContent";
 import { FluentArrowLeftRegular, FluentCommentRegular, FluentDismissRegular, FluentKeyboardShiftRegular } from "../shared/FluentIcons";
 
+import { getRoundTime, getShortTime, getStringCount, getUrlHostname } from "../../utils";
 import { QUERY_KEY, reactQueryParams } from "../../utils/constants";
 import { getStoryCommentsData } from "../../utils/fetchApi";
-import { getRoundTime, getShortTime, getStringCount, getUrlHostname } from "../../utils";
 
 const StoryCommentsPanel = ({ isExpanded, isFocused, storyCommentsId }) => {
   const { isLoading, isError, data: storyCommentsData, error } = useQuery(
@@ -138,8 +138,7 @@ const StoryCommentsHeader = ({ title, isExpanded, isFocused, originalPostId = nu
   );
 }
 
-const StoryCommentsContent = ({ children, ...originalPostData }) => {
-
+const StoryCommentsContent = React.memo(({ children, ...originalPostData }) => {
   return (
     <main className='grid grid-rows-[auto,1fr] gap-y-2 pb-3 overflow-y-auto'>
       <StoryCommentsOriginalPost {...originalPostData} />
@@ -152,11 +151,11 @@ const StoryCommentsContent = ({ children, ...originalPostData }) => {
       )}
     </main>
   );
-}
+});
 
-const StoryCommentsOriginalPost = ({ id, title, author, created_at_i: time, url, text, points, post_count, permalink }) => {
+const StoryCommentsOriginalPost = React.memo(({ id, title, author, created_at_i: time, url, text, points, post_count, permalink }) => {
   const urlHostname = getUrlHostname(url);
-  const roundTime = getRoundTime(time);
+  const roundTime = React.useMemo(() => getRoundTime(time), [time]);
 
   return (
     <article className={clsx(
@@ -220,9 +219,9 @@ const StoryCommentsOriginalPost = ({ id, title, author, created_at_i: time, url,
       </footer>
     </article>
   );
-}
+});
 
-const StoryCommentsList = ({ storyCommentsListData }) => {
+const StoryCommentsList = React.memo(({ storyCommentsListData }) => {
   if (!storyCommentsListData) {
     return null;
   } else {
@@ -242,9 +241,9 @@ const StoryCommentsList = ({ storyCommentsListData }) => {
       </ul>
     );
   }
-} 
+});
 
-const StoryCommentItem = ({ 
+const StoryCommentItem = React.memo(({ 
   id, 
   author, 
   created_at_i: time,
@@ -264,7 +263,7 @@ const StoryCommentItem = ({
       }
     }
 
-    const shortTime = getShortTime(time);
+    const shortTime = React.useMemo(() => getShortTime(time), [time]);
     const radioId = `story-comment-item-${id}`;
     return (
       <li className='grid grid-cols-[auto,1fr] mt-4'>
@@ -337,7 +336,7 @@ const StoryCommentItem = ({
       </li>
     );
   }
-}
+});
 
 const StoryCommentsUserLink = React.memo(({ userId, ...props }) => (
   <a

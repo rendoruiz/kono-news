@@ -1,12 +1,13 @@
-import { useEffect, useReducer } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 
-import { NAVIGATION_ACTION, QUERY_KEY, STORYCOMMENTS_ACTION } from "../../utils/constants";
-import { parseStoryListModeId } from "../../utils/fetchApi";
 import NavigationPanel from "../NavigationPanel";
 import StoryListPanel from "../StoryListPanel";
 import StoryCommentsPanel from "../StoryCommentsPanel";
+
+import { NAVIGATION_ACTION, QUERY_KEY, STORYCOMMENTS_ACTION } from "../../utils/constants";
+import { parseStoryListModeId } from "../../utils/fetchApi";
 
 //#region reducer
 const navigationReducer = (state, action) => {
@@ -70,14 +71,14 @@ const storyCommentsReducer = (state, action) => {
 
 const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCommentsId, isStoryCommentsFocused, }) => {
   const router = useRouter(); 
-  const [navigation, dispatchNavigation] = useReducer(
+  const [navigation, dispatchNavigation] = React.useReducer(
     navigationReducer, 
     {
       isExpanded: false,
       storyListModeId: initialStoryListModeId,
     }
   );
-  const [storyComments, dispatchStoryComments] = useReducer(
+  const [storyComments, dispatchStoryComments] = React.useReducer(
     storyCommentsReducer,
     {
       isExpanded: isStoryCommentsFocused ? true : false,
@@ -87,7 +88,7 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
   );
 
   // remove expansion flags on first mount
-  useEffect(() => {
+  React.useEffect(() => {
     const {
       [QUERY_KEY.IS_NAVIGATION_EXPANDED]: isNavigationExpanded,
       // [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: isStoryCommentsExpanded,
@@ -103,7 +104,7 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
   }, []);
 
   // handle navigation panel expansion and set new storylistid
-  useEffect(() => {
+  React.useEffect(() => {
     const { 
       [QUERY_KEY.STORY_MODE]: newStoryListModeId, 
       [QUERY_KEY.IS_NAVIGATION_EXPANDED]: isExpanded,
@@ -125,7 +126,7 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
   }, [router.query, navigation.storyListModeId, navigation.isExpanded]);
 
   // handle story comments panel expansion and set new stroycommentsid
-  useEffect(() => {
+  React.useEffect(() => {
     const { 
       [QUERY_KEY.STORY_COMMENTS_ID]: newStoryCommentsId, 
       [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: isStoryCommentsExpanded,
@@ -146,7 +147,7 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
   }, [router.query, storyComments.id]);
 
   // handle story comments panel focused state
-  useEffect(() => {
+  React.useEffect(() => {
     if (storyComments.isFocused) {
       const { 
         [QUERY_KEY.IS_STORY_COMMENTS_FOCUSED]: isStoryCommentsFocused,
