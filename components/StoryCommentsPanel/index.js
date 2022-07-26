@@ -1,6 +1,8 @@
 import React from 'react';
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
+import Link from 'next/link';
+import Head from 'next/head';
 import clsx from "clsx";
 
 import HtmlContent from "../shared/HtmlContent";
@@ -18,50 +20,63 @@ const StoryCommentsPanel = ({ isExpanded, isFocused, storyCommentsId }) => {
   );
 
   return (
-    <section className={clsx(
-      'fixed z-modal inset-0 bg-brandBackground translate-x-full transition-transform panel-transition overflow-y-auto pointer-events-none',
-      {'!translate-x-0 !pointer-events-auto': isExpanded},
-      'md:static md:z-auto md:transform-none md:transition-none md:pointer-events-auto'
-    )}>
-      <StoryCommentsHeader 
-        title={storyCommentsData?.title}
-        isExpanded={isExpanded}
-        isFocused={isFocused}
-      />
+    <> 
+      {isExpanded && storyCommentsData && (
+        <Head>
+          <title>Kono News | {storyCommentsData.title}</title>
+        </Head>
+      )}
+      <section className={clsx(
+        'fixed z-modal inset-0 bg-brandBackground translate-x-full transition-transform panel-transition overflow-y-auto pointer-events-none',
+        {'!translate-x-0 !pointer-events-auto': isExpanded || isFocused},
+        'md:static md:z-auto md:transform-none md:transition-none md:pointer-events-auto',
+        'md:only:col-span-2 md:only:mx-auto md:only:max-w-screen-xl md:only:w-full'
+      )}>
+        <StoryCommentsHeader 
+          title={storyCommentsData?.title}
+          isExpanded={isExpanded}
+          isFocused={isFocused}
+          originalPostId={!storyCommentsData?.permalink ? null : storyCommentsData.id}
+        />
 
-      {isLoading && (
-        <p className='grid place-items-center h-4/5 text-heading2'>
-          Loading story...
-        </p>
-      )}
-      {isError && (
-        <div className='grid content-center px-4 py-5 font-medium text-center leading-5'>
-          <h3 className='text-heading1'>
-            Cannot fetch Story Comments.
-          </h3>
-          <p className='mt-4 text-heading3 text-brandSecondary'>
-            {error?.message}
+        {isLoading && (
+          <p className='grid place-items-center h-4/5 text-heading2'>
+            Loading story...
           </p>
-        </div>
-      )}
-      {storyCommentsData && (
-        <StoryCommentsContent {...storyCommentsData} />
-      )}
-    </section>
+        )}
+        {isError && (
+          <div className='grid content-center px-4 py-5 font-medium text-center leading-5'>
+            <h3 className='text-heading1'>
+              Cannot fetch story comments.
+            </h3>
+            <p className='mt-4 text-heading3 text-brandSecondary'>
+              {error?.message}
+            </p>
+          </div>
+        )}
+        {storyCommentsData && (
+          <StoryCommentsContent {...storyCommentsData} />
+        )}
+      </section>
+    </>
   );
 }
 
-const StoryCommentsHeader = ({ title, isExpanded, isFocused }) => {
+const StoryCommentsHeader = ({ title, isExpanded, isFocused, originalPostId = null }) => {
   const router = useRouter();
 
   const handleTogglePanel = () => {
     if (isFocused) {
       const { 
-        [QUERY_KEY.IS_STORY_COMMENTS_FOCUSED]: focused,
+        [QUERY_KEY.IS_STORY_COMMENTS_FOCUSED]: _,
         ...newRouterQuery 
       } = router.query;
-      router.replace(
-        { query: newRouterQuery }, 
+      router.push(
+        { query: {
+          ...newRouterQuery,
+          [QUERY_KEY.STORY_COMMENTS_ID]: originalPostId,
+          [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: true,
+        } }, 
         undefined, 
         { shallow: true }
       );
@@ -83,28 +98,39 @@ const StoryCommentsHeader = ({ title, isExpanded, isFocused }) => {
       'sticky z-10 top-0 flex items-center gap-2 py-2 px-1 bg-brandBackground/60 backdrop-blur-sm',
       'md:static'
     )}>
-      <button
-        type='button'
-        onClick={handleTogglePanel}
-        disabled={!isExpanded}
-        className={clsx(
-          'group shrink-0 border-1 border-transparent rounded ml-1 px-2 py-1 leading-none transition-opacity cursor-pointer',
-          'hover:opacity-50',
-          'md:hidden'
-        )}
-      >
-        {isFocused ? (
+      {isFocused ? (
+        <button
+          type='button'
+          onClick={handleTogglePanel}
+          className={clsx(
+            'group shrink-0 border-1 border-transparent rounded ml-1 px-2 py-1 leading-none transition-opacity cursor-pointer',
+            'hover:opacity-50',
+          )}
+        >
           <FluentDismissRegular className={clsx(
             'w-7 h-7 origin-center transition-transform',
             'group-active:scale-[0.8]'
           )} />
-        ): (
+        </button>
+      ): (
+        <button
+          type='button'
+          onClick={handleTogglePanel}
+          disabled={!isExpanded}
+          className={clsx(
+            'group shrink-0 border-1 border-transparent rounded ml-1 px-2 py-1 leading-none transition-opacity cursor-pointer',
+            'hover:opacity-50',
+            'md:hidden',
+          )}
+        >
           <FluentArrowLeftRegular className={clsx(
             'w-7 h-7 origin-center transition-transform',
             'group-active:scale-[0.8]'
           )} />
-        )}
-      </button>
+        </button>
+
+      )}
+      
       <p className='flex-1 pr-1 text-contentPrimary font-medium leading-6 overflow-x-hidden text-ellipsis whitespace-nowrap'>
         {title}
       </p>
@@ -128,7 +154,7 @@ const StoryCommentsContent = ({ children, ...originalPostData }) => {
   );
 }
 
-const StoryCommentsOriginalPost = ({ id, title, author, created_at_i: time, url, text, points, post_count }) => {
+const StoryCommentsOriginalPost = ({ id, title, author, created_at_i: time, url, text, points, post_count, permalink }) => {
   const urlHostname = getUrlHostname(url);
   const roundTime = getRoundTime(time);
 
@@ -139,18 +165,38 @@ const StoryCommentsOriginalPost = ({ id, title, author, created_at_i: time, url,
       '[&+ul:before]:content-none',
       '[&+ul>li:first-of-type]:mt-0',
     )}>
+      {permalink && (
+        <p className={clsx(
+          'grid rounded -mt-1 mb-3 p-2 bg-brandOrange/20 font-medium text-contentSecondary',
+          'md:block md:text-center'
+        )}>
+          <span className='md:mr-1'>You are viewing a single comment thread.</span>
+          <span>Press the close button to view the whole thread.</span>
+        </p>
+      )}
+
       <header className='flex flex-col'>
         <h2 className='text-title leading-tight'>
           {title}
         </h2>
         <p className='mt-1 text-contentSecondary text-brandSecondary'>
-          by {author} • {roundTime}
+          by&nbsp;
+          <StoryCommentsUserLink
+            userId={author}
+            className={clsx(
+              'md:font-medium',
+              'md:hover:underline'
+            )}
+          />
+          &nbsp;•&nbsp;
+          {roundTime}
         </p>
         {urlHostname && (
           <a 
             href={url}
             target='_blank'
             rel='noopener noreferrer'
+            title='open story url'
             className='self-start border-1 border-brandOrange rounded-2xl mt-2 py-1 px-[10px] bg-brandOrange/5 text-[0.75em] font-medium leading-none uppercase'
           >
             {urlHostname}
@@ -224,23 +270,52 @@ const StoryCommentItem = ({
       <li className='grid grid-cols-[auto,1fr] mt-4'>
         <StoryItemCommentVisibilityToggle radioButtonId={radioId}/>
 
-        <header className='col-start-2'>
+        <header className={clsx(
+          'col-start-2 grid grid-cols-[1fr,auto] items-center text-[0.8em] text-brandSecondary tracking-wide',
+          '[&>*]:row-start-1',
+          'md:flex'
+        )}>
+          {author ? (
+            <StoryCommentsUserLink
+              userId={author}
+              className={clsx(
+                'col-start-1 pointer-events-none',
+                'md:ml-1.5 md:font-medium md:pointer-events-auto',
+                'md:hover:underline'
+              )}
+            />
+          ) : (
+            <span className='col-start-1'>[deleted author]</span>
+          )}
+          <Link 
+            href={{ query: {
+              [QUERY_KEY.STORY_COMMENTS_ID]: id,
+              [QUERY_KEY.IS_STORY_COMMENTS_FOCUSED]: true,
+            }}} 
+            passHref
+          >
+            <a 
+              target='_blank'
+              title='open comment permalink'
+              className={clsx(
+                'pl-1.5',
+                'md:pl-0',
+                'md:hover:underline',
+                'md:before:content-["•"] md:before:mx-1.5 md:before:inline-block md:before:text-brandSecondary'
+              )}
+            >
+              {shortTime}
+            </a>
+          </Link>
+
           <label 
-            for={radioId}
+            htmlFor={radioId}
             className={clsx(
-              'flex justify-between items-center pb-2px text-[0.8em] text-brandSecondary tracking-wide cursor-pointer',
-              'md:justify-start',
+              'col-start-1 h-full cursor-pointer',
+              'md:hidden md:pointer-events-none',
             )}
             title='comment expansion toggle'
           >
-            <p>
-              {author}
-            </p>
-            <span className={clsx(
-              'hidden mx-1',
-              'md:inline-block'
-            )}>•</span>
-            <span>{shortTime}</span>
           </label>
         </header>
         <main className={clsx(
@@ -264,20 +339,32 @@ const StoryCommentItem = ({
   }
 }
 
+const StoryCommentsUserLink = React.memo(({ userId, ...props }) => (
+  <a
+    href={'https://news.ycombinator.com/user?id=' + userId}
+    target='_blank'
+    rel='noopener noreferrer'
+    title='open user page on ycombinator'
+    {...props}
+  >
+    {userId}
+  </a>
+))
+
 const StoryItemCommentVisibilityToggle = React.memo(({ radioButtonId }) => (
   <>
     <input type='checkbox' name='story-comment-item' id={radioButtonId} 
       className='peer absolute opacity-0 pointer-events-none'
     />
     <label 
-      for={radioButtonId} 
+      htmlFor={radioButtonId} 
       className='col-start-1 hidden pr-1 font-mono text-[0.8em] text-brandOrange select-none cursor-pointer peer-checked:block'
       title='expand comment thread'
     >
       [+]
     </label>
     <label 
-      for={radioButtonId} 
+      htmlFor={radioButtonId} 
       className='col-start-1 block pr-1 font-mono text-[0.8em] text-brandOrange/80 select-none cursor-pointer peer-checked:hidden'
       title='retract comment thread'
     >

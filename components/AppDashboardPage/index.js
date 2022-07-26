@@ -80,7 +80,7 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
   const [storyComments, dispatchStoryComments] = useReducer(
     storyCommentsReducer,
     {
-      isExpanded: false,
+      isExpanded: isStoryCommentsFocused ? true : false,
       isFocused: isStoryCommentsFocused ? true : false,
       id: initialStoryCommentsId,
     }
@@ -89,18 +89,18 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
   // remove expansion flags on first mount
   useEffect(() => {
     const {
-      [QUERY_KEY.IS_NAVIGATION_EXPANDED]: isExpanded,
+      [QUERY_KEY.IS_NAVIGATION_EXPANDED]: isNavigationExpanded,
       // [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: isStoryCommentsExpanded,
       ...cleanedQuery
     } = router.query;
-    if (isExpanded) {
+    if (isNavigationExpanded) {
       router.replace(
         { query: cleanedQuery},
         undefined, 
         { shallow: true }
       );
     }
-  }, [])
+  }, []);
 
   // handle navigation panel expansion and set new storylistid
   useEffect(() => {
@@ -122,7 +122,7 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
     } else {
       dispatchNavigation({ type: NAVIGATION_ACTION.EXPAND_PANEL })
     }
-  }, [router.query, navigation.storyListModeId, navigation.isExpanded])
+  }, [router.query, navigation.storyListModeId, navigation.isExpanded]);
 
   // handle story comments panel expansion and set new stroycommentsid
   useEffect(() => {
@@ -143,20 +143,21 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
     } else {
       dispatchStoryComments({ type: STORYCOMMENTS_ACTION.RETRACT_PANEL });
     }
-  }, [router.query, storyComments.id])
+  }, [router.query, storyComments.id]);
 
   // handle story comments panel focused state
   useEffect(() => {
-    const { 
-      [QUERY_KEY.IS_STORY_COMMENTS_FOCUSED]: isStoryCommentsFocused,
-    } = router.query;
-
-    if (isStoryCommentsFocused === undefined && storyComments.isFocused) {
-      dispatchStoryComments({
-        type: STORYCOMMENTS_ACTION.DISABLE_FOCUS,
-      }); 
+    if (storyComments.isFocused) {
+      const { 
+        [QUERY_KEY.IS_STORY_COMMENTS_FOCUSED]: isStoryCommentsFocused,
+        [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: _,
+      } = router.query;
+  
+      if (isStoryCommentsFocused === undefined) {
+        dispatchStoryComments({ type: STORYCOMMENTS_ACTION.DISABLE_FOCUS }); 
+      }
     }
-  }, [router.query, storyComments.isFocused])
+  }, [router.query, storyComments.isFocused]);
 
   const handleToggleNavigationPanel = () => {
     console.log('isexpanded: ' + navigation.isExpanded)

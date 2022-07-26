@@ -65,7 +65,7 @@ export const getStoryCommentsData = async (storyCommentId) => {
   
   let storyData;
   if (commentData.story_id) {
-    const storyEndpoint = getStoryDataEndpoint(commentData.story_id);
+    const storyEndpoint = getStoryCommentsDataEndpoint(commentData.story_id);
     try {
       const response = await axios.get(storyEndpoint);
       storyData = response.data;
@@ -75,6 +75,12 @@ export const getStoryCommentsData = async (storyCommentId) => {
     const commentCount = getStringCount(storyData.children, '"title":null');
     const deadCommentCount = getStringCount(storyData.children, '"text":null');
 
+    console.log({
+      ...storyData,
+      children: [{...commentData}],
+      post_count: commentCount - deadCommentCount,
+      permalink: true,
+    })
     return {
       ...storyData,
       children: [{...commentData}],

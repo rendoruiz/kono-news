@@ -36,11 +36,16 @@ export const handleOnKeyDown = (e, dispatch) => {
     }
 }
 
-export const getStringCount = (object, identifier) => 
-    object.length <= 0 ? 0 : (JSON.stringify(object).split(identifier).length - 1);
+export const getStringCount = (object, identifier) => {
+  if (!object || !identifier) {
+    return null;
+  }
+  return object.length <= 0 ? 0 : (JSON.stringify(object).split(identifier).length - 1);
+}
+    
 
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo('en-US')
 export const getShortTime = (unixTime) =>
-  timeAgo.format(new Date(unixTime * 1000), 'twitter');
-export const getRoundTime = (unixTime) => timeAgo.format(new Date(unixTime * 1000), 'round');
+  !unixTime ? null : timeAgo.format(new Date(unixTime * 1000), 'twitter');
+export const getRoundTime = (unixTime) => !unixTime ? null : timeAgo.format(new Date(unixTime * 1000), 'round');
