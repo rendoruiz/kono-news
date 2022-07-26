@@ -1,16 +1,8 @@
 import { useEffect, useReducer } from "react";
 import { useRouter } from "next/router";
 
-import NavigationPanel from "../NavigationPanel";
-import StoryListPanel from "../StoryListPanel";
-import StoryCommentsPanel from "../StoryCommentsPanel";
-
 import { NAVIGATION_ACTION, QUERY_KEY, STORYCOMMENTS_ACTION } from "../../utils/constants";
 import { parseStoryListModeId } from "../../utils/fetchApi";
-
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react"
-import { breakpoint, color } from "../../styles/emotionConstants";
 
 //#region reducer
 const navigationReducer = (state, action) => {
@@ -187,22 +179,9 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
   };
 
   return (  
-    <div css={css`
-      background-color: ${color.brandSecondary};
-    `}>
-      <div css={css`
-        position: relative;
-        display: grid;
-        margin: 0 auto;
-        width: 100%;
-        height: 100vh;
-        max-width: 1536px;
-
-        ${breakpoint.md} {
-          grid-template-columns: 1fr 2.5fr;
-        }
-      `}>
-        {!storyComments.isFocused && (
+    <div className='bg-brandBackground'>
+      <div className='relative grid mx-0 w-full h-screen max-w-screen-2xl md:grid-cols-[1fr,2.5fr]'>
+        {/* {!storyComments.isFocused && (
           <>
             <NavigationPanel  
               isExpanded={navigation.isExpanded}
@@ -219,7 +198,7 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
           isExpanded={storyComments.isExpanded}
           isFocused={storyComments.isFocused}
           storyCommentsId={storyComments.id} 
-        />
+        /> */}
       </div>
     </div>
   );

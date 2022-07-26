@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from 'react-query'
 // import { ReactQueryDevtools } from 'react-query/devtools'
 
-import '../styles/reset.css'
+// import '../styles/reset.css'
 import '../styles/globals.css'
 
 const queryClient = new QueryClient();
