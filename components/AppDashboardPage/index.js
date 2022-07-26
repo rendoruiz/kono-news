@@ -185,8 +185,10 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
   return (  
     <div className='bg-brandBackground'>
       <div className={clsx(
-        'relative grid mx-0 w-full h-screen max-w-screen-2xl',
-        'md:grid-cols-[1fr,2fr]'
+        'relative grid mx-auto w-full h-screen max-w-screen-2xl',
+        'md:grid-cols-[1fr,2fr]',
+        'xl:grid-cols-[1fr,2.5fr]',
+        '2xl:grid-cols-[1fr,3fr]'
       )}>
         {!storyComments.isFocused && (
           <>

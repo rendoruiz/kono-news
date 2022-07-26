@@ -19,7 +19,8 @@ const StoryCommentsPanel = ({ isExpanded, isFocused, storyCommentsId }) => {
   return (
     <section className={clsx(
       'fixed z-modal inset-0 bg-brandBackground translate-x-full transition-transform panel-transition overflow-y-auto pointer-events-none',
-      {'!translate-x-0 !pointer-events-auto': isExpanded}
+      {'!translate-x-0 !pointer-events-auto': isExpanded},
+      'md:static md:z-auto md:transform-none md:transition-none md:pointer-events-auto'
     )}>
       <StoryCommentsHeader 
         title={storyCommentsData?.title}
@@ -77,14 +78,18 @@ const StoryCommentsHeader = ({ title, isExpanded, isFocused }) => {
   }
 
   return (
-    <header className='sticky z-10 top-0 flex items-center gap-2 py-2 px-1 bg-brandBackground/60 backdrop-blur-sm'>
+    <header className={clsx(
+      'sticky z-10 top-0 flex items-center gap-2 py-2 px-1 bg-brandBackground/60 backdrop-blur-sm',
+      'md:static'
+    )}>
       <button
         type='button'
         onClick={handleTogglePanel}
         disabled={!isExpanded}
         className={clsx(
           'group shrink-0 border-1 border-transparent rounded ml-1 px-2 py-1 leading-none transition-opacity cursor-pointer',
-          'hover:opacity-50'
+          'hover:opacity-50',
+          'md:hidden'
         )}
       >
         {isFocused ? (
