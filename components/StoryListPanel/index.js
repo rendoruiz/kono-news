@@ -162,11 +162,11 @@ const StoryItem = ({ storyItemData }) => {
         />
         <label 
           htmlFor={controlId} 
-          className={clsx([
+          className={clsx(
             'flex-1 relative rounded pl-3 pr-2 py-6px cursor-pointer select-none',
           'peer-checked:bg-itemSelected',
             'peer-checked:before:absolute peer-checked:before:inset-0 peer-checked:before:right-auto peer-checked:before:rounded peer-checked:before:my-auto peer-checked:before:w-1 peer-checked:before:h-1/2 peer-checked:before:bg-brandOrange peer-checked:before:pointer-events-none'
-          ])}
+          )}
           onClick={() => handleStoryCommentsChange()}
         >
           <h3 className='text-base leading-tight break-words'>
@@ -185,9 +185,18 @@ const StoryItem = ({ storyItemData }) => {
 }
 
 const StoryItemSkeletonLoader = () => (
-  <li className='group hidden py-1 [&:nth-of-type(-n+10)]:grid [&:nth-of-type(-n+10)]:gap-y-1'>
-    <span className='rounded w-11/12 h-7 bg-black/30 animate-pulse group-odd:w-3/4' />
-    <span className='rounded w-1/2 h-5 bg-black/30 animate-pulse group-odd:w-3/5' />
+  <li className={clsx(
+    'group hidden py-1',
+    '[&:nth-of-type(-n+10)]:grid [&:nth-of-type(-n+10)]:gap-y-1'
+  )}>
+    <span className={clsx(
+      'rounded w-11/12 h-7 bg-black/30 animate-pulse',
+      'group-odd:w-3/4'
+    )} />
+    <span className={clsx(
+      'rounded w-1/2 h-5 bg-black/30 animate-pulse',
+      'group-odd:w-3/5'
+    )} />
   </li>
 );
 

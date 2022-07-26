@@ -83,17 +83,19 @@ const NavigationItem = ({
       />
       <label 
         htmlFor={controlId} 
-        className={clsx([
+        className={clsx(
           'flex-1 flex items-center border-1 border-transparent rounded pl-3 pr-2 py-3 leading-none select-none cursor-pointer',
           'peer-checked:bg-itemSelected',
           'peer-checked:before:absolute peer-checked:before:inset-0 peer-checked:before:right-auto peer-checked:before:rounded peer-checked:before:my-auto peer-checked:before:w-1 peer-checked:before:h-1/2 peer-checked:before:bg-brandOrange peer-checked:before:pointer-events-none'
-        ])}
+        )}
         onClick={() => handleNavigationChange()}
       >
         <div className='w-7 h-7 mr-4'>
           {navigationItemData.icon}
         </div>
-        <span className='text-title'>{navigationItemData.label}</span>
+        <span className='text-title'>
+          {navigationItemData.label}
+        </span>
       </label>
     </li>
   );

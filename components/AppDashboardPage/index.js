@@ -1,5 +1,6 @@
 import { useEffect, useReducer } from "react";
 import { useRouter } from "next/router";
+import clsx from "clsx";
 
 import { NAVIGATION_ACTION, QUERY_KEY, STORYCOMMENTS_ACTION } from "../../utils/constants";
 import { parseStoryListModeId } from "../../utils/fetchApi";
@@ -183,7 +184,10 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
 
   return (  
     <div className='bg-brandBackground'>
-      <div className='relative grid mx-0 w-full h-screen max-w-screen-2xl md:grid-cols-[1fr,2fr]'>
+      <div className={clsx(
+        'relative grid mx-0 w-full h-screen max-w-screen-2xl',
+        'md:grid-cols-[1fr,2fr]'
+      )}>
         {!storyComments.isFocused && (
           <>
             <NavigationPanel  

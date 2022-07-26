@@ -82,12 +82,21 @@ const StoryCommentsHeader = ({ title, isExpanded, isFocused }) => {
         type='button'
         onClick={handleTogglePanel}
         disabled={!isExpanded}
-        className='group shrink-0 border-1 border-transparent rounded ml-1 px-2 py-1 leading-none transition-opacity cursor-pointer hover:opacity-50'
+        className={clsx(
+          'group shrink-0 border-1 border-transparent rounded ml-1 px-2 py-1 leading-none transition-opacity cursor-pointer',
+          'hover:opacity-50'
+        )}
       >
         {isFocused ? (
-          <FluentDismissRegular className='w-7 h-7 group-active:scale-[0.8] origin-center transition-transform' />
+          <FluentDismissRegular className={clsx(
+            'w-7 h-7 origin-center transition-transform',
+            'group-active:scale-[0.8]'
+          )} />
         ): (
-          <FluentArrowLeftRegular className='w-7 h-7 group-active:scale-[0.8] origin-center transition-transform' />
+          <FluentArrowLeftRegular className={clsx(
+            'w-7 h-7 origin-center transition-transform',
+            'group-active:scale-[0.8]'
+          )} />
         )}
       </button>
       <p className='flex-1 pr-1 text-contentPrimary font-medium leading-6 overflow-x-hidden text-ellipsis whitespace-nowrap'>
