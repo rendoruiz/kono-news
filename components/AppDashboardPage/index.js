@@ -5,6 +5,7 @@ import { NAVIGATION_ACTION, QUERY_KEY, STORYCOMMENTS_ACTION } from "../../utils/
 import { parseStoryListModeId } from "../../utils/fetchApi";
 import NavigationPanel from "../NavigationPanel";
 import StoryListPanel from "../StoryListPanel";
+import StoryCommentsPanel from "../StoryCommentsPanel";
 
 //#region reducer
 const navigationReducer = (state, action) => {
@@ -196,11 +197,11 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryCom
             />
           </>
         )}
-        {/* <StoryCommentsPanel 
+        <StoryCommentsPanel 
           isExpanded={storyComments.isExpanded}
           isFocused={storyComments.isFocused}
           storyCommentsId={storyComments.id} 
-        /> */}
+        />
       </div>
     </div>
   );

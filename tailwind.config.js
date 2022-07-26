@@ -9,15 +9,16 @@ module.exports = {
       colors: {
         brandOrange: 'rgb(255, 102, 0)',
         brandBackground: 'rgb(246, 246, 239)',
-        textPrimary: 'rgb(30, 30, 30)',
-        textSecondary: 'rgb(130, 130, 130)',
+        brandPrimary: 'rgb(30, 30, 30)',
+        brandSecondary: 'rgb(130, 130, 130)',
         modalOverlay: 'rgba(0, 0, 0, 0.5)',
         itemSelected: 'rgba(0, 0, 0, 0.05)',
       },
       fontSize: {
         heading1: '1.75em',
-        heading2: '1.2em',
-        heading3: '1.1em',
+        heading2: '1.5em',
+        heading3: '1.2em',
+        heading4: '1.1em',
         title: '1.15em',
         base: '1em',
         contentPrimary: '0.9em',
@@ -40,6 +41,7 @@ module.exports = {
       borderWidth: {
         1: '1px',
         1.5: '1.5px',
+        3: '3px',
       }
     },
   },

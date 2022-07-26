@@ -24,7 +24,7 @@ const StoryListHeader = ({ storyListModeId, onToggleNavigationPanel }) => {
   return (
     <header className='sticky z-10 top-0 flex items-center py-2 px-1 bg-brandBackground/60 backdrop-blur-sm'>
       <NavigationToggle onClick={onToggleNavigationPanel} />
-      <h2 className='ml-2 text-heading2 font-medium'>
+      <h2 className='ml-2 text-heading3 font-medium'>
         {listModeName}
       </h2>
     </header>
@@ -52,10 +52,10 @@ const StoryListContent = ({ storyListModeId }) => {
   if (isError) {
     return (
       <div className='flex flex-col justify-center px-5 py-4 font-medium text-center'>
-        <h3 className='text-heading1 text-textPrimary'>
+        <h3 className='text-heading1 text-brandPrimary'>
           Cannot fetch Story IDs.
         </h3>
-        <p className='mt-4 text-heading-2 text-textSecondary'>
+        <p className='mt-4 text-heading-2 text-brandSecondary'>
           {error?.message}
         </p>
       </div>
@@ -172,7 +172,7 @@ const StoryItem = ({ storyItemData }) => {
           <h3 className='text-base leading-tight break-words'>
             {title}
           </h3>
-          <div className='flex mt-1 text-contentSecondary text-textSecondary leading-none stroke-textSecondary'>
+          <div className='flex mt-1 text-contentSecondary text-brandSecondary leading-none stroke-textSecondary'>
             <p>{points} points • {post_count ?? 'no'} comments • {author}</p>
             <span className='shrink-0 ml-auto pl-2px'>
               {shortTime}
