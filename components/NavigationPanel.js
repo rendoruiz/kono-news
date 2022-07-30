@@ -5,8 +5,9 @@ import clsx from "clsx";
 
 import NavigationToggle from "./shared/NavigationToggle";
 
-import { NAVIGATION_ACTION, NAVIGATION_ITEMS, QUERY_KEY } from "../utils/constants";
 import { useNavigation } from '../context/NavigationContext';
+
+import { NAVIGATION_ACTION, NAVIGATION_ITEMS, QUERY_KEY } from "../utils/constants";
 
 const NavigationPanel = ({
   isExpanded, 
