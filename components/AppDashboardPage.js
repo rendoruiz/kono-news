@@ -97,7 +97,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, is
   // set list mode id based on route query
   React.useEffect(() => {
     const { 
-      [QUERY_KEY.STORY_MODE]: storyModeId, 
+      [QUERY_KEY.STORY_LIST_MODE]: storyModeId, 
     } = router.query;
 
     if (storyModeId && navigation.storyListModeId !== storyModeId) {
