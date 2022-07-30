@@ -154,8 +154,8 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, is
           {!storyDiscussion.isFocused && (
             <>
               <NavigationPanel
-                currentStoryModeId={navigation.storyListModeId}
                 isExpanded={navigation.isExpanded}
+                currentStoryModeId={navigation.storyListModeId}
               />
               <StoryListPanel 
                 storyListModeId={navigation.storyListModeId} 

@@ -9,8 +9,8 @@ import { NAVIGATION_ACTION, NAVIGATION_ITEMS, QUERY_KEY } from "../utils/constan
 import { useNavigation } from '../context/NavigationContext';
 
 const NavigationPanel = ({
-  currentStoryModeId,
   isExpanded, 
+  currentStoryModeId,
 }) => (
   <>
     <NavigationPanelOverlay isExpanded={isExpanded} />
