@@ -10,8 +10,8 @@ export const STORY_MODE = {
 }
 
 export const QUERY_KEY = {
-  STORY_LIST_MODE: 'list',
-  STORY_COMMENTS_ID: 'story',
+  STORY_LIST_MODE_ID: 'list',
+  STORY_DISCUSSION_ID: 'story',
   IS_STORY_DISCUSSION_EXPANDED: 'discuss',
   IS_STORY_DISCUSSION_FOCUSED: 'permalink',
 }

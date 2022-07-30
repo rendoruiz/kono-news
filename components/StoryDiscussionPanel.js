@@ -74,7 +74,7 @@ const StoryDiscussionHeader = ({ title, isExpanded, isFocused, originalPostId = 
       router.push(
         { query: {
           ...newRouterQuery,
-          [QUERY_KEY.STORY_COMMENTS_ID]: originalPostId,
+          [QUERY_KEY.STORY_DISCUSSION_ID]: originalPostId,
           [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: true,
         } }, 
         undefined, 
@@ -288,7 +288,7 @@ const StoryCommentItem = React.memo(({
           )}
           <Link 
             href={{ query: {
-              [QUERY_KEY.STORY_COMMENTS_ID]: id,
+              [QUERY_KEY.STORY_DISCUSSION_ID]: id,
               [QUERY_KEY.IS_STORY_DISCUSSION_FOCUSED]: true,
             }}} 
             passHref

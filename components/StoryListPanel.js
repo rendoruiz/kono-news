@@ -147,7 +147,7 @@ const StoryItem = React.memo(({ storyItemData }) => {
       router.push(
         { query: { 
           ...router.query,
-          [QUERY_KEY.STORY_COMMENTS_ID]: id, 
+          [QUERY_KEY.STORY_DISCUSSION_ID]: id, 
           [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: true,
         }}, 
         undefined, 

@@ -64,7 +64,7 @@ const NavigationItem = React.memo(({
   const routeHrefObject = { 
     query: { 
       ...router.query,
-      [QUERY_KEY.STORY_LIST_MODE]: navigationItemData.id 
+      [QUERY_KEY.STORY_LIST_MODE_ID]: navigationItemData.id 
     }
   }
   

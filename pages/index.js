@@ -16,8 +16,8 @@ const HomePage = (props) => (
 
 export const getServerSideProps = async ({ query }) => {
   const { 
-    [QUERY_KEY.STORY_LIST_MODE]: listMode, 
-    [QUERY_KEY.STORY_COMMENTS_ID]: storyDiscussionId,
+    [QUERY_KEY.STORY_LIST_MODE_ID]: listMode, 
+    [QUERY_KEY.STORY_DISCUSSION_ID]: storyDiscussionId,
     [QUERY_KEY.IS_STORY_DISCUSSION_FOCUSED]: isStoryDiscussionFocused,
   } = query;
 

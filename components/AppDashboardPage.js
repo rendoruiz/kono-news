@@ -97,7 +97,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, is
   // set list mode id based on route query
   React.useEffect(() => {
     const { 
-      [QUERY_KEY.STORY_LIST_MODE]: storyModeId, 
+      [QUERY_KEY.STORY_LIST_MODE_ID]: storyModeId, 
     } = router.query;
 
     if (storyModeId && navigation.storyListModeId !== storyModeId) {
@@ -112,7 +112,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, is
   // handle story comments panel expansion and set new stroycommentsid
   React.useEffect(() => {
     const { 
-      [QUERY_KEY.STORY_COMMENTS_ID]: newStoryDiscussionId, 
+      [QUERY_KEY.STORY_DISCUSSION_ID]: newStoryDiscussionId, 
       [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: isStoryDiscussionExpanded,
     } = router.query;
     
