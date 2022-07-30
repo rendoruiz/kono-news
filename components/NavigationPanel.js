@@ -17,7 +17,9 @@ const NavigationPanel = ({
     <NavigationPanelOverlay isExpanded={isExpanded} />
     <section className={clsx(
       'fixed z-modal inset-0 right-auto px-1 py-2 w-4/5 min-w-[120px] max-w-[300px] bg-brandBackground -translate-x-full transition-transform panel-transition overflow-y-auto pointer-events-none',
-      {'translate-x-0 pointer-events-auto': isExpanded}
+      '2xl:absolute 2xl:border-1.5 2xl:border-l-0 2xl:rounded-lg 2xl:rounded-l-none 2xl:opacity-0 2xl:-translate-x-1/4 2xl:transition-all 2xl:duration-200',
+      {'translate-x-0 pointer-events-auto': isExpanded},
+      {'2xl:opacity-100 2xl:translate-x-0': isExpanded},
     )}>
       <NavigationToggle />
       <NavigationList currentStoryModeId={currentStoryModeId} />
@@ -33,6 +35,7 @@ const NavigationPanelOverlay = ({ isExpanded }) => {
     <div 
       className={clsx(
         'fixed z-modal inset-0 bg-modalOverlay opacity-0 transition-opacity panel-transition pointer-events-none',
+        '2xl:bg-modalOverlay/20 2xl:duration-200',
         {'opacity-100 pointer-events-auto': isExpanded},
       )}
       onClick={handleClick}

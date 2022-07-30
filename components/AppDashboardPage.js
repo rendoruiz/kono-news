@@ -84,6 +84,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, is
     }
   );
 
+  //#region navigation useeffect
   // set initial list mode id
   React.useEffect(() => {
     const storyListModeId = parseStoryListModeId(initialStoryListModeId);
@@ -106,6 +107,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, is
       });
     }
   }, [router.query, navigation.storyListModeId]);
+  //#endregion
 
   // handle story comments panel expansion and set new stroycommentsid
   React.useEffect(() => {
@@ -149,7 +151,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, is
           'relative grid mx-auto w-full h-screen max-w-screen-2xl',
           'md:grid-cols-[1fr,2fr]',
           'xl:grid-cols-[1fr,2.5fr]',
-          '2xl:grid-cols-[1fr,3fr]'
+          '2xl:grid-cols-[1fr,3fr] 2xl:overflow-hidden'
         )}>
           {!storyDiscussion.isFocused && (
             <>
