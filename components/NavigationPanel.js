@@ -56,8 +56,12 @@ const NavigationItem = React.memo(({
   navigationItemData, 
   isSelected,
 }) => {
+  const router = useRouter();
   const routeHrefObject = { 
-    query: { [QUERY_KEY.STORY_MODE]: navigationItemData.id }
+    query: { 
+      ...router.query,
+      [QUERY_KEY.STORY_MODE]: navigationItemData.id 
+    }
   }
   
   return (
