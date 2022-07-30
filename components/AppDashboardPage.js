@@ -149,9 +149,9 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, is
       <div className='bg-brandBackground'>
         <div className={clsx(
           'relative grid mx-auto w-full h-screen max-w-screen-2xl',
-          'md:grid-cols-[1fr,2fr]',
-          'xl:grid-cols-[1fr,2.5fr]',
-          '2xl:grid-cols-[1fr,3fr] 2xl:overflow-hidden'
+          'md:grid-cols-[1fr_2fr]',
+          'xl:grid-cols-[1fr_2.5fr]',
+          '2xl:grid-cols-[1fr_3fr] 2xl:overflow-hidden'
         )}>
           {!storyDiscussion.isFocused && (
             <>

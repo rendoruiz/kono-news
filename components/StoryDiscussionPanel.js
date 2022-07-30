@@ -140,7 +140,7 @@ const StoryDiscussionHeader = ({ title, isExpanded, isFocused, originalPostId = 
 
 const StoryDiscussionContent = React.memo(({ children, ...originalPostData }) => {
   return (
-    <main className='grid grid-rows-[auto,1fr] gap-y-2 pb-3 overflow-y-auto'>
+    <main className='grid grid-rows-[auto_1fr] gap-y-2 pb-3 overflow-y-auto'>
       <StoryDiscussionOriginalPost {...originalPostData} />
 
       {/* story comments list */}
@@ -266,11 +266,11 @@ const StoryCommentItem = React.memo(({
     const shortTime = getShortTime(time);
     const radioId = `story-comment-item-${id}`;
     return (
-      <li className='grid grid-cols-[auto,1fr] mt-4'>
+      <li className='grid grid-cols-[auto_1fr] mt-4'>
         <StoryItemCommentVisibilityToggle radioButtonId={radioId}/>
 
         <header className={clsx(
-          'col-start-2 grid grid-cols-[1fr,auto] items-center text-[0.8em] text-brandSecondary tracking-wide',
+          'col-start-2 grid grid-cols-[1fr_auto] items-center text-[0.8em] text-brandSecondary tracking-wide',
           '[&>*]:row-start-1',
           'md:flex'
         )}>

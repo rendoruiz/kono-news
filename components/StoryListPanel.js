@@ -10,7 +10,10 @@ import { QUERY_KEY, reactQueryParams, STORIES_PER_PAGE } from "../utils/constant
 import { getInitialStoryListData, getStoryData } from "../utils/fetchApi";
 
 const StoryListPanel = ({ storyListModeId, onToggleNavigationPanel }) => (
-  <section className='relative overflow-y-auto'>
+  <section className={clsx(
+    'relative overflow-y-auto',
+    'md:grid md:grid-rows-[auto_1fr]',
+  )}>
     <StoryListHeader 
       storyListModeId={storyListModeId} 
       onToggleNavigationPanel={onToggleNavigationPanel} 
@@ -24,7 +27,10 @@ const StoryListPanel = ({ storyListModeId, onToggleNavigationPanel }) => (
 const StoryListHeader = ({ storyListModeId, onToggleNavigationPanel }) => {
   const listMode = getNavigationItemByStoryListId(storyListModeId);
   return (
-    <header className='sticky z-10 top-0 flex items-center py-2 px-1 bg-brandBackground/60 backdrop-blur-sm'>
+    <header className={clsx(
+      'sticky z-10 top-0 flex items-center py-2 px-1 bg-brandBackground',
+      'md:static',
+    )}>
       <NavigationToggle onClick={onToggleNavigationPanel} />
       {listMode && (
         <h2 className='ml-2 text-heading3 font-medium'>
@@ -82,7 +88,7 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
         {!isPageLimitReached && (
           <button 
             type='button'
-            className='rounded mt-1 p-3 w-full uppercase tracking-wide cursor-pointer select-none'
+            className='rounded mt-1 p-3 w-full text-brandOrange/80 uppercase tracking-wide cursor-pointer select-none'
             onClick={handlePageChange}
           >
             Load More
