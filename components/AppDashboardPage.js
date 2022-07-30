@@ -6,7 +6,7 @@ import NavigationPanel from "./NavigationPanel";
 import StoryListPanel from "./StoryListPanel";
 import StoryDiscussionPanel from "./StoryDiscussionPanel";
 
-import { NAVIGATION_ACTION, QUERY_KEY, STORYCOMMENTS_ACTION } from "../utils/constants";
+import { NAVIGATION_ACTION, QUERY_KEY, STORYDISCUSSION_ACTION } from "../utils/constants";
 import { parseStoryListModeId } from "../utils/fetchApi";
 
 //#region reducer
@@ -37,23 +37,23 @@ const navigationReducer = (state, action) => {
 
 const storyDiscussionReducer = (state, action) => {
   switch (action.type) {
-    case STORYCOMMENTS_ACTION.SET_ID:
+    case STORYDISCUSSION_ACTION.SET_ID:
       return {
         ...state,
         isExpanded: true,
         id: (state.id !== action.id) ? action.id : state.id
       }
-    case STORYCOMMENTS_ACTION.EXPAND_PANEL:
+    case STORYDISCUSSION_ACTION.EXPAND_PANEL:
       return {
         ...state,
         isExpanded: true,
       };
-    case STORYCOMMENTS_ACTION.RETRACT_PANEL:
+    case STORYDISCUSSION_ACTION.RETRACT_PANEL:
       return {
         ...state,
         isExpanded: false,
       };
-    case STORYCOMMENTS_ACTION.DISABLE_FOCUS:
+    case STORYDISCUSSION_ACTION.DISABLE_FOCUS:
       if (state.isFocused === true) {
         return {
           ...state,
@@ -134,14 +134,14 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryDis
     if (isStoryDiscussionExpanded) {
       if (newStoryDiscussionId && newStoryDiscussionId !== storyDiscussion.id) {
         dispatchStoryDiscussion({
-          type: STORYCOMMENTS_ACTION.SET_ID,
+          type: STORYDISCUSSION_ACTION.SET_ID,
           id: newStoryDiscussionId,
         });
       } else {
-        dispatchStoryDiscussion({ type: STORYCOMMENTS_ACTION.EXPAND_PANEL });
+        dispatchStoryDiscussion({ type: STORYDISCUSSION_ACTION.EXPAND_PANEL });
       }
     } else {
-      dispatchStoryDiscussion({ type: STORYCOMMENTS_ACTION.RETRACT_PANEL });
+      dispatchStoryDiscussion({ type: STORYDISCUSSION_ACTION.RETRACT_PANEL });
     }
   }, [router.query, storyDiscussion.id]);
 
@@ -154,7 +154,7 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryDis
       } = router.query;
   
       if (isStoryDiscussionFocused === undefined) {
-        dispatchStoryDiscussion({ type: STORYCOMMENTS_ACTION.DISABLE_FOCUS }); 
+        dispatchStoryDiscussion({ type: STORYDISCUSSION_ACTION.DISABLE_FOCUS }); 
       }
     }
   }, [router.query, storyDiscussion.isFocused]);
