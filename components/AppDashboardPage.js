@@ -6,6 +6,8 @@ import NavigationPanel from "./NavigationPanel";
 import StoryListPanel from "./StoryListPanel";
 import StoryDiscussionPanel from "./StoryDiscussionPanel";
 
+import { NavigationContext } from "../context/NavigationContext";
+
 import { NAVIGATION_ACTION, QUERY_KEY, STORYDISCUSSION_ACTION } from "../utils/constants";
 import { parseStoryListModeId } from "../utils/fetchApi";
 
@@ -15,21 +17,16 @@ const navigationReducer = (state, action) => {
     case NAVIGATION_ACTION.SET_ID: 
       return {
         ...state,
-        isExpanded: !state.isExpanded,
+        isExpanded: false,
         storyListModeId: (state.storyListModeId !== action.storyListModeId) 
           ? action.storyListModeId 
-          : state.storyDiscussionId,
+          : state.storyListModeId,
       };
-    case NAVIGATION_ACTION.EXPAND_PANEL: 
+    case NAVIGATION_ACTION.TOGGLE_PANEL:
       return {
-        ...state, 
-        isExpanded: true,
-      };
-    case NAVIGATION_ACTION.RETRACT_PANEL: 
-      return {
-        ...state, 
-        isExpanded: false,
-      };
+        ...state,
+        isExpanded: !state.isExpanded,
+      }
     default:
       throw new Error();
   }
@@ -69,13 +66,13 @@ const storyDiscussionReducer = (state, action) => {
 }
 //#endregion
 
-const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryDiscussionId, isStoryDiscussionFocused, }) => {
+const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, isStoryDiscussionFocused, }) => {
   const router = useRouter(); 
   const [navigation, dispatchNavigation] = React.useReducer(
     navigationReducer, 
     {
       isExpanded: false,
-      storyListModeId: initialStoryListModeId,
+      storyListModeId: null,
     }
   );
   const [storyDiscussion, dispatchStoryDiscussion] = React.useReducer(
@@ -87,42 +84,28 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryDis
     }
   );
 
-  // remove expansion flags on first mount
+  // set initial list mode id
   React.useEffect(() => {
-    const {
-      [QUERY_KEY.IS_NAVIGATION_EXPANDED]: isNavigationExpanded,
-      ...cleanedQuery
-    } = router.query;
-    if (isNavigationExpanded) {
-      router.replace(
-        { query: cleanedQuery},
-        undefined, 
-        { shallow: true }
-      );
-    }
-  }, []);
+    const storyListModeId = parseStoryListModeId(initialStoryListModeId);
+    dispatchNavigation({
+      type: NAVIGATION_ACTION.SET_ID,
+      storyListModeId,
+    })
+  }, [initialStoryListModeId]);
 
-  // handle navigation panel expansion and set new storylistid
+  // set list mode id based on route query
   React.useEffect(() => {
     const { 
-      [QUERY_KEY.STORY_MODE]: newStoryListModeId, 
-      [QUERY_KEY.IS_NAVIGATION_EXPANDED]: isExpanded,
+      [QUERY_KEY.STORY_MODE]: storyModeId, 
     } = router.query;
 
-    if (!isExpanded) {
-      if (newStoryListModeId && newStoryListModeId !== navigation.storyListModeId) {
-        const parsedId = parseStoryListModeId(newStoryListModeId)
-        dispatchNavigation({
-          type: NAVIGATION_ACTION.SET_ID,
-          storyListModeId: parsedId,
-        })
-      } else {
-        dispatchNavigation({ type: NAVIGATION_ACTION.RETRACT_PANEL })
-      }
-    } else {
-      dispatchNavigation({ type: NAVIGATION_ACTION.EXPAND_PANEL })
+    if (storyModeId && navigation.storyListModeId !== storyModeId) {
+      dispatchNavigation({
+        type: NAVIGATION_ACTION.SET_ID,
+        storyListModeId: storyModeId,
+      });
     }
-  }, [router.query, navigation.storyListModeId, navigation.isExpanded]);
+  }, [router.query, navigation.storyListModeId]);
 
   // handle story comments panel expansion and set new stroycommentsid
   React.useEffect(() => {
@@ -159,57 +142,35 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryDis
     }
   }, [router.query, storyDiscussion.isFocused]);
 
-  const handleToggleNavigationPanel = () => {
-    const {
-      [QUERY_KEY.IS_NAVIGATION_EXPANDED]: isExpanded,
-      ...newRouterQuery
-    } = router.query;
-    if (navigation.isExpanded) {
-      router.replace(
-        { query: newRouterQuery}, 
-        undefined, 
-        { shallow: true }
-      );
-    } else {
-      router.push(
-        { query: {
-          ...newRouterQuery,
-          [QUERY_KEY.IS_NAVIGATION_EXPANDED]: true,
-        }}, 
-        undefined, 
-        { shallow: true }
-      );
-    }
-  };
-
   return ( 
-    <div className='bg-brandBackground'>
-      <div className={clsx(
-        'relative grid mx-auto w-full h-screen max-w-screen-2xl',
-        'md:grid-cols-[1fr,2fr]',
-        'xl:grid-cols-[1fr,2.5fr]',
-        '2xl:grid-cols-[1fr,3fr]'
-      )}>
-        {!storyDiscussion.isFocused && (
-          <>
-            <NavigationPanel  
-              isExpanded={navigation.isExpanded}
-              initialSelectedItemId={initialStoryListModeId}
-              onTogglePanel={handleToggleNavigationPanel}
-            />
-            <StoryListPanel 
-              storyListModeId={navigation.storyListModeId} 
-              onToggleNavigationPanel={handleToggleNavigationPanel}
-            />
-          </>
-        )}
-        <StoryDiscussionPanel 
-          isExpanded={storyDiscussion.isExpanded}
-          isFocused={storyDiscussion.isFocused}
-          storyDiscussionId={storyDiscussion.id} 
-        />
+    <NavigationContext.Provider value={dispatchNavigation}>
+      <div className='bg-brandBackground'>
+        <div className={clsx(
+          'relative grid mx-auto w-full h-screen max-w-screen-2xl',
+          'md:grid-cols-[1fr,2fr]',
+          'xl:grid-cols-[1fr,2.5fr]',
+          '2xl:grid-cols-[1fr,3fr]'
+        )}>
+          {!storyDiscussion.isFocused && (
+            <>
+              <NavigationPanel
+                currentStoryModeId={navigation.storyListModeId}
+                isExpanded={navigation.isExpanded}
+              />
+              <StoryListPanel 
+                storyListModeId={navigation.storyListModeId} 
+                onToggleNavigationPanel={null}
+              />
+            </>
+          )}
+          <StoryDiscussionPanel 
+            isExpanded={storyDiscussion.isExpanded}
+            isFocused={storyDiscussion.isFocused}
+            storyDiscussionId={storyDiscussion.id} 
+          />
+        </div>
       </div>
-    </div>
+    </NavigationContext.Provider>
   );
 }
 
