@@ -15,18 +15,22 @@ const StoryListPanel = ({ storyListModeId, onToggleNavigationPanel }) => (
       storyListModeId={storyListModeId} 
       onToggleNavigationPanel={onToggleNavigationPanel} 
     />
-    <StoryListContent storyListModeId={storyListModeId} />
+    {storyListModeId && (
+      <StoryListContent storyListModeId={storyListModeId} />
+    )}
   </section>
 );
 
 const StoryListHeader = ({ storyListModeId, onToggleNavigationPanel }) => {
-  const listModeName = getNavigationItemByStoryListId(storyListModeId)?.label;
+  const listMode = getNavigationItemByStoryListId(storyListModeId);
   return (
     <header className='sticky z-10 top-0 flex items-center py-2 px-1 bg-brandBackground/60 backdrop-blur-sm'>
       <NavigationToggle onClick={onToggleNavigationPanel} />
-      <h2 className='ml-2 text-heading3 font-medium'>
-        {listModeName}
-      </h2>
+      {listMode && (
+        <h2 className='ml-2 text-heading3 font-medium'>
+          {listMode.label}
+        </h2>
+      )}
     </header>
   );
 }
@@ -49,7 +53,7 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
       </ol>
     );
   }
-  if (isError) {
+  if (isError || !fetchedStoryIds) {
     return (
       <div className='flex flex-col justify-center px-5 py-4 font-medium text-center'>
         <h3 className='text-heading1 text-brandPrimary'>
