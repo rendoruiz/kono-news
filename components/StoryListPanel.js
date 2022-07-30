@@ -3,11 +3,11 @@ import { useQuery } from 'react-query';
 import { useRouter } from "next/router";
 import clsx from "clsx";
 
-import NavigationToggle from "../shared/NavigationToggle";
+import NavigationToggle from "./shared/NavigationToggle";
 
-import { getNavigationItemByStoryListId, getShortTime, handleOnKeyDown } from "../../utils";
-import { QUERY_KEY, reactQueryParams, STORIES_PER_PAGE } from "../../utils/constants";
-import { getInitialStoryListData, getStoryData } from "../../utils/fetchApi";
+import { getNavigationItemByStoryListId, getShortTime, handleOnKeyDown } from "../utils";
+import { QUERY_KEY, reactQueryParams, STORIES_PER_PAGE } from "../utils/constants";
+import { getInitialStoryListData, getStoryData } from "../utils/fetchApi";
 
 const StoryListPanel = ({ storyListModeId, onToggleNavigationPanel }) => (
   <section className='relative overflow-y-auto'>

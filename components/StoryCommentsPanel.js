@@ -5,12 +5,12 @@ import Link from 'next/link';
 import Head from 'next/head';
 import clsx from "clsx";
 
-import HtmlContent from "../shared/HtmlContent";
-import { FluentArrowLeftRegular, FluentCommentRegular, FluentDismissRegular, FluentKeyboardShiftRegular } from "../shared/FluentIcons";
+import HtmlContent from "./shared/HtmlContent";
+import { FluentArrowLeftRegular, FluentCommentRegular, FluentDismissRegular, FluentKeyboardShiftRegular } from "./shared/FluentIcons";
 
-import { getRoundTime, getShortTime, getStringCount, getUrlHostname } from "../../utils";
-import { QUERY_KEY, reactQueryParams } from "../../utils/constants";
-import { getStoryCommentsData } from "../../utils/fetchApi";
+import { getRoundTime, getShortTime, getStringCount, getUrlHostname } from "../utils";
+import { QUERY_KEY, reactQueryParams } from "../utils/constants";
+import { getStoryCommentsData } from "../utils/fetchApi";
 
 const StoryCommentsPanel = ({ isExpanded, isFocused, storyCommentsId }) => {
   const { isLoading, isError, data: storyCommentsData, error } = useQuery(

@@ -2,10 +2,10 @@ import React from 'react';
 import { useRouter } from "next/router";
 import clsx from "clsx";
 
-import NavigationToggle from "../shared/NavigationToggle";
+import NavigationToggle from "./shared/NavigationToggle";
 
-import { handleOnKeyDown } from "../../utils";
-import { NAVIGATION_ITEMS, QUERY_KEY } from "../../utils/constants";
+import { handleOnKeyDown } from "../utils";
+import { NAVIGATION_ITEMS, QUERY_KEY } from "../utils/constants";
 
 const NavigationPanel = ({ 
   isExpanded, 

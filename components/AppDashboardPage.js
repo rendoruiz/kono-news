@@ -2,12 +2,12 @@ import React from "react";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 
-import NavigationPanel from "../NavigationPanel";
-import StoryListPanel from "../StoryListPanel";
-import StoryCommentsPanel from "../StoryCommentsPanel";
+import NavigationPanel from "./NavigationPanel";
+import StoryListPanel from "./StoryListPanel";
+import StoryCommentsPanel from "./StoryCommentsPanel";
 
-import { NAVIGATION_ACTION, QUERY_KEY, STORYCOMMENTS_ACTION } from "../../utils/constants";
-import { parseStoryListModeId } from "../../utils/fetchApi";
+import { NAVIGATION_ACTION, QUERY_KEY, STORYCOMMENTS_ACTION } from "../utils/constants";
+import { parseStoryListModeId } from "../utils/fetchApi";
 
 //#region reducer
 const navigationReducer = (state, action) => {
