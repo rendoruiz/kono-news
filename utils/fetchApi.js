@@ -7,7 +7,7 @@ const getStoryListIdsEndpoint = (storyListMode) => `${HN_API_ENDPOINT}${storyLis
 const getStoryDataEndpoint = (storyId) => `${HN_API_ENDPOINT}item/${storyId}.json`;
 
 const ALGOLIA_API_ENDPOINT = 'https://hn.algolia.com/api/v1/';
-const getStoryCommentsDataEndpoint = (commentDataId) =>`${ALGOLIA_API_ENDPOINT}items/${commentDataId}`;
+const getStoryDiscussionDataEndpoint = (commentDataId) =>`${ALGOLIA_API_ENDPOINT}items/${commentDataId}`;
 
 const getServerErrorMessage = (serverEndpoint) => `Failed to fetch resource: ${serverEndpoint}`;
 
@@ -49,13 +49,13 @@ export const getStoryData = async (storyId) => {
 }
 
 // returns: {...storyComment}
-export const getStoryCommentsData = async (storyCommentId) => {
+export const getStoryDiscussionData = async (storyCommentId) => {
   if (!storyCommentId) {
     return null;
   }
 
   let commentData = null;
-  const commentEndpoint = getStoryCommentsDataEndpoint(storyCommentId);
+  const commentEndpoint = getStoryDiscussionDataEndpoint(storyCommentId);
   try {
     const response = await axios.get(commentEndpoint);
     commentData = response.data;
@@ -65,7 +65,7 @@ export const getStoryCommentsData = async (storyCommentId) => {
   
   let storyData;
   if (commentData.story_id) {
-    const storyEndpoint = getStoryCommentsDataEndpoint(commentData.story_id);
+    const storyEndpoint = getStoryDiscussionDataEndpoint(commentData.story_id);
     try {
       const response = await axios.get(storyEndpoint);
       storyData = response.data;

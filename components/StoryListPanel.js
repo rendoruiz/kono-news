@@ -139,7 +139,7 @@ const StoryItem = React.memo(({ storyItemData }) => {
     const controlId = 'story-item-' + id;
     const shortTime = getShortTime(time);
   
-    const handleStoryCommentsChange = () => {
+    const handleStoryDiscussionChange = () => {
       router.push(
         { query: { 
           ...router.query,
@@ -158,7 +158,7 @@ const StoryItem = React.memo(({ storyItemData }) => {
           name='story-item' 
           id={controlId} 
           className='peer absolute opacity-0 pointer-events-none'
-          onKeyDown={(e) => handleOnKeyDown(e, handleStoryCommentsChange)} 
+          onKeyDown={(e) => handleOnKeyDown(e, handleStoryDiscussionChange)} 
         />
         <label 
           htmlFor={controlId} 
@@ -167,7 +167,7 @@ const StoryItem = React.memo(({ storyItemData }) => {
           'peer-checked:bg-itemSelected',
             'peer-checked:before:absolute peer-checked:before:inset-0 peer-checked:before:right-auto peer-checked:before:rounded peer-checked:before:my-auto peer-checked:before:w-1 peer-checked:before:h-1/2 peer-checked:before:bg-brandOrange peer-checked:before:pointer-events-none'
           )}
-          onClick={() => handleStoryCommentsChange()}
+          onClick={() => handleStoryDiscussionChange()}
         >
           <h3 className='text-base leading-tight break-words'>
             {title}

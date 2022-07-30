@@ -10,20 +10,20 @@ import { FluentArrowLeftRegular, FluentCommentRegular, FluentDismissRegular, Flu
 
 import { getRoundTime, getShortTime, getStringCount, getUrlHostname } from "../utils";
 import { QUERY_KEY, reactQueryParams } from "../utils/constants";
-import { getStoryCommentsData } from "../utils/fetchApi";
+import { getStoryDiscussionData } from "../utils/fetchApi";
 
-const StoryCommentsPanel = ({ isExpanded, isFocused, storyCommentsId }) => {
-  const { isLoading, isError, data: storyCommentsData, error } = useQuery(
-    ['storycommentsdata', storyCommentsId], 
-    () => getStoryCommentsData(storyCommentsId),
+const StoryDiscussionPanel = ({ isExpanded, isFocused, storyDiscussionId }) => {
+  const { isLoading, isError, data: storyDiscussionData, error } = useQuery(
+    ['storycommentsdata', storyDiscussionId], 
+    () => getStoryDiscussionData(storyDiscussionId),
     reactQueryParams
   );
 
   return (
     <> 
-      {(isExpanded || isFocused) && storyCommentsData && (
+      {(isExpanded || isFocused) && storyDiscussionData && (
         <Head>
-          <title>Kono News | {storyCommentsData.title}</title>
+          <title>Kono News | {storyDiscussionData.title}</title>
         </Head>
       )}
       <section className={clsx(
@@ -32,11 +32,11 @@ const StoryCommentsPanel = ({ isExpanded, isFocused, storyCommentsId }) => {
         'md:static md:z-auto md:transform-none md:transition-none md:pointer-events-auto',
         'md:only:col-span-2 md:only:mx-auto md:only:max-w-screen-xl md:only:w-full'
       )}>
-        <StoryCommentsHeader 
-          title={storyCommentsData?.title}
+        <StoryDiscussionHeader 
+          title={storyDiscussionData?.title}
           isExpanded={isExpanded}
           isFocused={isFocused}
-          originalPostId={!storyCommentsData?.permalink ? null : storyCommentsData.id}
+          originalPostId={!storyDiscussionData?.permalink ? null : storyDiscussionData.id}
         />
 
         {isLoading && (
@@ -54,15 +54,15 @@ const StoryCommentsPanel = ({ isExpanded, isFocused, storyCommentsId }) => {
             </p>
           </div>
         )}
-        {storyCommentsData && (
-          <StoryCommentsContent {...storyCommentsData} />
+        {storyDiscussionData && (
+          <StoryDiscussionContent {...storyDiscussionData} />
         )}
       </section>
     </>
   );
 }
 
-const StoryCommentsHeader = ({ title, isExpanded, isFocused, originalPostId = null }) => {
+const StoryDiscussionHeader = ({ title, isExpanded, isFocused, originalPostId = null }) => {
   const router = useRouter();
 
   const handleTogglePanel = () => {
@@ -138,22 +138,22 @@ const StoryCommentsHeader = ({ title, isExpanded, isFocused, originalPostId = nu
   );
 }
 
-const StoryCommentsContent = React.memo(({ children, ...originalPostData }) => {
+const StoryDiscussionContent = React.memo(({ children, ...originalPostData }) => {
   return (
     <main className='grid grid-rows-[auto,1fr] gap-y-2 pb-3 overflow-y-auto'>
-      <StoryCommentsOriginalPost {...originalPostData} />
+      <StoryDiscussionOriginalPost {...originalPostData} />
 
       {/* story comments list */}
       {children.length === 0 ? (
         <p>No comments.</p>
       ) : (
-        <StoryCommentsList storyCommentsListData={children} />
+        <StoryDiscussionList storyDiscussionListData={children} />
       )}
     </main>
   );
 });
 
-const StoryCommentsOriginalPost = React.memo(({ id, title, author, created_at_i: time, url, text, points, post_count, permalink }) => {
+const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_i: time, url, text, points, post_count, permalink }) => {
   const urlHostname = getUrlHostname(url);
   const roundTime = getRoundTime(time);
 
@@ -180,7 +180,7 @@ const StoryCommentsOriginalPost = React.memo(({ id, title, author, created_at_i:
         </h2>
         <p className='mt-1 text-contentSecondary text-brandSecondary'>
           by&nbsp;
-          <StoryCommentsUserLink
+          <StoryDiscussionUserLink
             userId={author}
             className={clsx(
               'md:font-medium',
@@ -221,8 +221,8 @@ const StoryCommentsOriginalPost = React.memo(({ id, title, author, created_at_i:
   );
 });
 
-const StoryCommentsList = React.memo(({ storyCommentsListData }) => {
-  if (!storyCommentsListData) {
+const StoryDiscussionList = React.memo(({ storyDiscussionListData }) => {
+  if (!storyDiscussionListData) {
     return null;
   } else {
     return (
@@ -232,7 +232,7 @@ const StoryCommentsList = React.memo(({ storyCommentsListData }) => {
         'md:ml-[14px]',
         'md:before:left-[-14px]'
       )}>
-        {storyCommentsListData.map((storyCommentItemData) =>
+        {storyDiscussionListData.map((storyCommentItemData) =>
           <StoryCommentItem
             key={storyCommentItemData.id}
             {...storyCommentItemData}
@@ -275,7 +275,7 @@ const StoryCommentItem = React.memo(({
           'md:flex'
         )}>
           {author ? (
-            <StoryCommentsUserLink
+            <StoryDiscussionUserLink
               userId={author}
               className={clsx(
                 'col-start-1 pointer-events-none',
@@ -330,7 +330,7 @@ const StoryCommentItem = React.memo(({
           )}
 
           { children && children.length > 0 && (
-            <StoryCommentsList storyCommentsListData={children} />
+            <StoryDiscussionList storyDiscussionListData={children} />
           )}
         </main>
       </li>
@@ -338,7 +338,7 @@ const StoryCommentItem = React.memo(({
   }
 });
 
-const StoryCommentsUserLink = React.memo(({ userId, ...props }) => (
+const StoryDiscussionUserLink = React.memo(({ userId, ...props }) => (
   <a
     href={'https://news.ycombinator.com/user?id=' + userId}
     target='_blank'
@@ -372,4 +372,4 @@ const StoryItemCommentVisibilityToggle = React.memo(({ radioButtonId }) => (
   </>
 ));
 
-export default StoryCommentsPanel;
+export default StoryDiscussionPanel;
