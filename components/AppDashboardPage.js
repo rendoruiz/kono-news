@@ -91,7 +91,14 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, is
     dispatchNavigation({
       type: NAVIGATION_ACTION.SET_ID,
       storyListModeId,
-    })
+    });
+    // default query string on load
+    router.replace({
+      query: {
+        ...router.query,
+        [QUERY_KEY.STORY_LIST_MODE_ID]: storyListModeId,
+      }
+    }, undefined, { shallow: true });
   }, [initialStoryListModeId]);
 
   // set list mode id based on route query
@@ -105,6 +112,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, is
         type: NAVIGATION_ACTION.SET_ID,
         storyListModeId: storyModeId,
       });
+      console.log('effect')
     }
   }, [router.query, navigation.storyListModeId]);
   //#endregion
