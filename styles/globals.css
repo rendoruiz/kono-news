@@ -20,5 +20,5 @@
 }
 .html-content pre {
   @apply flex py-[5px] px-2px bg-itemSelected font-mono whitespace-pre-wrap overflow-x-auto break-words;
-  overflow-wrap: anywhere;
+  /* overflow-wrap: anywhere; */
 }
