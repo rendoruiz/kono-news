@@ -92,7 +92,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, is
       type: NAVIGATION_ACTION.SET_ID,
       storyListModeId,
     });
-    // default query string on load
+    // default query string on load, if query string is empty
     router.replace({
       query: {
         ...router.query,
