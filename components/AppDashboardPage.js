@@ -128,7 +128,7 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryDis
   React.useEffect(() => {
     const { 
       [QUERY_KEY.STORY_COMMENTS_ID]: newStoryDiscussionId, 
-      [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: isStoryDiscussionExpanded,
+      [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: isStoryDiscussionExpanded,
     } = router.query;
     
     if (isStoryDiscussionExpanded) {
@@ -149,8 +149,8 @@ const AppDashboardPage = ({ queryString, initialStoryListModeId, initialStoryDis
   React.useEffect(() => {
     if (storyDiscussion.isFocused) {
       const { 
-        [QUERY_KEY.IS_STORY_COMMENTS_FOCUSED]: isStoryDiscussionFocused,
-        [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: _,
+        [QUERY_KEY.IS_STORY_DISCUSSION_FOCUSED]: isStoryDiscussionFocused,
+        [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: _,
       } = router.query;
   
       if (isStoryDiscussionFocused === undefined) {

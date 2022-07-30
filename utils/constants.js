@@ -1,20 +1,20 @@
 import { FluentArrowTrendingRegular, FluentChatHelpRegular, FluentHomeRegular, FluentLightbulbFilamentRegular, FluentNotepadPersonRegular, FluentRewardRegular } from "../components/shared/FluentIcons";
 
 export const STORY_MODE = {
-  TOP: 'TOP',
-  NEW: 'NEW',
-  BEST: 'BEST',
-  ASK: 'ASK',
-  SHOW: 'SHOW',
-  JOB: 'JOB',
+  TOP: 'top',
+  NEW: 'new',
+  BEST: 'best',
+  ASK: 'ask',
+  SHOW: 'show',
+  JOB: 'job',
 }
 
 export const QUERY_KEY = {
   STORY_MODE: 'mode',
   STORY_COMMENTS_ID: 'story',
-  IS_NAVIGATION_EXPANDED: 'np',
-  IS_STORY_COMMENTS_EXPANDED: 'scp',
-  IS_STORY_COMMENTS_FOCUSED: 'focus',
+  IS_NAVIGATION_EXPANDED: 'nav',
+  IS_STORY_DISCUSSION_EXPANDED: 'discuss',
+  IS_STORY_DISCUSSION_FOCUSED: 'permalink',
 }
 
 export const STORY_MODE_API_QUERY = [

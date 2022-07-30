@@ -144,7 +144,7 @@ const StoryItem = React.memo(({ storyItemData }) => {
         { query: { 
           ...router.query,
           [QUERY_KEY.STORY_COMMENTS_ID]: id, 
-          [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: true,
+          [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: true,
         }}, 
         undefined, 
         { shallow: true }

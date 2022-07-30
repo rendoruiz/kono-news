@@ -68,21 +68,21 @@ const StoryDiscussionHeader = ({ title, isExpanded, isFocused, originalPostId = 
   const handleTogglePanel = () => {
     if (isFocused) {
       const { 
-        [QUERY_KEY.IS_STORY_COMMENTS_FOCUSED]: _,
+        [QUERY_KEY.IS_STORY_DISCUSSION_FOCUSED]: _,
         ...newRouterQuery 
       } = router.query;
       router.push(
         { query: {
           ...newRouterQuery,
           [QUERY_KEY.STORY_COMMENTS_ID]: originalPostId,
-          [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: true,
+          [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: true,
         } }, 
         undefined, 
         { shallow: true }
       );
     } else if (isExpanded) {
       const { 
-        [QUERY_KEY.IS_STORY_COMMENTS_EXPANDED]: expanded,
+        [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: expanded,
         ...newRouterQuery 
       } = router.query;
       router.replace(
@@ -289,7 +289,7 @@ const StoryCommentItem = React.memo(({
           <Link 
             href={{ query: {
               [QUERY_KEY.STORY_COMMENTS_ID]: id,
-              [QUERY_KEY.IS_STORY_COMMENTS_FOCUSED]: true,
+              [QUERY_KEY.IS_STORY_DISCUSSION_FOCUSED]: true,
             }}} 
             passHref
           >
