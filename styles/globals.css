@@ -1,16 +1,24 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.panel-transition {
+  @apply ease-panel duration-panel;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.html-content > :not(:first-child) {
+  @apply mt-6px;
 }
-
-* {
-  box-sizing: border-box;
+.html-content a,
+.html-content p, 
+.html-content span {
+  @apply break-words;
+  overflow-wrap: anywhere;
+}
+.html-content a {
+  @apply text-brandOrange/80;
+}
+.html-content pre {
+  @apply flex py-[5px] px-2px bg-itemSelected font-mono whitespace-pre-wrap overflow-x-auto break-words;
+  overflow-wrap: anywhere;
 }
