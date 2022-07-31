@@ -11,6 +11,7 @@ import { FluentArrowLeftRegular, FluentCommentRegular, FluentDismissRegular, Flu
 import { getRoundTime, getShortTime, getStringCount, getUrlHostname } from "../utils";
 import { QUERY_KEY, reactQueryParams } from "../utils/constants";
 import { getStoryDiscussionData } from "../utils/fetchApi";
+import ExternalLink from './shared/ExternalLink';
 
 const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) => {
   const { isLoading, isError, data: storyDiscussionData, error } = useQuery(
@@ -191,15 +192,13 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
           {roundTime}
         </p>
         {urlHostname && (
-          <a 
+          <ExternalLink
             href={url}
-            target='_blank'
-            rel='noopener noreferrer'
             title='open story url'
             className='self-start border-1 border-brandOrange rounded-2xl mt-2 py-1 px-[10px] bg-brandOrange/5 text-[0.75em] font-medium leading-none uppercase'
           >
             {urlHostname}
-          </a>
+          </ExternalLink>
         )}
       </header>
       {text && (
@@ -339,15 +338,13 @@ const StoryCommentItem = React.memo(({
 });
 
 const StoryDiscussionUserLink = React.memo(({ userId, ...props }) => (
-  <a
+  <ExternalLink
     href={'https://news.ycombinator.com/user?id=' + userId}
-    target='_blank'
-    rel='noopener noreferrer'
     title='open user page on ycombinator'
     {...props}
   >
     {userId}
-  </a>
+  </ExternalLink>
 ));
 
 const StoryItemCommentVisibilityToggle = React.memo(({ radioButtonId }) => (

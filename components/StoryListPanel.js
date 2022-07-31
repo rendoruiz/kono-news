@@ -10,6 +10,7 @@ import { getNavigationItemByStoryListId, getShortTime } from "../utils";
 import { QUERY_KEY, reactQueryParams, STORIES_PER_PAGE } from "../utils/constants";
 import { getInitialStoryListData, getStoryData } from "../utils/fetchApi";
 import { useStory } from "../context/StoryContext";
+import ExternalLink from "./shared/ExternalLink";
 
 const StoryListPanel = React.memo(({ storyListModeId }) => (
   <section className={clsx(
@@ -59,13 +60,23 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
     );
   }
   if (isError || !fetchedStoryIds) {
+    const { apiEndpoint, originalUrl} = error.cause;
     return (
       <div className='flex flex-col justify-center px-5 py-4 font-medium text-center'>
         <h3 className='text-heading1 text-brandPrimary'>
-          Cannot fetch Story IDs.
+          Something went wrong.
         </h3>
         <p className='mt-4 text-heading-2 text-brandSecondary'>
-          {error?.message}
+          {error.message}
+        </p>
+        <p>
+          <ExternalLink href={apiEndpoint}>
+            API Endpoint
+          </ExternalLink>
+          <span className='mx-2'>•</span>
+          <ExternalLink href={originalUrl}>
+            YCombinator
+          </ExternalLink>
         </p>
       </div>
     );
@@ -130,9 +141,19 @@ const StoryItem = React.memo(({ storyItemData, isSelected }) => {
     );
   }
   if (isError || !storyData) {
+    const { apiEndpoint, originalUrl} = error.cause;
     return (
       <li>
-        <p>Loading Story #{storyItemData} error: {error.message}</p>
+        <p>{error.message}</p>
+        <p>
+          <ExternalLink href={apiEndpoint}>
+            API Endpoint
+          </ExternalLink>
+          <span className='mx-2'>•</span>
+          <ExternalLink href={originalUrl}>
+            YCombinator
+          </ExternalLink>
+        </p>
       </li>
     )
   }
