@@ -5,6 +5,17 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    fontSize: {
+      'text-xs': '0.75em',
+      'text-sm': '0,8em',
+      'text-base': '0.9em',
+      'text-lg': '1.1em',
+      'text-xl': '1.15em',
+      'text-2xl': '1.2em',
+      'text-3xl': '1.5em',
+      'text-4xl': '1.75em',
+      'text-5xl': '2em',
+    },
     extend: {
       colors: {
         brandOrange: 'rgb(255, 102, 0)',
@@ -14,16 +25,6 @@ module.exports = {
         modalOverlay: 'rgba(0, 0, 0, 0.5)',
         itemSelected: 'rgba(0, 0, 0, 0.05)',
         commentThread: 'rgb(255, 194, 153)',
-      },
-      fontSize: {
-        heading1: '1.75em',
-        heading2: '1.5em',
-        heading3: '1.2em',
-        heading4: '1.1em',
-        title: '1.15em',
-        base: '1em',
-        contentPrimary: '0.9em',
-        contentSecondary: '0.85em',
       },
       spacing: {
         '1px': '0.0625rem',
