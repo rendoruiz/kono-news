@@ -2,14 +2,23 @@ import axios from "axios";
 import { getStringCount } from ".";
 import { STORIES_PER_PAGE, STORY_MODE, STORY_MODE_API_QUERY } from "./constants";
 
-const HN_API_ENDPOINT = 'https://hacker-news.firebaseio.com/v0/'
+const HACKERNEWS_URL = 'https://news.ycombinator.com/';
+const HACKERNEWS_ITEM_URL = 'https://news.ycombinator.com/item?id=';
+
+const HN_API_ENDPOINT = 'https://hacker-news.firebaseio.com/v/'
 const getStoryListIdsEndpoint = (storyListMode) => `${HN_API_ENDPOINT}${storyListMode}.json`;
 const getStoryDataEndpoint = (storyId) => `${HN_API_ENDPOINT}item/${storyId}.json`;
 
 const ALGOLIA_API_ENDPOINT = 'https://hn.algolia.com/api/v1/';
 const getStoryDiscussionDataEndpoint = (commentDataId) =>`${ALGOLIA_API_ENDPOINT}items/${commentDataId}`;
 
-const getServerErrorMessage = (serverEndpoint) => `Failed to fetch resource: ${serverEndpoint}`;
+const getServerErrorObject = (apiEndpoint, originalUrl) => ({
+  cause: {
+    apiEndpoint,
+    originalUrl,
+  }
+})
+const GENERIC_ERROR_MESSAGE = 'Failed to fetch resource.';
 
 export const parseStoryListModeId = (modeString) => {
   if (!modeString) {
@@ -29,7 +38,13 @@ export const getStoryListIds = async (listMode, isListModeParsed = false) => {
     const response = await axios.get(endpoint);
     return response.data;
   } catch {
-    throw new Error(getServerErrorMessage(endpoint));
+    throw new Error(
+      GENERIC_ERROR_MESSAGE, 
+      getServerErrorObject(
+        endpoint, 
+        HACKERNEWS_URL,
+      ),
+    );
   }
 }
 
@@ -44,33 +59,52 @@ export const getStoryData = async (storyId) => {
     const response = await axios.get(endpoint);
     return response.data;
   } catch {
-    throw new Error(getServerErrorMessage(endpoint));
+    throw new Error(
+      GENERIC_ERROR_MESSAGE,
+      getServerErrorObject(
+        endpoint, 
+        HACKERNEWS_ITEM_URL + storyId,
+      ),
+    );
   }
 }
 
 // returns: {...storyComment}
-export const getStoryDiscussionData = async (storyCommentId) => {
-  if (!storyCommentId) {
+export const getStoryDiscussionData = async (storyDiscussionId) => {
+  if (!storyDiscussionId) {
     return null;
   }
 
   let commentData = null;
-  const commentEndpoint = getStoryDiscussionDataEndpoint(storyCommentId);
+  const commentEndpoint = getStoryDiscussionDataEndpoint(storyDiscussionId);
   try {
     const response = await axios.get(commentEndpoint);
     commentData = response.data;
   } catch {
-    throw new Error(getServerErrorMessage(commentEndpoint));
+    throw new Error(
+      GENERIC_ERROR_MESSAGE,
+      getServerErrorObject(
+        commentEndpoint,
+        HACKERNEWS_ITEM_URL + storyDiscussionId,
+      ),
+    );
   }
   
-  let storyData;
-  if (commentData.story_id) {
-    const storyEndpoint = getStoryDiscussionDataEndpoint(commentData.story_id);
+  let storyData = null;
+  const storyDiscussionParentId = commentData.story_id;
+  if (storyDiscussionParentId) {
+    const storyEndpoint = getStoryDiscussionDataEndpoint(storyDiscussionParentId);
     try {
       const response = await axios.get(storyEndpoint);
       storyData = response.data;
     } catch {
-      throw new Error(getServerErrorMessage(storyEndpoint));
+      throw new Error(
+        GENERIC_ERROR_MESSAGE,
+        getServerErrorObject(
+          storyEndpoint,
+          HACKERNEWS_ITEM_URL + storyDiscussionParentId,
+        ),
+      );
     }
     
     const commentCount = getStringCount(storyData.children, '"title":null');
@@ -111,7 +145,10 @@ export const getInitialStoryListData = async (listMode, isListModeParsed) => {
         }
       }),
     ];
-  } catch {
-    throw new Error('Failed to fetch initial story list data.');
+  } catch (error) {
+    throw new Error(
+      GENERIC_ERROR_MESSAGE,
+      error.cause,
+    );
   }
 }
