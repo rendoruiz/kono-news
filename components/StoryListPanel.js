@@ -198,7 +198,7 @@ const StoryItem = React.memo(({ storyItemData, isSelected }) => {
               'flex mt-1 text-xs text-knSecondary leading-none stroke-textSecondary',
               'md:text-sm',
             )}>
-              <p>{points} points • {post_count ?? 'no'} comments • {author}</p>
+              <p>{points} points • {(!post_count || post_count == 0) ? 'no' : post_count} comments • {author}</p>
               <span className='shrink-0 ml-auto pl-2px'>
                 {shortTime}
               </span> 
