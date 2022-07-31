@@ -6,7 +6,7 @@ import Head from 'next/head';
 import clsx from "clsx";
 
 import HtmlContent from "./shared/HtmlContent";
-import { FluentArrowLeftRegular, FluentCommentRegular, FluentDismissRegular, FluentKeyboardShiftRegular } from "./shared/FluentIcons";
+import { FluentArrowLeftRegular, FluentCommentRegular, FluentDismissRegular, FluentKeyboardShiftRegular, FluentPersonRegular } from "./shared/FluentIcons";
 
 import { getRoundTime, getShortTime, getStringCount, getUrlHostname } from "../utils";
 import { QUERY_KEY, reactQueryParams } from "../utils/constants";
@@ -170,7 +170,7 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
 
   return (
     <article className={clsx(
-      'border-b-3 border-b-black/10 py-2 px-3',
+      'border-b-3 border-b-black/10 pt-2 pb-3 px-3',
       '[&+ul]:mt-1 [&+ul]:ml-0 [&+ul]:py-0 [&+ul]:px-3',
       '[&+ul:before]:content-none',
       '[&+ul>li:first-of-type]:mt-0',
@@ -189,18 +189,30 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
         <h2 className='font-serif text-3xl leading-tight'>
           {title}
         </h2>
-        <p className='mt-1 text-sm text-knSecondary'>
-          by&nbsp;
-          <StoryDiscussionUserLink
-            userId={author}
-            className={clsx(
-              'md:font-medium',
-              'md:hover:underline'
-            )}
-          />
-          &nbsp;•&nbsp;
-          {roundTime}
-        </p>
+        <div className={clsx(
+          'mt-1 flex flex-wrap items-center text-xs text-knSecondary stroke-knSecondary stroke-[0.5]',
+          '[&>:not(:last-child)]:mr-3',
+          ''
+        )}>
+          <span className='flex items-center'>
+            <FluentKeyboardShiftRegular className='mr-1 w-4 h-5' />
+            {points}
+          </span>
+          <span className='flex items-center'>
+            <FluentCommentRegular className='mr-1 w-4 h-5' />
+            {post_count}
+          </span>
+          <span className='flex items-center'>
+            <FluentPersonRegular className='mr-1 w-4 h-5' />
+            <StoryDiscussionUserLink
+              userId={author}
+              className={clsx(
+                'md:font-medium',
+                'md:hover:underline'
+              )}
+            />
+          </span>
+        </div>
         {urlHostname && (
           <ExternalLink
             href={url}
@@ -216,16 +228,6 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
           <HtmlContent htmlString={text} />
         </main>
       )}
-      <footer className='grid grid-flow-col justify-start gap-x-3 mt-3 font-medium text-sm text-knSecondary stroke-knSecondary stroke-[0.5px]'>
-        <span className='flex items-center'>
-          <FluentKeyboardShiftRegular className='mr-1 w-4' />
-          {points}
-        </span>
-        <span className='flex items-center'>
-          <FluentCommentRegular className='mr-1 w-4' />
-          {post_count}
-        </span>
-      </footer>
     </article>
   );
 });
