@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+*, *::before, *::after {
+  @apply font-sans;
+}
+
 .panel-transition {
   @apply ease-panel duration-panel;
 }

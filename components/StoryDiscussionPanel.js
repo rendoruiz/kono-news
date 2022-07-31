@@ -142,7 +142,7 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
 
       )}
       
-      <p className='flex-1 pr-1 text-contentPrimary font-medium leading-6 overflow-x-hidden text-ellipsis whitespace-nowrap'>
+      <p className='flex-1 pr-1 font-knSansSerif font-bold text-sm leading-6 tracking-wide overflow-x-hidden text-ellipsis whitespace-nowrap'>
         {title}
       </p>
     </header>
@@ -177,7 +177,7 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
     )}>
       {permalink && (
         <p className={clsx(
-          'grid rounded -mt-1 mb-3 p-2 bg-knOrange/20 font-medium text-contentSecondary',
+          'grid rounded -mt-1 mb-3 p-2 bg-knOrange/20 font-medium text-xs',
           'md:block md:text-center'
         )}>
           <span className='md:mr-1'>You are viewing a single comment thread.</span>
@@ -186,10 +186,10 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
       )}
 
       <header className='flex flex-col'>
-        <h2 className='text-title leading-tight'>
+        <h2 className='font-serif text-3xl leading-tight'>
           {title}
         </h2>
-        <p className='mt-1 text-contentSecondary text-knSecondary'>
+        <p className='mt-1 text-sm text-knSecondary'>
           by&nbsp;
           <StoryDiscussionUserLink
             userId={author}
@@ -205,7 +205,7 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
           <ExternalLink
             href={url}
             title='open story url'
-            className='self-start border-1 border-brandOrange rounded-2xl mt-2 py-1 px-[10px] bg-knOrange/5 text-[0.75em] font-medium leading-none uppercase'
+            className='self-start border-1 border-knOrange rounded-2xl mt-2 py-1 px-[10px] bg-knOrange/5 text-2xs font-medium leading-none uppercase'
           >
             {urlHostname}
           </ExternalLink>
@@ -216,7 +216,7 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
           <HtmlContent htmlString={text} />
         </main>
       )}
-      <footer className='grid grid-flow-col justify-start gap-x-3 mt-3 text-contentSecondary text-knSecondary font-medium stroke-brandSecondary'>
+      <footer className='grid grid-flow-col justify-start gap-x-3 mt-3 font-medium text-sm text-knSecondary stroke-knSecondary stroke-[0.5px]'>
         <span className='flex items-center'>
           <FluentKeyboardShiftRegular className='mr-1 w-4' />
           {points}
@@ -279,9 +279,9 @@ const StoryCommentItem = React.memo(({
         <StoryItemCommentVisibilityToggle radioButtonId={radioId}/>
 
         <header className={clsx(
-          'col-start-2 grid grid-cols-[1fr_auto] items-center text-[0.8em] text-knSecondary tracking-wide',
+          'col-start-2 grid grid-cols-[1fr_auto] items-center text-2xs text-knSecondary tracking-wide',
           '[&>*]:row-start-1',
-          'md:flex'
+          'md:flex md:text-xs',
         )}>
           {author ? (
             <StoryDiscussionUserLink
@@ -333,7 +333,7 @@ const StoryCommentItem = React.memo(({
           {text ? (
             <HtmlContent htmlString={text} />
           ) : (
-            <p className='text-contentPrimary text-knSecondary italic'>
+            <p className='text-sm text-knSecondary italic'>
               deleted comment
             </p>
           )}

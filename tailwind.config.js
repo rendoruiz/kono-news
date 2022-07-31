@@ -1,10 +1,17 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    fontFamily: {
+      'serif': ['Merriweather', 'serif'],
+      'sans': ['Open Sans', 'sans-serif'],
+      'mono': [...defaultTheme.fontFamily.mono],
+    },
     fontSize: {
       '2xs': '0.75em',
       'xs': '0.8em',
@@ -18,10 +25,6 @@ module.exports = {
       '5xl': '2em',
     },
     extend: {
-      fontFamily: {
-        knSerif: ['Uchen', 'serif'],
-        knSansSerif: ['Open Sans', 'sans-serif'],
-      },
       colors: {
         knOrange: 'rgb(255, 102, 0)',
         knBackground: 'rgb(246, 246, 239)',
