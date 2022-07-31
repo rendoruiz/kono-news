@@ -29,7 +29,7 @@ const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) =>
       )}
       
       <section className={clsx(
-        'fixed z-modal inset-0 bg-brandBackground translate-x-full transition-transform panel-transition overflow-y-auto pointer-events-none',
+        'fixed z-modal inset-0 bg-knBackground translate-x-full transition-transform panel-transition overflow-y-auto pointer-events-none',
         {'!translate-x-0 !pointer-events-auto': isExpanded || isPermalink},
         'md:static md:z-auto md:transform-none md:transition-none md:pointer-events-auto',
         'md:only:col-span-2 md:only:mx-auto md:only:max-w-screen-xl md:only:w-full'
@@ -51,7 +51,7 @@ const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) =>
             <h3 className='text-heading1'>
               Something went wrong
             </h3>
-            <p className='mt-4 text-heading3 text-brandSecondary'>
+            <p className='mt-4 text-heading3 text-knSecondary'>
               {error.message}
             </p>
             <p className='mt-3'> 
@@ -106,7 +106,7 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
 
   return (
     <header className={clsx(
-      'sticky z-10 top-0 flex items-center gap-2 py-2 px-1 bg-brandBackground/60 backdrop-blur-sm',
+      'sticky z-10 top-0 flex items-center gap-2 py-2 px-1 bg-knBackground/60 backdrop-blur-sm',
       'md:static'
     )}>
       {isPermalink ? (
@@ -177,7 +177,7 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
     )}>
       {permalink && (
         <p className={clsx(
-          'grid rounded -mt-1 mb-3 p-2 bg-brandOrange/20 font-medium text-contentSecondary',
+          'grid rounded -mt-1 mb-3 p-2 bg-knOrange/20 font-medium text-contentSecondary',
           'md:block md:text-center'
         )}>
           <span className='md:mr-1'>You are viewing a single comment thread.</span>
@@ -189,7 +189,7 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
         <h2 className='text-title leading-tight'>
           {title}
         </h2>
-        <p className='mt-1 text-contentSecondary text-brandSecondary'>
+        <p className='mt-1 text-contentSecondary text-knSecondary'>
           by&nbsp;
           <StoryDiscussionUserLink
             userId={author}
@@ -205,7 +205,7 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
           <ExternalLink
             href={url}
             title='open story url'
-            className='self-start border-1 border-brandOrange rounded-2xl mt-2 py-1 px-[10px] bg-brandOrange/5 text-[0.75em] font-medium leading-none uppercase'
+            className='self-start border-1 border-brandOrange rounded-2xl mt-2 py-1 px-[10px] bg-knOrange/5 text-[0.75em] font-medium leading-none uppercase'
           >
             {urlHostname}
           </ExternalLink>
@@ -216,7 +216,7 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
           <HtmlContent htmlString={text} />
         </main>
       )}
-      <footer className='grid grid-flow-col justify-start gap-x-3 mt-3 text-contentSecondary text-brandSecondary font-medium stroke-brandSecondary'>
+      <footer className='grid grid-flow-col justify-start gap-x-3 mt-3 text-contentSecondary text-knSecondary font-medium stroke-brandSecondary'>
         <span className='flex items-center'>
           <FluentKeyboardShiftRegular className='mr-1 w-4' />
           {points}
@@ -237,7 +237,7 @@ const StoryDiscussionList = React.memo(({ storyDiscussionListData }) => {
     return (
       <ul className={clsx(
         'relative ml-[10px]',
-        'before:absolute before:inset-y-0 before:right-auto before:left-[-10px] before:border-l-1.5 before:border-l-commentThread',
+        'before:absolute before:inset-y-0 before:right-auto before:left-[-10px] before:border-l-1.5 before:border-l-knCommentThreadBorder',
         'md:ml-[14px]',
         'md:before:left-[-14px]'
       )}>
@@ -279,7 +279,7 @@ const StoryCommentItem = React.memo(({
         <StoryItemCommentVisibilityToggle radioButtonId={radioId}/>
 
         <header className={clsx(
-          'col-start-2 grid grid-cols-[1fr_auto] items-center text-[0.8em] text-brandSecondary tracking-wide',
+          'col-start-2 grid grid-cols-[1fr_auto] items-center text-[0.8em] text-knSecondary tracking-wide',
           '[&>*]:row-start-1',
           'md:flex'
         )}>
@@ -309,7 +309,7 @@ const StoryCommentItem = React.memo(({
                 'pl-1.5',
                 'md:pl-0',
                 'md:hover:underline',
-                'md:before:content-["•"] md:before:mx-1.5 md:before:inline-block md:before:text-brandSecondary'
+                'md:before:content-["•"] md:before:mx-1.5 md:before:inline-block md:before:text-knSecondary'
               )}
             >
               {shortTime}
@@ -333,7 +333,7 @@ const StoryCommentItem = React.memo(({
           {text ? (
             <HtmlContent htmlString={text} />
           ) : (
-            <p className='text-contentPrimary text-brandSecondary italic'>
+            <p className='text-contentPrimary text-knSecondary italic'>
               deleted comment
             </p>
           )}
@@ -364,14 +364,14 @@ const StoryItemCommentVisibilityToggle = React.memo(({ radioButtonId }) => (
     />
     <label 
       htmlFor={radioButtonId} 
-      className='col-start-1 hidden pr-1 font-mono text-[0.8em] text-brandOrange select-none cursor-pointer peer-checked:block'
+      className='col-start-1 hidden pr-1 font-mono text-[0.8em] text-knOrange select-none cursor-pointer peer-checked:block'
       title='expand comment thread'
     >
       [+]
     </label>
     <label 
       htmlFor={radioButtonId} 
-      className='col-start-1 block pr-1 font-mono text-[0.8em] text-brandOrange/80 select-none cursor-pointer peer-checked:hidden'
+      className='col-start-1 block pr-1 font-mono text-[0.8em] text-knOrange/80 select-none cursor-pointer peer-checked:hidden'
       title='retract comment thread'
     >
       [-]

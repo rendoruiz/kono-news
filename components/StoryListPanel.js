@@ -28,7 +28,7 @@ const StoryListHeader = React.memo(({ storyListModeId }) => {
   const listMode = getNavigationItemByStoryListId(storyListModeId);
   return (
     <header className={clsx(
-      'sticky z-10 top-0 flex items-center py-2 px-1 bg-brandBackground',
+      'sticky z-10 top-0 flex items-center py-2 px-1 bg-knBackground',
       'md:static',
     )}>
       <NavigationToggle />
@@ -63,10 +63,10 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
     const { apiEndpoint, originalUrl} = error.cause;
     return (
       <div className='flex flex-col justify-center px-5 py-4 font-medium text-center'>
-        <h3 className='text-heading1 text-brandPrimary'>
+        <h3 className='text-heading1 text-knPrimary'>
           Something went wrong.
         </h3>
-        <p className='mt-4 text-heading-2 text-brandSecondary'>
+        <p className='mt-4 text-heading-2 text-knSecondary'>
           {error.message}
         </p>
         <p>
@@ -98,7 +98,7 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
         {!isPageLimitReached && (
           <button 
             type='button'
-            className='rounded mt-1 p-3 w-full text-brandOrange/80 uppercase tracking-wide cursor-pointer select-none'
+            className='rounded mt-1 p-3 w-full text-knOrange/80 uppercase tracking-wide cursor-pointer select-none'
             onClick={handlePageChange}
           >
             Load More
@@ -185,13 +185,19 @@ const StoryItem = React.memo(({ storyItemData, isSelected }) => {
         >
           <a className={clsx(
             'flex-1 relative rounded pl-3 pr-2 py-6px cursor-pointer select-none',
-            {'bg-itemSelected': isSelected},
-            {'before:absolute before:inset-0 before:right-auto before:rounded before:my-auto before:w-1 before:h-1/2 before:bg-brandOrange before:pointer-events-none': isSelected},
+            {'bg-knItemSelected': isSelected},
+            {'before:absolute before:inset-0 before:right-auto before:rounded before:my-auto before:w-1 before:h-1/2 before:bg-knOrange before:pointer-events-none': isSelected},
           )}>
-            <p className='text-base leading-tight break-words'>
+            <p className={clsx(
+              'text-sm text-knPrimary leading-tight break-words',
+              'md:text-base',
+            )}>
               {title}
             </p>
-            <div className='flex mt-1 text-contentSecondary text-brandSecondary leading-none stroke-textSecondary'>
+            <div className={clsx(
+              'flex mt-1 text-xs text-knSecondary leading-none stroke-textSecondary',
+              'md:text-sm',
+            )}>
               <p>{points} points • {post_count ?? 'no'} comments • {author}</p>
               <span className='shrink-0 ml-auto pl-2px'>
                 {shortTime}

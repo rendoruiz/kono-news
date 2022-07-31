@@ -16,9 +16,9 @@
   overflow-wrap: anywhere;
 }
 .html-content a {
-  @apply text-brandOrange/80;
+  @apply text-knOrange/80;
 }
 .html-content pre {
-  @apply flex py-[5px] px-2px bg-itemSelected font-mono whitespace-pre-wrap overflow-x-auto break-words;
+  @apply flex py-[5px] px-2px bg-knItemSelected font-mono whitespace-pre-wrap overflow-x-auto break-words;
   /* overflow-wrap: anywhere; */
 }

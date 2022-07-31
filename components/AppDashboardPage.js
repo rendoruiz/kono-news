@@ -157,7 +157,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
   return ( 
     <NavigationContext.Provider value={dispatchNavigation}>
       <StoryContext.Provider value={storyDiscussion.id}>
-        <div className='bg-brandBackground'>
+        <div className='bg-knBackground'>
           <div className={clsx(
             'relative grid mx-auto w-full h-screen max-w-screen-2xl',
             'md:grid-cols-[1fr_2fr]',
