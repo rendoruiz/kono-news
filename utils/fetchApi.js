@@ -5,20 +5,20 @@ import { STORIES_PER_PAGE, STORY_MODE, STORY_MODE_API_QUERY } from "./constants"
 const HACKERNEWS_URL = 'https://news.ycombinator.com/';
 const HACKERNEWS_ITEM_URL = 'https://news.ycombinator.com/item?id=';
 
-const HN_API_ENDPOINT = 'https://hacker-news.firebaseio.com/v/'
+const HN_API_ENDPOINT = 'https://hacker-news.firebaseio.com/v0/';
 const getStoryListIdsEndpoint = (storyListMode) => `${HN_API_ENDPOINT}${storyListMode}.json`;
 const getStoryDataEndpoint = (storyId) => `${HN_API_ENDPOINT}item/${storyId}.json`;
 
 const ALGOLIA_API_ENDPOINT = 'https://hn.algolia.com/api/v1/';
 const getStoryDiscussionDataEndpoint = (commentDataId) =>`${ALGOLIA_API_ENDPOINT}items/${commentDataId}`;
 
+const getServerErrorMessage = (requestObject) => `Failed to fetch resource: ${requestObject}`;
 const getServerErrorObject = (apiEndpoint, originalUrl) => ({
   cause: {
     apiEndpoint,
     originalUrl,
   }
-})
-const GENERIC_ERROR_MESSAGE = 'Failed to fetch resource.';
+});
 
 export const parseStoryListModeId = (modeString) => {
   if (!modeString) {
@@ -39,7 +39,7 @@ export const getStoryListIds = async (listMode, isListModeParsed = false) => {
     return response.data;
   } catch {
     throw new Error(
-      GENERIC_ERROR_MESSAGE, 
+      getServerErrorMessage('story list ids'), 
       getServerErrorObject(
         endpoint, 
         HACKERNEWS_URL,
@@ -60,7 +60,7 @@ export const getStoryData = async (storyId) => {
     return response.data;
   } catch {
     throw new Error(
-      GENERIC_ERROR_MESSAGE,
+      getServerErrorMessage('story data'),
       getServerErrorObject(
         endpoint, 
         HACKERNEWS_ITEM_URL + storyId,
@@ -82,7 +82,7 @@ export const getStoryDiscussionData = async (storyDiscussionId) => {
     commentData = response.data;
   } catch {
     throw new Error(
-      GENERIC_ERROR_MESSAGE,
+      getServerErrorMessage('story discussion data'),
       getServerErrorObject(
         commentEndpoint,
         HACKERNEWS_ITEM_URL + storyDiscussionId,
@@ -99,7 +99,7 @@ export const getStoryDiscussionData = async (storyDiscussionId) => {
       storyData = response.data;
     } catch {
       throw new Error(
-        GENERIC_ERROR_MESSAGE,
+        getServerErrorMessage('story discussion parent data'),
         getServerErrorObject(
           storyEndpoint,
           HACKERNEWS_ITEM_URL + storyDiscussionParentId,
@@ -146,9 +146,6 @@ export const getInitialStoryListData = async (listMode, isListModeParsed) => {
       }),
     ];
   } catch (error) {
-    throw new Error(
-      GENERIC_ERROR_MESSAGE,
-      error.cause,
-    );
+    throw error;
   }
 }
