@@ -33,7 +33,7 @@ const StoryListHeader = React.memo(({ storyListModeId }) => {
     )}>
       <NavigationToggle />
       {listMode && (
-        <h2 className='ml-2 text-heading3 font-medium'>
+        <h2 className='ml-2 text-2xl font-medium'>
           {listMode.label}
         </h2>
       )}

@@ -82,7 +82,7 @@ const NavigationItem = React.memo(({
           <div className='w-7 h-7 mr-4'>
             {navigationItemData.icon}
           </div>
-          <span className='text-title'>
+          <span className='text-lg'>
             {navigationItemData.label}
           </span>
         </a>
