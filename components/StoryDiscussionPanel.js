@@ -48,10 +48,19 @@ const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) =>
         {isError && (
           <div className='grid content-center px-4 py-5 font-medium text-center leading-5'>
             <h3 className='text-heading1'>
-              Cannot fetch story comments.
+              Something went wrong
             </h3>
             <p className='mt-4 text-heading3 text-brandSecondary'>
-              {error?.message}
+              {error.message}
+            </p>
+            <p className='mt-3'> 
+              <ExternalLink href={error.cause.apiEndpoint}>
+                API Endpoint
+              </ExternalLink>
+              <span className='mx-2'>•</span>
+              <ExternalLink href={error.cause.originalUrl}>
+                YCombinator
+              </ExternalLink>
             </p>
           </div>
         )}
