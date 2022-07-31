@@ -61,12 +61,14 @@ const NavigationItem = React.memo(({
   isSelected,
 }) => {
   const router = useRouter();
+  const dispatch = useNavigation();
   const routeHrefObject = { 
     query: { 
       ...router.query,
       [QUERY_KEY.STORY_LIST_MODE_ID]: navigationItemData.id 
     }
   }
+  const handleClickCurrentSelected = () => dispatch({ type: NAVIGATION_ACTION.TOGGLE_PANEL });
   
   return (
     <li className='relative flex'>
@@ -74,11 +76,14 @@ const NavigationItem = React.memo(({
         href={routeHrefObject} 
         shallow
       >
-        <a className={clsx(
-          'flex-1 flex items-center border-1 border-transparent rounded pl-3 pr-2 py-3 leading-none select-none cursor-pointer',
-          {'bg-knItemSelected': isSelected},
-          {'before:absolute before:inset-0 before:right-auto before:rounded before:my-auto before:w-1 before:h-1/2 before:bg-knOrange before:pointer-events-none': isSelected},
-        )}>
+        <a 
+          className={clsx(
+            'flex-1 flex items-center border-1 border-transparent rounded pl-3 pr-2 py-3 leading-none select-none cursor-pointer',
+            {'bg-knItemSelected': isSelected},
+            {'before:absolute before:inset-0 before:right-auto before:rounded before:my-auto before:w-1 before:h-1/2 before:bg-knOrange before:pointer-events-none': isSelected},
+          )}
+          onClick={isSelected && handleClickCurrentSelected}
+        >
           <div className='w-7 h-7 mr-4'>
             {navigationItemData.icon}
           </div>

@@ -18,10 +18,10 @@ const navigationReducer = (state, action) => {
     case NAVIGATION_ACTION.SET_ID: 
       return {
         ...state,
-        isExpanded: false,
         storyListModeId: (state.storyListModeId !== action.storyListModeId) 
           ? action.storyListModeId 
           : state.storyListModeId,
+        isExpanded: false,
       };
     case NAVIGATION_ACTION.TOGGLE_PANEL:
       return {
@@ -98,15 +98,14 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
   // set list mode id based on route query
   React.useEffect(() => {
     const { 
-      [QUERY_KEY.STORY_LIST_MODE_ID]: storyModeId, 
+      [QUERY_KEY.STORY_LIST_MODE_ID]: newStoryModeId, 
     } = router.query;
 
-    if (storyModeId && navigation.storyListModeId !== storyModeId) {
+    if (newStoryModeId && navigation.storyListModeId !== newStoryModeId) {
       dispatchNavigation({
         type: NAVIGATION_ACTION.SET_ID,
-        storyListModeId: storyModeId,
+        storyListModeId: newStoryModeId,
       });
-      console.log('effect')
     }
   }, [router.query, navigation.storyListModeId]);
   //#endregion
