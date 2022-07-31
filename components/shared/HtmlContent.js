@@ -13,7 +13,7 @@ const HtmlContent = React.memo(({ htmlString }) => {
       <div 
         dangerouslySetInnerHTML={{ __html: decodedHtml }} 
         className={clsx(
-          'html-content max-w-3x text-knPrimary text-sm leading-snug',
+          'html-content max-w-3xl text-knPrimary text-sm leading-snug',
           'md:text-base',
         )}
       />
