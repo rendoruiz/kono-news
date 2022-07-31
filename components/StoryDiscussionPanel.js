@@ -192,18 +192,17 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
         <div className={clsx(
           'mt-1 flex flex-wrap items-center text-xs text-knSecondary stroke-knSecondary stroke-[0.5]',
           '[&>:not(:last-child)]:mr-3',
-          ''
         )}>
           <span className='flex items-center'>
-            <FluentKeyboardShiftRegular className='mr-1 w-4 h-5' />
+            <FluentKeyboardShiftRegular className='mr-1 w-4 h-4' />
             {points}
           </span>
           <span className='flex items-center'>
-            <FluentCommentRegular className='mr-1 w-4 h-5' />
+            <FluentCommentRegular className='mr-1 w-4 h-4' />
             {post_count}
           </span>
           <span className='flex items-center'>
-            <FluentPersonRegular className='mr-1 w-4 h-5' />
+            <FluentPersonRegular className='mr-1 w-4 h-4' />
             <StoryDiscussionUserLink
               userId={author}
               className={clsx(
