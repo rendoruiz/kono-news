@@ -12,7 +12,7 @@ import { getRoundTime, getShortTime, getStringCount, getUrlHostname } from "../u
 import { QUERY_KEY, reactQueryParams } from "../utils/constants";
 import { getStoryDiscussionData } from "../utils/fetchApi";
 
-const StoryDiscussionPanel = ({ isExpanded, isFocused, storyDiscussionId }) => {
+const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) => {
   const { isLoading, isError, data: storyDiscussionData, error } = useQuery(
     ['storycommentsdata', storyDiscussionId], 
     () => getStoryDiscussionData(storyDiscussionId),
@@ -21,21 +21,21 @@ const StoryDiscussionPanel = ({ isExpanded, isFocused, storyDiscussionId }) => {
 
   return (
     <> 
-      {(isExpanded || isFocused) && storyDiscussionData && (
+      {(isExpanded || isPermalink) && storyDiscussionData && (
         <Head>
           <title>Kono News | {storyDiscussionData.title}</title>
         </Head>
       )}
       <section className={clsx(
         'fixed z-modal inset-0 bg-brandBackground translate-x-full transition-transform panel-transition overflow-y-auto pointer-events-none',
-        {'!translate-x-0 !pointer-events-auto': isExpanded || isFocused},
+        {'!translate-x-0 !pointer-events-auto': isExpanded || isPermalink},
         'md:static md:z-auto md:transform-none md:transition-none md:pointer-events-auto',
         'md:only:col-span-2 md:only:mx-auto md:only:max-w-screen-xl md:only:w-full'
       )}>
         <StoryDiscussionHeader 
           title={storyDiscussionData?.title}
           isExpanded={isExpanded}
-          isFocused={isFocused}
+          isPermalink={isPermalink}
           originalPostId={!storyDiscussionData?.permalink ? null : storyDiscussionData.id}
         />
 
@@ -62,11 +62,11 @@ const StoryDiscussionPanel = ({ isExpanded, isFocused, storyDiscussionId }) => {
   );
 }
 
-const StoryDiscussionHeader = ({ title, isExpanded, isFocused, originalPostId = null }) => {
+const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId = null }) => {
   const router = useRouter();
 
   const handleTogglePanel = () => {
-    if (isFocused) {
+    if (isPermalink) {
       const { 
         [QUERY_KEY.IS_PERMALINK]: _,
         ...newRouterQuery 
@@ -98,7 +98,7 @@ const StoryDiscussionHeader = ({ title, isExpanded, isFocused, originalPostId = 
       'sticky z-10 top-0 flex items-center gap-2 py-2 px-1 bg-brandBackground/60 backdrop-blur-sm',
       'md:static'
     )}>
-      {isFocused ? (
+      {isPermalink ? (
         <button
           type='button'
           onClick={handleTogglePanel}

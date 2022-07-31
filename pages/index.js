@@ -18,7 +18,7 @@ export const getServerSideProps = async ({ query }) => {
   const { 
     [QUERY_KEY.STORY_LIST_MODE_ID]: listMode, 
     [QUERY_KEY.STORY_DISCUSSION_ID]: storyDiscussionId,
-    [QUERY_KEY.IS_PERMALINK]: isStoryDiscussionFocused,
+    [QUERY_KEY.IS_PERMALINK]: isPermalink,
   } = query;
 
   return {
@@ -26,7 +26,7 @@ export const getServerSideProps = async ({ query }) => {
       queryString: query,
       initialStoryListModeId: parseStoryListModeId(listMode), 
       initialStoryDiscussionId: storyDiscussionId ?? null,
-      isStoryDiscussionFocused: isStoryDiscussionFocused ?? null,
+      isPermalink: isPermalink ?? null,
     }
   };
 }

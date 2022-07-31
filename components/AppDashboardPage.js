@@ -52,11 +52,11 @@ const storyDiscussionReducer = (state, action) => {
         isExpanded: false,
       };
     case STORYDISCUSSION_ACTION.DISABLE_PERMALINK:
-      if (state.isFocused === true) {
+      if (state.isPermalink === true) {
         return {
           ...state,
           isExpanded: false,
-          isFocused: false,
+          isPermalink: false,
         };
       } else {
         return state;
@@ -68,7 +68,7 @@ const storyDiscussionReducer = (state, action) => {
 }
 //#endregion
 
-const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, isStoryDiscussionFocused, }) => {
+const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, initialIsPermalink, }) => {
   const router = useRouter(); 
   const [navigation, dispatchNavigation] = React.useReducer(
     navigationReducer, 
@@ -80,8 +80,8 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, is
   const [storyDiscussion, dispatchStoryDiscussion] = React.useReducer(
     storyDiscussionReducer,
     {
-      isExpanded: isStoryDiscussionFocused ? true : false,
-      isFocused: isStoryDiscussionFocused ? true : false,
+      isExpanded: initialIsPermalink ? true : false,
+      isPermalink: initialIsPermalink ? true : false,
       id: initialStoryDiscussionId,
     }
   );
@@ -142,7 +142,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, is
 
   // handle story comments panel focused state
   React.useEffect(() => {
-    if (storyDiscussion.isFocused) {
+    if (storyDiscussion.isPermalink) {
       const { 
         [QUERY_KEY.IS_PERMALINK]: isStoryDiscussionFocused,
         [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: _,
@@ -152,7 +152,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, is
         dispatchStoryDiscussion({ type: STORYDISCUSSION_ACTION.DISABLE_PERMALINK }); 
       }
     }
-  }, [router.query, storyDiscussion.isFocused]);
+  }, [router.query, storyDiscussion.isPermalink]);
 
   return ( 
     <NavigationContext.Provider value={dispatchNavigation}>
@@ -164,7 +164,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, is
             'xl:grid-cols-[1fr_2.5fr]',
             '2xl:grid-cols-[1fr_3fr] 2xl:overflow-hidden'
           )}>
-            {!storyDiscussion.isFocused && (
+            {!storyDiscussion.isPermalink && (
               <>
                 <NavigationPanel
                   isExpanded={navigation.isExpanded}
@@ -178,7 +178,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, is
             )}
             <StoryDiscussionPanel 
               isExpanded={storyDiscussion.isExpanded}
-              isFocused={storyDiscussion.isFocused}
+              isPermalink={storyDiscussion.isPermalink}
               storyDiscussionId={storyDiscussion.id} 
             />
           </div>
