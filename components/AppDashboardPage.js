@@ -51,7 +51,7 @@ const storyDiscussionReducer = (state, action) => {
         ...state,
         isExpanded: false,
       };
-    case STORYDISCUSSION_ACTION.DISABLE_FOCUS:
+    case STORYDISCUSSION_ACTION.DISABLE_PERMALINK:
       if (state.isFocused === true) {
         return {
           ...state,
@@ -61,6 +61,7 @@ const storyDiscussionReducer = (state, action) => {
       } else {
         return state;
       }
+    
     default:
       throw new Error();
   }
@@ -143,12 +144,12 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, is
   React.useEffect(() => {
     if (storyDiscussion.isFocused) {
       const { 
-        [QUERY_KEY.IS_STORY_DISCUSSION_FOCUSED]: isStoryDiscussionFocused,
+        [QUERY_KEY.IS_PERMALINK]: isStoryDiscussionFocused,
         [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: _,
       } = router.query;
   
       if (isStoryDiscussionFocused === undefined) {
-        dispatchStoryDiscussion({ type: STORYDISCUSSION_ACTION.DISABLE_FOCUS }); 
+        dispatchStoryDiscussion({ type: STORYDISCUSSION_ACTION.DISABLE_PERMALINK }); 
       }
     }
   }, [router.query, storyDiscussion.isFocused]);

@@ -18,7 +18,7 @@ export const getServerSideProps = async ({ query }) => {
   const { 
     [QUERY_KEY.STORY_LIST_MODE_ID]: listMode, 
     [QUERY_KEY.STORY_DISCUSSION_ID]: storyDiscussionId,
-    [QUERY_KEY.IS_STORY_DISCUSSION_FOCUSED]: isStoryDiscussionFocused,
+    [QUERY_KEY.IS_PERMALINK]: isStoryDiscussionFocused,
   } = query;
 
   return {

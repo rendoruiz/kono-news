@@ -68,7 +68,7 @@ const StoryDiscussionHeader = ({ title, isExpanded, isFocused, originalPostId = 
   const handleTogglePanel = () => {
     if (isFocused) {
       const { 
-        [QUERY_KEY.IS_STORY_DISCUSSION_FOCUSED]: _,
+        [QUERY_KEY.IS_PERMALINK]: _,
         ...newRouterQuery 
       } = router.query;
       router.push(
@@ -289,7 +289,7 @@ const StoryCommentItem = React.memo(({
           <Link 
             href={{ query: {
               [QUERY_KEY.STORY_DISCUSSION_ID]: id,
-              [QUERY_KEY.IS_STORY_DISCUSSION_FOCUSED]: true,
+              [QUERY_KEY.IS_PERMALINK]: true,
             }}} 
             passHref
           >
