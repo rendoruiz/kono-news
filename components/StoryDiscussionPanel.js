@@ -18,7 +18,7 @@ const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) =>
     () => getStoryDiscussionData(storyDiscussionId),
     reactQueryParams
   );
-
+  
   return (
     <> 
       {(isExpanded || isPermalink) && storyDiscussionData && (
