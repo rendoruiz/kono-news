@@ -27,6 +27,7 @@ const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) =>
           <title>Kono News | {storyDiscussionData.title}</title>
         </Head>
       )}
+      
       <section className={clsx(
         'fixed z-modal inset-0 bg-brandBackground translate-x-full transition-transform panel-transition overflow-y-auto pointer-events-none',
         {'!translate-x-0 !pointer-events-auto': isExpanded || isPermalink},
