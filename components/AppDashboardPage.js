@@ -144,11 +144,11 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
   React.useEffect(() => {
     if (storyDiscussion.isPermalink) {
       const { 
-        [QUERY_KEY.IS_PERMALINK]: isStoryDiscussionFocused,
+        [QUERY_KEY.IS_PERMALINK]: isPermalink,
         [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: _,
       } = router.query;
   
-      if (isStoryDiscussionFocused === undefined) {
+      if (isPermalink === undefined) {
         dispatchStoryDiscussion({ type: STORYDISCUSSION_ACTION.DISABLE_PERMALINK }); 
       }
     }
