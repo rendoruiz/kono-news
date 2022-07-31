@@ -10,6 +10,7 @@ import { NavigationContext } from "../context/NavigationContext";
 
 import { NAVIGATION_ACTION, QUERY_KEY, STORYDISCUSSION_ACTION } from "../utils/constants";
 import { parseStoryListModeId } from "../utils/fetchApi";
+import { StoryContext } from "../context/StoryContext";
 
 //#region reducer
 const navigationReducer = (state, action) => {
@@ -154,32 +155,34 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, is
 
   return ( 
     <NavigationContext.Provider value={dispatchNavigation}>
-      <div className='bg-brandBackground'>
-        <div className={clsx(
-          'relative grid mx-auto w-full h-screen max-w-screen-2xl',
-          'md:grid-cols-[1fr_2fr]',
-          'xl:grid-cols-[1fr_2.5fr]',
-          '2xl:grid-cols-[1fr_3fr] 2xl:overflow-hidden'
-        )}>
-          {!storyDiscussion.isFocused && (
-            <>
-              <NavigationPanel
-                isExpanded={navigation.isExpanded}
-                currentStoryModeId={navigation.storyListModeId}
-              />
-              <StoryListPanel 
-                storyListModeId={navigation.storyListModeId} 
-                onToggleNavigationPanel={null}
-              />
-            </>
-          )}
-          <StoryDiscussionPanel 
-            isExpanded={storyDiscussion.isExpanded}
-            isFocused={storyDiscussion.isFocused}
-            storyDiscussionId={storyDiscussion.id} 
-          />
+      <StoryContext.Provider value={storyDiscussion.id}>
+        <div className='bg-brandBackground'>
+          <div className={clsx(
+            'relative grid mx-auto w-full h-screen max-w-screen-2xl',
+            'md:grid-cols-[1fr_2fr]',
+            'xl:grid-cols-[1fr_2.5fr]',
+            '2xl:grid-cols-[1fr_3fr] 2xl:overflow-hidden'
+          )}>
+            {!storyDiscussion.isFocused && (
+              <>
+                <NavigationPanel
+                  isExpanded={navigation.isExpanded}
+                  currentStoryModeId={navigation.storyListModeId}
+                />
+                <StoryListPanel 
+                  storyListModeId={navigation.storyListModeId} 
+                  onToggleNavigationPanel={null}
+                />
+              </>
+            )}
+            <StoryDiscussionPanel 
+              isExpanded={storyDiscussion.isExpanded}
+              isFocused={storyDiscussion.isFocused}
+              storyDiscussionId={storyDiscussion.id} 
+            />
+          </div>
         </div>
-      </div>
+      </StoryContext.Provider>
     </NavigationContext.Provider>
   );
 }

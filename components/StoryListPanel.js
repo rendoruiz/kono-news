@@ -1,37 +1,36 @@
 import React from "react";
-import { useQuery } from 'react-query';
+import Link from 'next/link';
 import { useRouter } from "next/router";
+import { useQuery } from 'react-query';
 import clsx from "clsx";
 
 import NavigationToggle from "./shared/NavigationToggle";
 
-import { getNavigationItemByStoryListId, getShortTime, handleOnKeyDown } from "../utils";
+import { getNavigationItemByStoryListId, getShortTime } from "../utils";
 import { QUERY_KEY, reactQueryParams, STORIES_PER_PAGE } from "../utils/constants";
 import { getInitialStoryListData, getStoryData } from "../utils/fetchApi";
+import { useStory } from "../context/StoryContext";
 
-const StoryListPanel = ({ storyListModeId, onToggleNavigationPanel }) => (
+const StoryListPanel = React.memo(({ storyListModeId }) => (
   <section className={clsx(
     'relative overflow-y-auto',
     'md:grid md:grid-rows-[auto_1fr]',
   )}>
-    <StoryListHeader 
-      storyListModeId={storyListModeId} 
-      onToggleNavigationPanel={onToggleNavigationPanel} 
-    />
+    <StoryListHeader storyListModeId={storyListModeId} />
     {storyListModeId && (
       <StoryListContent storyListModeId={storyListModeId} />
     )}
   </section>
-);
+));
 
-const StoryListHeader = ({ storyListModeId, onToggleNavigationPanel }) => {
+const StoryListHeader = React.memo(({ storyListModeId }) => {
   const listMode = getNavigationItemByStoryListId(storyListModeId);
   return (
     <header className={clsx(
       'sticky z-10 top-0 flex items-center py-2 px-1 bg-brandBackground',
       'md:static',
     )}>
-      <NavigationToggle onClick={onToggleNavigationPanel} />
+      <NavigationToggle />
       {listMode && (
         <h2 className='ml-2 text-heading3 font-medium'>
           {listMode.label}
@@ -39,7 +38,7 @@ const StoryListHeader = ({ storyListModeId, onToggleNavigationPanel }) => {
       )}
     </header>
   );
-}
+});
 
 const StoryListContent = React.memo(({ storyListModeId }) => {
   const { isLoading, isError, data: fetchedStoryIds, error } = useQuery(
@@ -100,19 +99,21 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
 });
 
 const StoryList = React.memo(({ storyListData }) => {
+  const currentStoryDiscussionId = useStory();
   return (
     <ol className='grid content-start gap-y-[2px]'>
       {storyListData.map((storyItemData) => (
         <StoryItem
           key={storyItemData.id}
           storyItemData={storyItemData}
+          isSelected={storyItemData.id == currentStoryDiscussionId}
         />
       ))}
     </ol>
   )
 });
 
-const StoryItem = React.memo(({ storyItemData }) => {
+const StoryItem = React.memo(({ storyItemData, isSelected }) => {
   const router = useRouter();
   const { isLoading, isError, data: storyData, error } = useQuery(
     ['storydata', storyItemData.id], 
@@ -140,55 +141,43 @@ const StoryItem = React.memo(({ storyItemData }) => {
     const {
       id,
       title,
-      url,
       by: author,
       score: points,
       time,
       descendants: post_count,
     } = storyData;
-    const controlId = 'story-item-' + id;
     const shortTime = getShortTime(time);
-  
-    const handleStoryDiscussionChange = () => {
-      router.push(
-        { query: { 
-          ...router.query,
-          [QUERY_KEY.STORY_DISCUSSION_ID]: id, 
-          [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: true,
-        }}, 
-        undefined, 
-        { shallow: true }
-      );
+
+    const routeHrefObject = { 
+      query: { 
+        ...router.query,
+        [QUERY_KEY.STORY_DISCUSSION_ID]: id, 
+        [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: true,
+      }
     }
   
     return (
       <li className='flex relative'>
-        <input 
-          type='radio' 
-          name='story-item' 
-          id={controlId} 
-          className='peer absolute opacity-0 pointer-events-none'
-          onKeyDown={(e) => handleOnKeyDown(e, handleStoryDiscussionChange)} 
-        />
-        <label 
-          htmlFor={controlId} 
-          className={clsx(
-            'flex-1 relative rounded pl-3 pr-2 py-6px cursor-pointer select-none',
-          'peer-checked:bg-itemSelected',
-            'peer-checked:before:absolute peer-checked:before:inset-0 peer-checked:before:right-auto peer-checked:before:rounded peer-checked:before:my-auto peer-checked:before:w-1 peer-checked:before:h-1/2 peer-checked:before:bg-brandOrange peer-checked:before:pointer-events-none'
-          )}
-          onClick={() => handleStoryDiscussionChange()}
+        <Link
+          href={routeHrefObject}
+          shallow
         >
-          <h3 className='text-base leading-tight break-words'>
-            {title}
-          </h3>
-          <div className='flex mt-1 text-contentSecondary text-brandSecondary leading-none stroke-textSecondary'>
-            <p>{points} points • {post_count ?? 'no'} comments • {author}</p>
-            <span className='shrink-0 ml-auto pl-2px'>
-              {shortTime}
-            </span> 
-          </div>
-        </label>
+          <a className={clsx(
+            'flex-1 relative rounded pl-3 pr-2 py-6px cursor-pointer select-none',
+            {'bg-itemSelected': isSelected},
+            {'before:absolute before:inset-0 before:right-auto before:rounded before:my-auto before:w-1 before:h-1/2 before:bg-brandOrange before:pointer-events-none': isSelected},
+          )}>
+            <p className='text-base leading-tight break-words'>
+              {title}
+            </p>
+            <div className='flex mt-1 text-contentSecondary text-brandSecondary leading-none stroke-textSecondary'>
+              <p>{points} points • {post_count ?? 'no'} comments • {author}</p>
+              <span className='shrink-0 ml-auto pl-2px'>
+                {shortTime}
+              </span> 
+            </div>
+          </a>
+        </Link>
       </li>
     );
   }
