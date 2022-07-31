@@ -26,7 +26,7 @@ export const getServerSideProps = async ({ query }) => {
       queryString: query,
       initialStoryListModeId: parseStoryListModeId(listMode), 
       initialStoryDiscussionId: storyDiscussionId ?? null,
-      isPermalink: isPermalink ?? null,
+      initialIsPermalink: isPermalink ?? null,
     }
   };
 }

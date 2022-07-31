@@ -31,8 +31,8 @@ const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) =>
       <section className={clsx(
         'fixed z-modal inset-0 bg-knBackground translate-x-full transition-transform panel-transition overflow-y-auto pointer-events-none',
         {'!translate-x-0 !pointer-events-auto': isExpanded || isPermalink},
-        'md:static md:z-auto md:transform-none md:transition-none md:pointer-events-auto',
-        'md:only:col-span-2 md:only:mx-auto md:only:max-w-screen-xl md:only:w-full'
+        'md:static md:z-auto md:w-full md:transform-none md:transition-none md:pointer-events-auto',
+        'md:only:col-span-2 md:only:mx-auto md:only:max-w-screen-xl'
       )}>
         <StoryDiscussionHeader 
           title={storyDiscussionData?.title}
