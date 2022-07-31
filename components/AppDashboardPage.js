@@ -39,29 +39,21 @@ const storyDiscussionReducer = (state, action) => {
       return {
         ...state,
         isExpanded: true,
-        id: (state.id !== action.id) ? action.id : state.id
+        id: (state.id !== action.id) 
+          ? action.id 
+          : state.id
       }
-    case STORYDISCUSSION_ACTION.EXPAND_PANEL:
-      return {
-        ...state,
-        isExpanded: true,
-      };
     case STORYDISCUSSION_ACTION.RETRACT_PANEL:
       return {
         ...state,
         isExpanded: false,
-      };
-    case STORYDISCUSSION_ACTION.DISABLE_PERMALINK:
-      if (state.isPermalink === true) {
-        return {
-          ...state,
-          isExpanded: false,
-          isPermalink: false,
-        };
-      } else {
-        return state;
       }
-    
+    case STORYDISCUSSION_ACTION.DISABLE_PERMALINK:
+      return {
+        ...state,
+        isExpanded: true,
+        isPermalink: false,
+      };
     default:
       throw new Error();
   }
@@ -119,6 +111,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
   }, [router.query, navigation.storyListModeId]);
   //#endregion
 
+  //#region story discussion useeffect
   // handle story comments panel expansion and set new stroycommentsid
   React.useEffect(() => {
     const { 
@@ -126,20 +119,18 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
       [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: isStoryDiscussionExpanded,
     } = router.query;
     
-    if (isStoryDiscussionExpanded) {
-      if (newStoryDiscussionId && newStoryDiscussionId !== storyDiscussion.id) {
-        dispatchStoryDiscussion({
-          type: STORYDISCUSSION_ACTION.SET_ID,
-          id: newStoryDiscussionId,
-        });
-      } else {
-        dispatchStoryDiscussion({ type: STORYDISCUSSION_ACTION.EXPAND_PANEL });
-      }
-    } else {
+    if (newStoryDiscussionId && newStoryDiscussionId !== storyDiscussion.id) {
+      dispatchStoryDiscussion({
+        type: STORYDISCUSSION_ACTION.SET_ID,
+        id: newStoryDiscussionId,
+      });
+    } else if (!isStoryDiscussionExpanded) {
       dispatchStoryDiscussion({ type: STORYDISCUSSION_ACTION.RETRACT_PANEL });
     }
   }, [router.query, storyDiscussion.id]);
+  //#endregion
 
+  //#region story discussion is permalink useeffect
   // handle story comments panel focused state
   React.useEffect(() => {
     if (storyDiscussion.isPermalink) {
@@ -152,6 +143,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
       }
     }
   }, [router.query, storyDiscussion.isPermalink]);
+  //#endregion
 
   return ( 
     <NavigationContext.Provider value={dispatchNavigation}>
