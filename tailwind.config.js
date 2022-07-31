@@ -17,6 +17,10 @@ module.exports = {
       'text-5xl': '2em',
     },
     extend: {
+      fontFamily: {
+        knSerif: ['Uchen', 'serif'],
+        knSansSerif: ['Open Sans', 'sans-serif'],
+      },
       colors: {
         brandOrange: 'rgb(255, 102, 0)',
         brandBackground: 'rgb(246, 246, 239)',
