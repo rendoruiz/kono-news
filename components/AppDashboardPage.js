@@ -145,7 +145,6 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
     if (storyDiscussion.isPermalink) {
       const { 
         [QUERY_KEY.IS_PERMALINK]: isPermalink,
-        [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: _,
       } = router.query;
   
       if (isPermalink === undefined) {
