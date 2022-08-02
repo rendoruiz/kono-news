@@ -189,7 +189,7 @@ const StoryItem = React.memo(({ storyItemData, isSelected }) => {
             {'before:absolute before:inset-0 before:right-auto before:rounded before:my-auto before:w-1 before:h-1/2 before:bg-knOrange before:pointer-events-none': isSelected},
           )}>
             <p className={clsx(
-              'text-sm text-knPrimary leading-tight break-words',
+              'font-serif text-sm text-knPrimary leading-tight break-words',
               'md:text-base',
             )}>
               {title}
