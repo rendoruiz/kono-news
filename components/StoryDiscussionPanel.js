@@ -93,8 +93,7 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
       );
     } else if (isExpanded) {
       const { 
-        [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: expanded,
-        [QUERY_KEY.STORY_DISCUSSION_ID]: currentDiscussionId,
+        [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: _,
         ...newRouterQuery 
       } = router.query;
       router.replace(
