@@ -185,7 +185,7 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
       )}
 
       <header className='flex flex-col'>
-        <h2 className='font-serif text-3xl leading-tight'>
+        <h2 className='font-serif text-3xl leading-snug'>
           {title}
         </h2>
         <div className={clsx(
@@ -219,7 +219,7 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
           <ExternalLink
             href={url}
             title='open story url'
-            className='self-start border-1 border-knOrange rounded-2xl mt-2 py-1 px-[10px] bg-knOrange/5 text-2xs font-medium leading-none uppercase'
+            className='self-start border-1 border-knOrange rounded-2xl mt-3 py-1 px-[10px] bg-knOrange/5 text-2xs font-medium leading-none uppercase'
           >
             {urlHostname}
           </ExternalLink>
