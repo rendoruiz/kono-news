@@ -6,12 +6,12 @@ import Head from 'next/head';
 import clsx from "clsx";
 
 import HtmlContent from "./shared/HtmlContent";
-import { FluentArrowLeftRegular, FluentCommentRegular, FluentDismissRegular, FluentKeyboardShiftRegular, FluentPersonRegular } from "./shared/FluentIcons";
+import ExternalLink from './shared/ExternalLink';
+import { FluentArrowLeftRegular, FluentClockRegular, FluentCommentRegular, FluentDismissRegular, FluentKeyboardShiftRegular, FluentPersonRegular } from "./shared/FluentIcons";
 
 import { getRoundTime, getShortTime, getStringCount, getUrlHostname } from "../utils";
 import { QUERY_KEY, reactQueryParams } from "../utils/constants";
 import { getStoryDiscussionData } from "../utils/fetchApi";
-import ExternalLink from './shared/ExternalLink';
 
 const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) => {
   const { isLoading, isError, data: storyDiscussionData, error } = useQuery(
@@ -139,7 +139,6 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
             'group-active:scale-[0.8]'
           )} />
         </button>
-
       )}
       
       <p className='flex-1 pr-1 font-knSansSerif font-bold text-sm leading-6 tracking-wide overflow-x-hidden text-ellipsis whitespace-nowrap'>
@@ -210,6 +209,10 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
                 'md:hover:underline'
               )}
             />
+          </span>
+          <span className='flex items-center'>
+            <FluentClockRegular className='mr-1 w-4 h-4' />
+            {roundTime}
           </span>
         </div>
         {urlHostname && (
