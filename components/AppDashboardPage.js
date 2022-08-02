@@ -118,7 +118,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
       [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: isStoryDiscussionExpanded,
     } = router.query;
     
-    if (newStoryDiscussionId && newStoryDiscussionId !== storyDiscussion.id) {
+    if (newStoryDiscussionId && isStoryDiscussionExpanded) {
       dispatchStoryDiscussion({
         type: STORYDISCUSSION_ACTION.SET_ID,
         id: newStoryDiscussionId,
