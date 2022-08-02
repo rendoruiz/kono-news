@@ -123,4 +123,13 @@ export const FluentPersonRegular = (props) => (
       fill="currentColor"
     />
   </svg>
-)
+);
+
+export const FluentClockRegular = (props) => (
+  <svg fill="none" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <path
+      d="M10 2a8 8 0 110 16 8 8 0 010-16zm0 1a7 7 0 100 14 7 7 0 000-14zm-.5 2a.5.5 0 01.492.41L10 5.5V10h2.5a.5.5 0 01.09.992L12.5 11h-3a.5.5 0 01-.492-.41L9 10.5v-5a.5.5 0 01.5-.5z"
+      fill="currentColor"
+    />
+  </svg>
+);
