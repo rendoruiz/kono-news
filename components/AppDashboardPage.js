@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 
@@ -147,6 +148,10 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
   return ( 
     <NavigationContext.Provider value={dispatchNavigation}>
       <StoryContext.Provider value={storyDiscussion.id}>
+        <Head>
+          <title>Kono News - A Hacker News Viewer</title>
+        </Head>
+
         <div className='bg-knBackground'>
           <div className={clsx(
             'relative grid mx-auto w-full h-screen max-w-screen-2xl',
