@@ -16,17 +16,18 @@ const HomePage = (props) => (
 
 export const getServerSideProps = async ({ query }) => {
   const { 
-    [QUERY_KEY.STORY_MODE]: listMode, 
-    [QUERY_KEY.STORY_COMMENTS_ID]: storyCommentsId,
-    [QUERY_KEY.IS_STORY_COMMENTS_FOCUSED]: isStoryCommentsFocused,
+    [QUERY_KEY.STORY_LIST_MODE_ID]: listMode, 
+    [QUERY_KEY.STORY_DISCUSSION_ID]: storyDiscussionId,
+    [QUERY_KEY.IS_PERMALINK]: isPermalink,
+    [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: isExpanded,
   } = query;
 
   return {
     props: {
       queryString: query,
       initialStoryListModeId: parseStoryListModeId(listMode), 
-      initialStoryCommentsId: storyCommentsId ?? null,
-      isStoryCommentsFocused: isStoryCommentsFocused ?? null,
+      initialStoryDiscussionId: !isExpanded ? null : storyDiscussionId ?? null,
+      initialIsPermalink: isPermalink ?? null,
     }
   };
 }

@@ -1,20 +1,19 @@
 import { FluentArrowTrendingRegular, FluentChatHelpRegular, FluentHomeRegular, FluentLightbulbFilamentRegular, FluentNotepadPersonRegular, FluentRewardRegular } from "../components/shared/FluentIcons";
 
 export const STORY_MODE = {
-  TOP: 'TOP',
-  NEW: 'NEW',
-  BEST: 'BEST',
-  ASK: 'ASK',
-  SHOW: 'SHOW',
-  JOB: 'JOB',
+  TOP: 'top',
+  NEW: 'new',
+  BEST: 'best',
+  ASK: 'ask',
+  SHOW: 'show',
+  JOB: 'job',
 }
 
 export const QUERY_KEY = {
-  STORY_MODE: 'mode',
-  STORY_COMMENTS_ID: 'story',
-  IS_NAVIGATION_EXPANDED: 'np',
-  IS_STORY_COMMENTS_EXPANDED: 'scp',
-  IS_STORY_COMMENTS_FOCUSED: 'focus',
+  STORY_LIST_MODE_ID: 'list',
+  STORY_DISCUSSION_ID: 'story',
+  IS_STORY_DISCUSSION_EXPANDED: 'discuss',
+  IS_PERMALINK: 'permalink',
 }
 
 export const STORY_MODE_API_QUERY = [
@@ -79,14 +78,12 @@ export const NAVIGATION_ITEMS = [
 
 export const NAVIGATION_ACTION = {
   SET_ID: 'NAVIGATION_SET_ID',
-  EXPAND_PANEL: 'NAVIGATION_EXPAND_PANEL',
-  RETRACT_PANEL: 'NAVIGATION_RETRACT_PANEL',
+  TOGGLE_PANEL: 'NAVIGATION_TOGGLE_PANEL',
 };
-export const STORYCOMMENTS_ACTION = {
-  SET_ID: 'STORYCOMMENTS_SET_ID',
-  EXPAND_PANEL: 'STORYCOMMENTS_EXPAND_PANEL',
-  RETRACT_PANEL: 'STORYCOMMENTS_RETRACT_PANEL',
-  DISABLE_FOCUS: 'STORYCOMMENTS_DISABLE_FOCUS',
+export const STORYDISCUSSION_ACTION = {
+  SET_ID: 'STORYDISCUSSION_SET_ID',
+  RETRACT_PANEL: 'STORYDISCUSSION_RETRACT_PANEL',
+  DISABLE_PERMALINK: 'STORYDISCUSSION_DISABLE_PERMALINK',
 };
 
 export const STORIES_PER_PAGE = 30;

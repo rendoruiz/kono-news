@@ -1,29 +1,38 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    fontFamily: {
+      'serif': ['Merriweather', 'serif'],
+      'sans': ['Open Sans', 'sans-serif'],
+      'mono': [...defaultTheme.fontFamily.mono],
+    },
+    fontSize: {
+      '2xs': '0.75em',
+      'xs': '0.8em',
+      'sm': '0.9em',
+      'base': '1em',
+      'lg': '1.1em',
+      'xl': '1.15em',
+      '2xl': '1.2em',
+      '3xl': '1.5em',
+      '4xl': '1.75em',
+      '5xl': '2em',
+    },
     extend: {
       colors: {
-        brandOrange: 'rgb(255, 102, 0)',
-        brandBackground: 'rgb(246, 246, 239)',
-        brandPrimary: 'rgb(30, 30, 30)',
-        brandSecondary: 'rgb(130, 130, 130)',
-        modalOverlay: 'rgba(0, 0, 0, 0.5)',
-        itemSelected: 'rgba(0, 0, 0, 0.05)',
-        commentThread: 'rgb(255, 194, 153)',
-      },
-      fontSize: {
-        heading1: '1.75em',
-        heading2: '1.5em',
-        heading3: '1.2em',
-        heading4: '1.1em',
-        title: '1.15em',
-        base: '1em',
-        contentPrimary: '0.9em',
-        contentSecondary: '0.85em',
+        knOrange: 'rgb(255, 102, 0)',
+        knBackground: 'rgb(246, 246, 239)',
+        knPrimary: 'rgb(30, 30, 30)',
+        knSecondary: 'rgb(130, 130, 130)',
+        knModalOverlay: 'rgba(0, 0, 0, 0.5)',
+        knItemSelected: 'rgba(0, 0, 0, 0.05)',
+        knCommentThreadBorder: 'rgb(255, 194, 153)',
       },
       spacing: {
         '1px': '0.0625rem',
