@@ -6,11 +6,12 @@
   @apply font-sans;
 }
 
-body.dark {
-  @apply bg-FluentDarkSolidBackgroundFillColorBase text-FluentDarkTextFillColorPrimary;
-}
-body {
+html {
   @apply bg-FluentLightSolidBackgroundFillColorBase text-FluentLightTextFillColorPrimary;
+}
+
+html[data-theme='dark'] {
+  @apply bg-FluentDarkSolidBackgroundFillColorBase text-FluentDarkTextFillColorPrimary;
 }
 
 .html-content > :not(:first-child) {
