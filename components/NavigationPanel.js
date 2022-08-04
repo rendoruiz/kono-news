@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from "next/router";
 import clsx from "clsx";
+import { useTheme } from 'next-themes';
 
 import NavigationToggle from "./shared/NavigationToggle";
 
 import { useNavigation } from '../context/NavigationContext';
 
-import { APP_THEME, LOCALSTORAGE_KEY, NAVIGATION_ACTION, NAVIGATION_ITEMS, QUERY_KEY } from "../utils/constants";
-import useLocalStorageState from 'use-local-storage-state';
-import { useTheme } from 'next-themes';
+import { APP_THEME, NAVIGATION_ACTION, NAVIGATION_ITEMS, QUERY_KEY } from "../utils/constants";
 
 const NavigationPanel = ({
   isExpanded, 
