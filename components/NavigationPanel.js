@@ -83,7 +83,7 @@ const NavigationFooter = React.memo(() => {
         className={clsx(
           'flex items-center px-5 py-3.5 text-left leading-none transition-colors hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
           'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
-          'md:rounded md:px-3 md:py-2.5',
+          'md:border-1 md:border-transparent md:rounded md:px-3 md:py-2.5',
         )}
       >
         <div className={clsx(
@@ -147,7 +147,7 @@ const NavigationItem = React.memo(({
           className={clsx(
             'relative flex-1 flex items-center px-5 py-3.5 leading-none transition-colors select-none cursor-pointer hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
             'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
-            'md:rounded md:px-3 md:py-2.5',
+            'md:border-1 md:border-transparent md:rounded md:px-3 md:py-2.5',
             {'bg-FluentLightSubtleFillColorSecondary hover:bg-FluentLightSubtleFillColorTertiary': isSelected},
             {'dark:bg-FluentDarkSubtleFillColorSecondary dark:hover:bg-FluentDarkSubtleFillColorTertiary': isSelected},
           )}
