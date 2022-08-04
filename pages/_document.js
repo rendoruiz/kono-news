@@ -2,17 +2,16 @@ import { Html, Head, Main, NextScript } from 'next/document';
 import Script from 'next/script';
 
 const setAppTheme = `
+  const initialThemeKey = 'initial_theme';
   const localStorageKey = 'app_theme';
   const currentAppTheme = window.localStorage.getItem(localStorageKey);
+  let initialTheme = null;
   if (!currentAppTheme) {
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      window.localStorage.setItem(localStorageKey, 'dark');
-    } else {
-      window.localStorage.setItem(localStorageKey, 'light');
-    }
-  } else {
-    document.body.classList.add(currentAppTheme);
-  }
+    initialTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark' : 'light';
+    window.localStorage.setItem(initialThemeKey, initialTheme);
+  } 
+  document.body.classList.add(currentAppTheme ?? initialTheme);
 `;
 
 export default function Document() {

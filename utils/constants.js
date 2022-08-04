@@ -99,6 +99,7 @@ export const reactQueryParams = {
 
 export const LOCALSTORAGE_KEY = {
   APP_THEME: 'app_theme',
+  INITIAL_THEME: 'initial_theme',
 }
 
 export const APP_THEME = {

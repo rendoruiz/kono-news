@@ -7,7 +7,8 @@ import NavigationToggle from "./shared/NavigationToggle";
 
 import { useNavigation } from '../context/NavigationContext';
 
-import { NAVIGATION_ACTION, NAVIGATION_ITEMS, QUERY_KEY } from "../utils/constants";
+import { APP_THEME, LOCALSTORAGE_KEY, NAVIGATION_ACTION, NAVIGATION_ITEMS, QUERY_KEY } from "../utils/constants";
+import useLocalStorageState from 'use-local-storage-state';
 
 const NavigationPanel = ({
   isExpanded, 
@@ -23,6 +24,7 @@ const NavigationPanel = ({
     )}>
       <NavigationToggle />
       <NavigationList currentStoryModeId={currentStoryModeId} />
+      <NavigationFooter />
     </section>
   </>
 );
@@ -41,6 +43,44 @@ const NavigationPanelOverlay = ({ isExpanded }) => {
       onClick={handleClick}
       title='navigation panel toggleable overlay'
     />
+  );
+}
+
+const NavigationFooter = () => {
+  const [appTheme, setAppTheme] = useLocalStorageState(LOCALSTORAGE_KEY.APP_THEME);
+
+  const toggleTheme = () => {
+    if (appTheme === APP_THEME.dark) {
+      setAppTheme(APP_THEME.light)
+    } else if (appTheme === APP_THEME.light) {
+      setAppTheme(APP_THEME.dark)
+    }
+  }
+
+  // default value on first page visit
+  React.useEffect(() => {
+    if (!appTheme) {
+      setAppTheme(localStorage.getItem(LOCALSTORAGE_KEY.INITIAL_THEME))
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (appTheme) {
+      document.body.className = appTheme;
+    }
+  }, [appTheme]);
+
+  return (
+    <button
+      type='button'
+      onClick={toggleTheme}
+    >
+      {appTheme === APP_THEME.dark ? (
+        'Use Light Mode'
+      ) : (
+        'Use Dark Mode'
+      )}
+    </button>
   );
 }
 
