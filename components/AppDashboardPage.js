@@ -152,7 +152,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
           <title>Kono News - A Hacker News Viewer</title>
         </Head>
 
-        <div className='bg-knBackground'>
+        <div>
           <div className={clsx(
             'relative grid mx-auto w-full h-screen max-w-screen-2xl',
             'md:grid-cols-[1fr_2fr]',

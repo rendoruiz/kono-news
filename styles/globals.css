@@ -6,8 +6,11 @@
   @apply font-sans;
 }
 
-.panel-transition {
-  @apply ease-panel duration-panel;
+body {
+  @apply bg-FluentLightSolidBackgroundFillColorBase text-FluentLightTextFillColorPrimary transition-colors;
+}
+body.dark {
+  @apply bg-FluentDarkSolidBackgroundFillColorBase text-FluentDarkTextFillColorPrimary;
 }
 
 .html-content > :not(:first-child) {

@@ -2,6 +2,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
+  darkMode: 'class',
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
@@ -16,7 +17,7 @@ module.exports = {
       '2xs': '0.75em',
       'xs': '0.8em',
       'sm': '0.9em',
-      'base': '1em',
+      'base': '0.95em',
       'lg': '1.1em',
       'xl': '1.15em',
       '2xl': '1.2em',
@@ -27,12 +28,22 @@ module.exports = {
     extend: {
       colors: {
         knOrange: 'rgb(255, 102, 0)',
-        knBackground: 'rgb(246, 246, 239)',
+        // knBackground: 'rgb(246, 246, 239)',
         knPrimary: 'rgb(30, 30, 30)',
         knSecondary: 'rgb(130, 130, 130)',
         knModalOverlay: 'rgba(0, 0, 0, 0.5)',
         knItemSelected: 'rgba(0, 0, 0, 0.05)',
         knCommentThreadBorder: 'rgb(255, 194, 153)',
+
+        FluentSmokeFillColorDefault: '#0000004D',
+        
+        FluentLightTextFillColorPrimary: '#000000E4',
+        FluentLightTextFillColorSecondary: '#0000009E',
+        FluentLightSolidBackgroundFillColorBase: '#F3F3F3',
+
+        FluentDarkTextFillColorPrimary: '#FFFFFF',
+        FluentDarkTextFillColorSecondary: '#FFFFFFC5',
+        FluentDarkSolidBackgroundFillColorBase: '#202020',
       },
       zIndex: {
         modal: '1000',

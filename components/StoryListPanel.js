@@ -63,7 +63,7 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
     const { apiEndpoint, originalUrl} = error.cause;
     return (
       <div className='flex flex-col justify-center px-5 py-4 font-medium text-center'>
-        <h3 className='text-heading1 text-knPrimary'>
+        <h3 className='text-heading1'>
           Something went wrong.
         </h3>
         <p className='mt-4 text-heading-2 text-knSecondary'>
@@ -189,14 +189,15 @@ const StoryItem = React.memo(({ storyItemData, isSelected }) => {
             {'before:absolute before:inset-0 before:right-auto before:rounded before:my-auto before:w-1 before:h-1/2 before:bg-knOrange before:pointer-events-none': isSelected},
           )}>
             <p className={clsx(
-              'font-serif text-sm text-knPrimary leading-tight break-words',
+              'font-serif text-sm leading-tight break-words',
               'md:text-base',
             )}>
               {title}
             </p>
             <div className={clsx(
-              'flex mt-1 text-xs text-knSecondary leading-none stroke-textSecondary',
-              'md:text-sm',
+              'flex mt-1 text-2xs text-FluentLightTextFillColorSecondary leading-none',
+              'dark:text-FluentDarkTextFillColorSecondary',
+              'md:text-xs',
             )}>
               <p>{points} points • {(!post_count || post_count == 0) ? 'no' : post_count} comments • {author}</p>
               <span className='shrink-0 ml-auto pl-0.5'>
