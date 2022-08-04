@@ -1,4 +1,19 @@
-import { Html, Head, Main, NextScript } from 'next/document'
+import { Html, Head, Main, NextScript } from 'next/document';
+import Script from 'next/script';
+
+const setAppTheme = `
+  const localStorageKey = 'app_theme';
+  const currentAppTheme = window.localStorage.getItem(localStorageKey);
+  if (!currentAppTheme) {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      window.localStorage.setItem(localStorageKey, 'dark');
+    } else {
+      window.localStorage.setItem(localStorageKey, 'light');
+    }
+  } else {
+    document.body.classList.add(currentAppTheme);
+  }
+`;
 
 export default function Document() {
   return (
@@ -11,6 +26,10 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
+        <Script 
+          strategy='afterInteractive' 
+          dangerouslySetInnerHTML={{ __html: `(() => { ${setAppTheme} })()` }} 
+        />
       </body>
     </Html>
   )

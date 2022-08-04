@@ -96,3 +96,12 @@ export const reactQueryParams = {
   retry: false,
   staleTime: twentyFourHoursInMs,
 }
+
+export const LOCALSTORAGE_KEY = {
+  APP_THEME: 'app_theme',
+}
+
+export const APP_THEME = {
+  dark: 'dark',
+  light: 'light',
+}
