@@ -36,23 +36,22 @@ module.exports = {
         knCommentThreadBorder: 'rgb(255, 194, 153)',
 
         FluentSmokeFillColorDefault: '#0000004D',
+        FluentSubtleFillColorDisabled: '#FFFFFF00',
         
         FluentLightTextFillColorPrimary: '#000000E4',
         FluentLightTextFillColorSecondary: '#0000009E',
         FluentLightSolidBackgroundFillColorBase: '#F3F3F3',
+        FluentLightSubtleFillColorSecondary: '#00000009',
+        FluentLightSubtleFillColorTertiary: '#00000006',
 
         FluentDarkTextFillColorPrimary: '#FFFFFF',
         FluentDarkTextFillColorSecondary: '#FFFFFFC5',
         FluentDarkSolidBackgroundFillColorBase: '#202020',
+        FluentDarkSubtleFillColorSecondary: '#FFFFFF0F',
+        FluentDarkSubtleFillColorTertiary: '#FFFFFF0A',
       },
       zIndex: {
         modal: '1000',
-      },
-      transitionTimingFunction: {
-        'panel': 'cubic-bezier(0.77, 0, 0.175, 1)',
-      },
-      transitionDuration: {
-        'panel': '400ms',
       },
       borderWidth: {
         1: '1px',
