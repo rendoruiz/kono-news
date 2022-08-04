@@ -6,11 +6,11 @@
   @apply font-sans;
 }
 
-body {
-  @apply bg-FluentLightSolidBackgroundFillColorBase text-FluentLightTextFillColorPrimary transition-colors;
-}
 body.dark {
   @apply bg-FluentDarkSolidBackgroundFillColorBase text-FluentDarkTextFillColorPrimary;
+}
+body {
+  @apply bg-FluentLightSolidBackgroundFillColorBase text-FluentLightTextFillColorPrimary;
 }
 
 .html-content > :not(:first-child) {

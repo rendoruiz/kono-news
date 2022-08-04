@@ -152,31 +152,29 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
           <title>Kono News - A Hacker News Viewer</title>
         </Head>
 
-        <div>
-          <div className={clsx(
-            'relative grid mx-auto w-full h-screen max-w-screen-2xl',
-            'md:grid-cols-[1fr_2fr]',
-            'xl:grid-cols-[1fr_2.5fr]',
-            '2xl:grid-cols-[1fr_3fr] 2xl:overflow-hidden'
-          )}>
-            {!storyDiscussion.isPermalink && (
-              <>
-                <NavigationPanel
-                  isExpanded={navigation.isExpanded}
-                  currentStoryModeId={navigation.storyListModeId}
-                />
-                <StoryListPanel 
-                  storyListModeId={navigation.storyListModeId} 
-                  onToggleNavigationPanel={null}
-                />
-              </>
-            )}
-            <StoryDiscussionPanel 
-              isExpanded={storyDiscussion.isExpanded}
-              isPermalink={storyDiscussion.isPermalink}
-              storyDiscussionId={storyDiscussion.id} 
-            />
-          </div>
+        <div className={clsx(
+          'relative mx-auto w-full h-screen max-w-screen-2xl',
+          'md:grid md:grid-cols-[1fr_2fr]',
+          'xl:grid-cols-[1fr_2.5fr]',
+          '2xl:grid-cols-[1fr_3fr] 2xl:overflow-hidden'
+        )}>
+          {!storyDiscussion.isPermalink && (
+            <>
+              <NavigationPanel
+                isExpanded={navigation.isExpanded}
+                currentStoryModeId={navigation.storyListModeId}
+              />
+              <StoryListPanel 
+                storyListModeId={navigation.storyListModeId} 
+                onToggleNavigationPanel={null}
+              />
+            </>
+          )}
+          <StoryDiscussionPanel 
+            isExpanded={storyDiscussion.isExpanded}
+            isPermalink={storyDiscussion.isPermalink}
+            storyDiscussionId={storyDiscussion.id} 
+          />
         </div>
       </StoryContext.Provider>
     </NavigationContext.Provider>

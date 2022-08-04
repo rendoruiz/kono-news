@@ -5,6 +5,7 @@ const setAppTheme = `
   const initialThemeKey = 'initial_theme';
   const localStorageKey = 'app_theme';
   const currentAppTheme = window.localStorage.getItem(localStorageKey);
+  console.log(currentAppTheme);
   let initialTheme = null;
   if (!currentAppTheme) {
     initialTheme = window.matchMedia('(prefers-color-scheme: dark)').matches

@@ -29,7 +29,7 @@ const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) =>
       )}
       
       <section className={clsx(
-        'fixed z-modal inset-0 bg-knBackground translate-x-full transition-transform panel-transition overflow-y-auto pointer-events-none',
+        'fixed z-modal inset-0 translate-x-full transition-transform panel-transition overflow-y-auto pointer-events-none',
         {'!translate-x-0 !pointer-events-auto': isExpanded || isPermalink},
         'md:static md:z-auto md:w-full md:transform-none md:transition-none md:pointer-events-auto',
         'md:only:col-span-2 md:only:mx-auto md:only:max-w-screen-xl'
@@ -106,7 +106,7 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
 
   return (
     <header className={clsx(
-      'sticky z-10 top-0 flex items-center gap-2 py-2 px-1 bg-knBackground/60 backdrop-blur-sm',
+      'sticky z-10 top-0 flex items-center gap-2 py-2 px-1',
       'md:static'
     )}>
       {isPermalink ? (

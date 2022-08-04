@@ -17,7 +17,7 @@ const NavigationPanel = ({
   <>
     <NavigationPanelOverlay isExpanded={isExpanded} />
     <section className={clsx(
-      'fixed z-modal inset-0 right-auto px-1 py-2 w-4/5 min-w-[120px] max-w-[300px] bg-FluentLightSolidBackgroundFillColorBase text-FluentLightTextFillColorPrimary -translate-x-full transition-all ease-in-out overflow-y-auto pointer-events-none',
+      'fixed z-modal inset-0 right-auto py-2 w-4/5 min-w-[140px] max-w-[300px] min-h-screen bg-FluentLightSolidBackgroundFillColorBase text-FluentLightTextFillColorPrimary -translate-x-full transition-all ease-in-out overflow-y-auto pointer-events-none',
       'dark:bg-FluentDarkSolidBackgroundFillColorBase dark:text-FluentDarkTextFillColorPrimary',
       '2xl:absolute 2xl:border-1.5 2xl:border-l-0 2xl:rounded-lg 2xl:rounded-l-none 2xl:opacity-0 2xl:-translate-x-1/4 2xl:transition-all 2xl:duration-200',
       {'translate-x-0 pointer-events-auto': isExpanded},
@@ -59,7 +59,8 @@ const NavigationFooter = () => {
 
   // default value on first page visit
   React.useEffect(() => {
-    if (!appTheme) {
+    const currentAppTheme = localStorage.getItem(LOCALSTORAGE_KEY.APP_THEME);
+    if (!currentAppTheme) {
       setAppTheme(localStorage.getItem(LOCALSTORAGE_KEY.INITIAL_THEME))
     }
   }, []);
@@ -73,7 +74,8 @@ const NavigationFooter = () => {
   return (
     <button
       type='button'
-      onClick={toggleTheme}
+      onClick={() => toggleTheme()}
+      className='mt-auto'
     >
       {appTheme === APP_THEME.dark ? (
         'Use Light Mode'

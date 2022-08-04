@@ -28,7 +28,7 @@ const StoryListHeader = React.memo(({ storyListModeId }) => {
   const listMode = getNavigationItemByStoryListId(storyListModeId);
   return (
     <header className={clsx(
-      'sticky z-10 top-0 flex items-center py-2 px-1 bg-knBackground',
+      'sticky z-10 top-0 flex items-center py-2 px-1',
       'md:static',
     )}>
       <NavigationToggle />
