@@ -11,7 +11,7 @@
 }
 
 .html-content > :not(:first-child) {
-  @apply mt-6px;
+  @apply mt-1.5;
 }
 .html-content a,
 .html-content p, 
@@ -23,6 +23,6 @@
   @apply text-knOrange/80;
 }
 .html-content pre {
-  @apply flex py-[5px] px-2px bg-knItemSelected font-mono whitespace-pre-wrap overflow-x-auto break-words;
+  @apply flex py-[5px] px-0.5 bg-knItemSelected font-mono whitespace-pre-wrap overflow-x-auto break-words;
   /* overflow-wrap: anywhere; */
 }

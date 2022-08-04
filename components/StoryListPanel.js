@@ -184,7 +184,7 @@ const StoryItem = React.memo(({ storyItemData, isSelected }) => {
           shallow
         >
           <a className={clsx(
-            'flex-1 relative rounded pl-3 pr-2 py-6px cursor-pointer select-none',
+            'flex-1 relative rounded pl-3 pr-2 py-1.5 cursor-pointer select-none',
             {'bg-knItemSelected': isSelected},
             {'before:absolute before:inset-0 before:right-auto before:rounded before:my-auto before:w-1 before:h-1/2 before:bg-knOrange before:pointer-events-none': isSelected},
           )}>
@@ -199,7 +199,7 @@ const StoryItem = React.memo(({ storyItemData, isSelected }) => {
               'md:text-sm',
             )}>
               <p>{points} points • {(!post_count || post_count == 0) ? 'no' : post_count} comments • {author}</p>
-              <span className='shrink-0 ml-auto pl-2px'>
+              <span className='shrink-0 ml-auto pl-0.5'>
                 {shortTime}
               </span> 
             </div>

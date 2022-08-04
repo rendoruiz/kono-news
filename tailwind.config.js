@@ -34,11 +34,6 @@ module.exports = {
         knItemSelected: 'rgba(0, 0, 0, 0.05)',
         knCommentThreadBorder: 'rgb(255, 194, 153)',
       },
-      spacing: {
-        '1px': '0.0625rem',
-        '2px': '0.125rem',
-        '6px': '0.375rem',
-      },
       zIndex: {
         modal: '1000',
       },

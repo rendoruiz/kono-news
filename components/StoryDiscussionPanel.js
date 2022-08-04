@@ -331,7 +331,7 @@ const StoryCommentItem = React.memo(({
           </label>
         </header>
         <main className={clsx(
-          'col-span-2 mt-2px',
+          'col-span-2 mt-0.5',
           'peer-checked:hidden'
         )}>
           {text ? (
