@@ -1,11 +1,11 @@
 import React from "react";
+import clsx from "clsx";
 
 import { FluentLineHorizontal3Regular } from "./FluentIcons";
 
 import { useNavigation } from "../../context/NavigationContext";
 
 import { NAVIGATION_ACTION } from "../../utils/constants";
-import clsx from "clsx";
 
 const NavigationToggle = React.memo(() => {
   const dispatch = useNavigation();
