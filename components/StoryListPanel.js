@@ -12,12 +12,12 @@ import { useStory } from "../context/StoryContext";
 import { getNavigationItemByStoryListId, getShortTime } from "../utils";
 import { QUERY_KEY, reactQueryParams, STORIES_PER_PAGE } from "../utils/constants";
 import { getInitialStoryListData, getStoryData } from "../utils/fetchApi";
+import PillSelectedIndicator from "./shared/PillSelectedIndicator";
 
 const StoryListPanel = React.memo(({ storyListModeId }) => (
   <section className={clsx(
-    'relative h-full overflow-y-auto ',
-    '',
-    'md:grid md:grid-rows-[auto_1fr]',
+    'relative',
+    'md:grid md:grid-rows-[auto,1fr] md:overflow-y-auto',
   )}>
     <StoryListHeader storyListModeId={storyListModeId} />
     {storyListModeId && (
@@ -32,7 +32,7 @@ const StoryListHeader = React.memo(({ storyListModeId }) => {
     <header className={clsx(
       'sticky z-10 top-0 flex items-center border-b-1 border-FluentLightDividerStrokeColorDefault px-5 pt-4 pb-3 bg-FluentLightSolidBackgroundFillColorBase',
       'dark:border-FluentDarkDividerStrokeColorDefault dark:bg-FluentDarkSolidBackgroundFillColorBase',
-      'md:static md:px-3 md:py-1',
+      'md:static md:px-4 md:py-3',
     )}>
       <NavigationToggle />
       {listMode && (
@@ -55,7 +55,7 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
 
   if (isLoading) {
     return (
-      <ol className='grid content-start px-2 py-1 overflow-y-visible'>
+      <ol className='grid content-start overflow-y-visible'>
         {[...Array(10)].map((_, index) => (
           <StoryItemSkeletonLoader key={index} />
         ))}
@@ -95,19 +95,32 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
       : fetchedStoryIds.slice(0, currentItemCount);
     
     return (
-      <main className='px-1 py-1 overflow-y-auto'>
-        <StoryList storyListData={storyListData} />
-        {/* story list propagation button */}
-        {!isPageLimitReached && (
-          <button 
-            type='button'
-            className='rounded mt-1 p-3 w-full text-knOrange/80 uppercase tracking-wide cursor-pointer select-none'
-            onClick={handlePageChange}
-          >
-            Load More
-          </button>
-        )}
-      </main>
+      <>
+        <main className='overflow-y-auto'>
+          <StoryList storyListData={storyListData} />
+
+          {!isPageLimitReached && (
+            <div className={clsx(
+              'border-t-1 border-FluentLightDividerStrokeColorDefault',
+              'dark:border-FluentDarkDividerStrokeColorDefault'
+            )}>
+              <button 
+                type='button'
+                className={clsx(
+                  'rounded px-5 py-3.5 w-full font-bold text-base text-KonoAccentLight uppercase tracking-wide transition-colors cursor-pointer select-none',
+                  'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-opacity-80',
+                  'dark:text-KonoAccentDark',
+                  'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary',
+                  'md:px-3 md:py-2.5',
+                )}
+                onClick={handlePageChange}
+              >
+                Load More
+              </button>
+            </div>
+          )}
+        </main>
+      </>
     );
   }
 });
@@ -115,7 +128,10 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
 const StoryList = React.memo(({ storyListData }) => {
   const currentStoryDiscussionId = useStory();
   return (
-    <ol className='grid content-start gap-y-[2px]'>
+    <ol className={clsx(
+      'grid content-start py-0.5 divide-y-1 divide-FluentLightDividerStrokeColorDefault',
+      'dark:divide-FluentDarkDividerStrokeColorDefault',
+    )}>
       {storyListData.map((storyItemData) => (
         <StoryItem
           key={storyItemData.id}
@@ -187,13 +203,16 @@ const StoryItem = React.memo(({ storyItemData, isSelected }) => {
           shallow
         >
           <a className={clsx(
-            'flex-1 relative rounded pl-3 pr-2 py-1.5 cursor-pointer select-none',
-            {'bg-knItemSelected': isSelected},
-            {'before:absolute before:inset-0 before:right-auto before:rounded before:my-auto before:w-1 before:h-1/2 before:bg-knOrange before:pointer-events-none': isSelected},
+            'flex-1 relative px-3 py-2 cursor-pointer select-none',
+            'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
+            'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
+            {'bg-FluentLightSubtleFillColorSecondary hover:bg-FluentLightSubtleFillColorTertiary': isSelected},
+            {'dark:bg-FluentDarkSubtleFillColorSecondary dark:hover:bg-FluentDarkSubtleFillColorTertiary': isSelected},
           )}>
+            <PillSelectedIndicator isSelected={isSelected} large />
             <p className={clsx(
-              'font-serif text-sm leading-tight break-words',
-              'md:text-base',
+              'font-serif text-sm leading-snug break-words tracking-wide',
+              'md:text-base md:tracking-normal',
             )}>
               {title}
             </p>

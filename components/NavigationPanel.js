@@ -145,7 +145,8 @@ const NavigationItem = React.memo(({
       >
         <a 
           className={clsx(
-            'relative flex-1 flex items-center px-5 py-3.5 leading-none transition-colors select-none cursor-pointer hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
+            'relative flex-1 flex items-center px-5 py-3.5 leading-none transition-colors select-none cursor-pointer',
+            'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
             'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
             'md:border-1 md:border-transparent md:rounded md:px-3 md:py-2.5',
             {'bg-FluentLightSubtleFillColorSecondary hover:bg-FluentLightSubtleFillColorTertiary': isSelected},
