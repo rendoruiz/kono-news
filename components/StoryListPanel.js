@@ -15,7 +15,8 @@ import { getInitialStoryListData, getStoryData } from "../utils/fetchApi";
 
 const StoryListPanel = React.memo(({ storyListModeId }) => (
   <section className={clsx(
-    'relative overflow-y-auto',
+    'relative h-full overflow-y-auto ',
+    '',
     'md:grid md:grid-rows-[auto_1fr]',
   )}>
     <StoryListHeader storyListModeId={storyListModeId} />
@@ -29,12 +30,13 @@ const StoryListHeader = React.memo(({ storyListModeId }) => {
   const listMode = getNavigationItemByStoryListId(storyListModeId);
   return (
     <header className={clsx(
-      'sticky z-10 top-0 flex items-center py-2 px-1',
-      'md:static',
+      'sticky z-10 top-0 flex items-center border-b-1 border-FluentLightDividerStrokeColorDefault px-5 pt-4 pb-3 bg-FluentLightSolidBackgroundFillColorBase',
+      'dark:border-FluentDarkDividerStrokeColorDefault dark:bg-FluentDarkSolidBackgroundFillColorBase',
+      'md:static md:px-3 md:py-1',
     )}>
       <NavigationToggle />
       {listMode && (
-        <h2 className='ml-2 text-2xl font-medium'>
+        <h2 className='ml-5 -mt-[1px] font-medium text-lg leading-none'>
           {listMode.label}
         </h2>
       )}
