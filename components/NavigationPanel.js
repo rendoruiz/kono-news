@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from "next/router";
 import clsx from "clsx";
@@ -9,6 +9,7 @@ import { useNavigation } from '../context/NavigationContext';
 
 import { APP_THEME, LOCALSTORAGE_KEY, NAVIGATION_ACTION, NAVIGATION_ITEMS, QUERY_KEY } from "../utils/constants";
 import useLocalStorageState from 'use-local-storage-state';
+import { useTheme } from 'next-themes';
 
 const NavigationPanel = ({
   isExpanded, 
@@ -47,37 +48,30 @@ const NavigationPanelOverlay = ({ isExpanded }) => {
 }
 
 const NavigationFooter = () => {
-  const [appTheme, setAppTheme] = useLocalStorageState(LOCALSTORAGE_KEY.APP_THEME);
+  const [mounted, setMounted] = useState(false)
+  const { theme, setTheme } = useTheme();
 
   const toggleTheme = () => {
-    if (appTheme === APP_THEME.dark) {
-      setAppTheme(APP_THEME.light)
-    } else if (appTheme === APP_THEME.light) {
-      setAppTheme(APP_THEME.dark)
+    const currentTheme = theme.replaceAll('\"', '');
+    if (currentTheme === APP_THEME.dark) {
+      setTheme(APP_THEME.light)
+    } else if (currentTheme === APP_THEME.light) {
+      setTheme(APP_THEME.dark)
     }
   }
 
-  // default value on first page visit
-  React.useEffect(() => {
-    const currentAppTheme = localStorage.getItem(LOCALSTORAGE_KEY.APP_THEME);
-    if (!currentAppTheme) {
-      setAppTheme(localStorage.getItem(LOCALSTORAGE_KEY.INITIAL_THEME))
-    }
-  }, []);
+  React.useEffect(() => setMounted(true), []);
 
-  React.useEffect(() => {
-    if (appTheme) {
-      document.body.className = appTheme;
-    }
-  }, [appTheme]);
+  if (!mounted) return null;
 
   return (
     <button
       type='button'
-      onClick={() => toggleTheme()}
+      onClick={toggleTheme}
       className='mt-auto'
     >
-      {appTheme === APP_THEME.dark ? (
+      [{theme}]
+      {theme === APP_THEME.dark ? (
         'Use Light Mode'
       ) : (
         'Use Dark Mode'

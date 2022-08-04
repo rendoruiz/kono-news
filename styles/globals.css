@@ -6,11 +6,11 @@
   @apply font-sans;
 }
 
-html {
+body {
   @apply bg-FluentLightSolidBackgroundFillColorBase text-FluentLightTextFillColorPrimary;
 }
 
-html[data-theme='dark'] {
+.dark body {
   @apply bg-FluentDarkSolidBackgroundFillColorBase text-FluentDarkTextFillColorPrimary;
 }
 
