@@ -24,9 +24,8 @@ body {
   overflow-wrap: anywhere;
 }
 .html-content a {
-  @apply text-knOrange/80;
+  @apply text-KonoAccentLight dark:text-KonoAccentDark;
 }
 .html-content pre {
-  @apply flex py-[5px] px-0.5 bg-knItemSelected font-mono whitespace-pre-wrap overflow-x-auto break-words;
-  /* overflow-wrap: anywhere; */
+  @apply flex border-1 border-FluentLightDividerStrokeColorDefault rounded py-[5px] px-0.5 bg-FluentLightSolidBackgroundFillColorQuarternary font-mono whitespace-pre-wrap overflow-x-auto break-words dark:border-FluentDarkDividerStrokeColorDefault dark:bg-FluentDarkSolidBackgroundFillColorQuarternary;
 }
