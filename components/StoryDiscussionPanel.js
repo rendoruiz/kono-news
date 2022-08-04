@@ -29,7 +29,8 @@ const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) =>
       )}
       
       <section className={clsx(
-        'fixed z-modal inset-0 translate-x-full transition-transform panel-transition overflow-y-auto pointer-events-none',
+        'fixed z-modal inset-0 bg-FluentLightSolidBackgroundFillColorBase translate-x-full transition-transform panel-transition overflow-y-auto pointer-events-none',
+        'dark:bg-FluentDarkSolidBackgroundFillColorBase',
         {'!translate-x-0 !pointer-events-auto': isExpanded || isPermalink},
         'md:static md:z-auto md:w-full md:transform-none md:transition-none md:pointer-events-auto',
         'md:only:col-span-2 md:only:mx-auto md:only:max-w-screen-xl'
@@ -106,7 +107,8 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
 
   return (
     <header className={clsx(
-      'sticky z-10 top-0 flex items-center gap-2 py-2 px-1',
+      'sticky z-10 top-0 flex items-center border-b-1 border-FluentLightDividerStrokeColorDefault px-5 pt-4 pb-3 bg-inherit',
+      'dark:border-FluentDarkDividerStrokeColorDefault',
       'md:static'
     )}>
       {isPermalink ? (
@@ -114,13 +116,18 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
           type='button'
           onClick={handleTogglePanel}
           className={clsx(
-            'group shrink-0 border-1 border-transparent rounded ml-1 px-2 py-1 leading-none transition-opacity cursor-pointer',
-            'hover:opacity-50',
+            'shrink-0 group rounded -mx-3 -my-2 px-3 py-2 leading-none transition-colors cursor-pointer',
+            'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
+            'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
+            'md:border-1 md:border-transparent',
+            'md:hover:border-FluentLightControlStrokeColorDefault md:active:border-FluentLightControlStrokeColorSecondary md:hover:bg-FluentLightControlFillColorSecondary md:active:bg-FluentLightControlFillColorTertiary md:hover:shadow',
+            'dark:md:hover:border-FluentDarkControlStrokeColorDefault dark:md:active:border-FluentDarkControlStrokeColorSecondary dark:md:hover:bg-FluentDarkControlFillColorSecondary dark:md:active:bg-FluentDarkControlFillColorTertiary',
           )}
         >
           <FluentDismissRegular className={clsx(
-            'w-7 h-7 origin-center transition-transform',
-            'group-active:scale-[0.8]'
+            'w-6 h-6 origin-center transition-transform',
+            'group-active:scale-x-[.60]',
+            'md:w-5 md:h-5'
           )} />
         </button>
       ): (
@@ -129,19 +136,24 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
           onClick={handleTogglePanel}
           disabled={!isExpanded}
           className={clsx(
-            'group shrink-0 border-1 border-transparent rounded ml-1 px-2 py-1 leading-none transition-opacity cursor-pointer',
-            'hover:opacity-50',
+            'shrink-0 group rounded -mx-3 -my-2 px-3 py-2 leading-none transition-colors cursor-pointer',
+            'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
+            'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
+            'md:border-1 md:border-transparent',
+            'md:hover:border-FluentLightControlStrokeColorDefault md:active:border-FluentLightControlStrokeColorSecondary md:hover:bg-FluentLightControlFillColorSecondary md:active:bg-FluentLightControlFillColorTertiary md:hover:shadow',
+            'dark:md:hover:border-FluentDarkControlStrokeColorDefault dark:md:active:border-FluentDarkControlStrokeColorSecondary dark:md:hover:bg-FluentDarkControlFillColorSecondary dark:md:active:bg-FluentDarkControlFillColorTertiary',
             'md:hidden',
           )}
         >
           <FluentArrowLeftRegular className={clsx(
-            'w-7 h-7 origin-center transition-transform',
-            'group-active:scale-[0.8]'
+            'w-6 h-6 origin-center transition-transform',
+            'group-active:scale-x-[0.80] group-active:translate-x-1.5',
+            'md:w-5 md:h-5'
           )} />
         </button>
       )}
       
-      <p className='flex-1 pr-1 font-knSansSerif font-bold text-sm leading-6 tracking-wide overflow-x-hidden text-ellipsis whitespace-nowrap'>
+      <p className='flex-1 ml-5 pr-1 font-knSansSerif font-bold text-sm leading-6 tracking-wide overflow-x-hidden text-ellipsis whitespace-nowrap'>
         {title}
       </p>
     </header>

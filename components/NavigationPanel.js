@@ -19,8 +19,8 @@ const NavigationPanel = ({
   <>
     <NavigationPanelOverlay isExpanded={isExpanded} />
     <section className={clsx(
-      'fixed z-modal inset-0 right-auto flex flex-col pt-2 pb-1 w-4/5 min-w-[140px] max-w-[300px] bg-FluentLightSolidBackgroundFillColorBase text-FluentLightTextFillColorPrimary -translate-x-full transition-all ease-in-out overflow-y-auto pointer-events-none',
-      'dark:bg-FluentDarkSolidBackgroundFillColorBase dark:text-FluentDarkTextFillColorPrimary',
+      'fixed z-modal inset-0 right-auto flex flex-col pt-2 pb-1 w-4/5 min-w-[140px] max-w-[300px] bg-FluentLightSolidBackgroundFillColorBase -translate-x-full transition-all ease-in-out overflow-y-auto pointer-events-none',
+      'dark:bg-FluentDarkSolidBackgroundFillColorBase',
       'md:px-1 md:w-full md:max-w-[280px]',
       '2xl:absolute 2xl:border-1.5 2xl:border-l-0 2xl:rounded-lg 2xl:rounded-l-none 2xl:opacity-0 2xl:-translate-x-1/4 2xl:transition-all 2xl:duration-200',
       {'translate-x-0 pointer-events-auto': isExpanded},
