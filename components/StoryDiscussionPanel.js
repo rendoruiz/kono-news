@@ -29,10 +29,10 @@ const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) =>
       )}
       
       <section className={clsx(
-        'fixed z-modal inset-0 bg-FluentLightSolidBackgroundFillColorBase translate-x-full transition-transform panel-transition overflow-y-auto pointer-events-none',
+        'fixed z-modal inset-0 bg-FluentLightSolidBackgroundFillColorBase translate-x-full transition-all overflow-y-auto pointer-events-none',
         'dark:bg-FluentDarkSolidBackgroundFillColorBase',
         {'!translate-x-0 !pointer-events-auto': isExpanded || isPermalink},
-        'md:static md:z-auto md:grid md:grid-rows-[auto_1fr] md:border-1 md:border-FluentLightCardStrokeColorDefault md:w-full md:bg-FluentLightCardBackgroundFillColorDefault md:shadow md:transform-none md:transition-none md:pointer-events-auto',
+        'md:static md:z-auto md:grid md:grid-rows-[auto_1fr] md:border-1 md:border-FluentLightCardStrokeColorDefault md:w-full md:bg-FluentLightCardBackgroundFillColorDefault md:shadow md:transform-none md:transition-colors md:pointer-events-auto',
         'md:only:col-span-2 md:only:mx-auto md:only:max-w-screen-xl',
         'dark:md:border-FluentDarkCardStrokeColorDefault dark:md:bg-FluentDarkCardBackgroundFillColorDefault',
         '2xl:rounded-lg'

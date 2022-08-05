@@ -23,7 +23,7 @@ const NavigationPanel = ({
       'dark:bg-FluentDarkSolidBackgroundFillColorBase',
       'md:border-1 md:rounded-r-lg md:border-FluentLightSurfaceStrokeColorDefault md:border-l-transparent md:px-1 md:w-full md:max-w-[280px] md:bg-FluentLightSolidBackgroundFillColorQuarternary md:shadow',
       'dark:md:border-FluentDarkSurfaceStrokeColorDefault dark:md:bg-FluentDarkSolidBackgroundFillColorQuarternary',
-      '2xl:absolute 2xl:inset-2 2xl:rounded-lg 2xl:opacity-0 2xl:-translate-x-1/4 2xl:transition-all 2xl:duration-200',
+      '2xl:absolute 2xl:inset-2 2xl:rounded-lg 2xl:opacity-0 2xl:-translate-x-1/4 2xl:transition-all',
       {'translate-x-0 pointer-events-auto': isExpanded},
       {'2xl:opacity-100 2xl:translate-x-0': isExpanded},
     )}>
