@@ -52,6 +52,9 @@ module.exports = {
         FluentLightCardStrokeColorDefault: '#0000000F',
         FluentLightCardStrokeColorDefaultSolid: '#EBEBEB',
         FluentLightDividerStrokeColorDefault: '#0000000F',
+        FluentLightSystemFillColorAttentionBackground: '#80F6F6F6',
+        FluentLightSystemFillColorCautionBackground: '#FFF4CE',
+        FluentLightSystemFillColorCriticalBackground: '#FDE7E9',
 
         FluentDarkTextFillColorPrimary: '#FFFFFF',
         FluentDarkTextFillColorSecondary: '#FFFFFFC5',
@@ -72,6 +75,9 @@ module.exports = {
         FluentDarkCardStrokeColorDefault: '#00000019',
         FluentDarkCardStrokeColorDefaultSolid: '#1C1C1C',
         FluentDarkDividerStrokeColorDefault: '#FFFFFF15',
+        FluentDarkSystemFillColorAttentionBackground: '#08FFFFFF',
+        FluentDarkSystemFillColorCautionBackground: '#433519',
+        FluentDarkSystemFillColorCriticalBackground: '#442726',
       },
       zIndex: {
         modal: '1000',

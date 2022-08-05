@@ -195,8 +195,9 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
     )}>
       {permalink && (
         <p className={clsx(
-          'grid rounded -mt-1 mb-3 p-2 bg-knOrange/20 font-medium text-xs',
-          'md:block md:text-center'
+          'grid rounded -mt-1 mb-2 p-2 bg-FluentLightSystemFillColorCautionBackground font-medium text-xs text-center',
+          'dark:bg-FluentDarkSystemFillColorCautionBackground',
+          'md:block'
         )}>
           <span className='md:mr-1'>You are viewing a single comment thread.</span>
           <span>Press the close button to view the whole thread.</span>
