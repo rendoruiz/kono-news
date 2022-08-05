@@ -3,9 +3,11 @@ import Link from 'next/link';
 import { useRouter } from "next/router";
 import { useTheme } from 'next-themes';
 import clsx from "clsx";
+import { Github } from '@icons-pack/react-simple-icons';
 
 import NavigationToggle from "./shared/NavigationToggle";
 import PillSelectedIndicator from './shared/PillSelectedIndicator';
+import ExternalLink from './shared/ExternalLink';
 import { FluentWeatherMoonRegular, FluentWeatherSunnyRegular } from './shared/FluentIcons';
 
 import { useNavigation } from '../context/NavigationContext';
@@ -76,7 +78,30 @@ const NavigationFooter = React.memo(() => {
   if (!mounted) return null;
 
   return (
-    <footer className='grid mt-auto'>
+    <footer className='grid content-start mt-auto'>
+      <ExternalLink
+        href='https://github.com/rendoruiz/kono-list'
+        className={clsx(
+          'flex items-center px-5 py-3.5 text-left leading-none select-none',
+          'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
+          'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
+          'md:border-1 md:border-transparent md:rounded md:px-3 md:py-2.5',
+        )}
+      >
+        <Github className={clsx(
+          'p-[1px] w-6 h-6 mr-4',
+          'md:w-5 md:h-5 md:mr-5'
+        )} />
+        <span className={clsx(
+          'text-lg',
+          'md:text-base'
+        )}>
+          Fork at GitHub
+        </span>
+      </ExternalLink>
+      
+      <NavigationListDivider />
+
       <button
         type='button'
         onClick={toggleTheme}
@@ -177,5 +202,13 @@ const NavigationItem = React.memo(({
     </li>
   );
 });
+
+const NavigationListDivider = React.memo(() => (
+  <div className={clsx(
+    'w-full h-[1px] bg-FluentLightDividerStrokeColorDefault',
+    'dark:bg-FluentDarkDividerStrokeColorDefault',
+    'md:my-1'
+  )} />
+));
 
 export default NavigationPanel;
