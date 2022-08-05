@@ -122,7 +122,7 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
               <button 
                 type='button'
                 className={clsx(
-                  'rounded px-5 py-3.5 w-full font-bold text-base text-KonoAccentLight uppercase tracking-wide cursor-pointer select-none',
+                  'rounded px-5 py-3.5 w-full font-medium text-base text-KonoAccentLight uppercase tracking-wide cursor-pointer select-none',
                   'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-opacity-80',
                   'dark:text-KonoAccentDark',
                   'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary',
