@@ -1,4 +1,4 @@
-import { FluentArrowTrendingRegular, FluentChatHelpRegular, FluentHomeRegular, FluentLightbulbFilamentRegular, FluentNotepadPersonRegular, FluentRewardRegular } from "../components/shared/FluentIcons";
+import { FluentArrowTrendingRegular, FluentChatHelpRegular, FluentHomeRegular, FluentNotepadPersonRegular, FluentRocketRegular, FluentTrophyRegular } from "../components/shared/FluentIcons";
 
 export const STORY_MODE = {
   TOP: 'top',
@@ -57,7 +57,7 @@ export const NAVIGATION_ITEMS = [
   {
     id: STORY_MODE.BEST,
     label: 'Best',
-    icon: <FluentRewardRegular />,
+    icon: <FluentTrophyRegular />,
   },
   {
     id: STORY_MODE.ASK,
@@ -67,7 +67,7 @@ export const NAVIGATION_ITEMS = [
   {
     id: STORY_MODE.SHOW,
     label: 'Show',
-    icon: <FluentLightbulbFilamentRegular />,
+    icon: <FluentRocketRegular />,
   },
   {
     id: STORY_MODE.JOB,
