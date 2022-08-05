@@ -215,7 +215,11 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
     <NavigationContext.Provider value={handleToggleNavigationPanel}>
       <StoryContext.Provider value={storyDiscussion.id}>
         <Head>
-          <title>Kono News - A Hacker News Viewer</title>
+          <title>Kono News - A Fluent Hacker News Viewer</title>
+          <meta name="description" content="Kono News is a heavily-opinionated Hacker News viewer with a splash of Microsoft's Fluent Design." />
+          <meta property="og:title" content="Kono News - A Fluent Hacker News Viewer" />
+          <meta property="og:description" content="Kono News is a heavily-opinionated Hacker News viewer with a splash of Microsoft's Fluent Design." />
+          <meta property="og:url" content="https://news.kono.cx/" />
         </Head>
 
         <div className={clsx(
