@@ -17,7 +17,9 @@ import PillSelectedIndicator from "./shared/PillSelectedIndicator";
 const StoryListPanel = React.memo(({ storyListModeId }) => (
   <section className={clsx(
     'relative overflow-y-auto',
-    'md:grid md:grid-rows-[auto,1fr] md:overflow-y-auto',
+    'md:border-1 md:border-FluentLightCardStrokeColorDefault md:rounded-lg md:bg-FluentLightCardBackgroundFillColorDefault md:shadow',
+    'md:grid md:grid-rows-[auto_1fr] md:overflow-y-auto',
+    'dark:md:border-FluentDarkCardStrokeColorDefault dark:md:bg-FluentDarkCardBackgroundFillColorDefault',
   )}>
     <StoryListHeader storyListModeId={storyListModeId} />
     {storyListModeId && (
@@ -32,7 +34,8 @@ const StoryListHeader = React.memo(({ storyListModeId }) => {
     <header className={clsx(
       'sticky z-10 top-0 flex items-center border-b-1 border-FluentLightDividerStrokeColorDefault px-5 pt-4 pb-3 bg-FluentLightSolidBackgroundFillColorBase',
       'dark:border-FluentDarkDividerStrokeColorDefault dark:bg-FluentDarkSolidBackgroundFillColorBase',
-      'md:static md:px-4 md:py-3',
+      'md:static md:px-4 md:py-3 md:bg-inherit',
+      'dark:md:bg-inherit'
     )}>
       <NavigationToggle />
       {listMode && (

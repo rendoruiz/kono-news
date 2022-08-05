@@ -32,7 +32,8 @@ const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) =>
         'fixed z-modal inset-0 bg-FluentLightSolidBackgroundFillColorBase translate-x-full transition-transform panel-transition overflow-y-auto pointer-events-none',
         'dark:bg-FluentDarkSolidBackgroundFillColorBase',
         {'!translate-x-0 !pointer-events-auto': isExpanded || isPermalink},
-        'md:static md:z-auto md:w-full md:transform-none md:transition-none md:pointer-events-auto',
+        'md:static md:z-auto md:grid md:grid-rows-[auto_1fr] md:border-1 md:border-FluentLightCardStrokeColorDefault md:rounded-lg md:w-full md:bg-FluentLightCardBackgroundFillColorDefault md:shadow md:transform-none md:transition-none md:pointer-events-auto',
+        'dark:md:border-FluentDarkCardStrokeColorDefault dark:md:bg-FluentDarkCardBackgroundFillColorDefault',
         'md:only:col-span-2 md:only:mx-auto md:only:max-w-screen-xl'
       )}>
         <StoryDiscussionHeader 
@@ -109,7 +110,7 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
     <header className={clsx(
       'sticky z-10 top-0 flex items-center border-b-1 border-FluentLightDividerStrokeColorDefault px-5 pt-4 pb-3 bg-inherit',
       'dark:border-FluentDarkDividerStrokeColorDefault',
-      'md:static md:px-3'
+      'md:static md:px-4 md:py-3'
     )}>
       {isPermalink ? (
         <button
@@ -154,7 +155,7 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
       )}
       
       <p className={clsx(
-        'flex-1 ml-5 pr-1 font-knSansSerif font-bold text-sm leading-6 tracking-wide overflow-x-hidden text-ellipsis whitespace-nowrap',
+        'flex-1 ml-5 pr-1 font-knSansSerif font-bold text-sm leading-none tracking-wide overflow-x-hidden text-ellipsis whitespace-nowrap',
         'md:ml-0',
       )}>
         {title}
@@ -262,7 +263,7 @@ const StoryDiscussionList = React.memo(({ storyDiscussionListData }) => {
   } else {
     return (
       <ul className={clsx(
-        'relative ml-[10px]',
+        'relative ml-2.5',
         'before:absolute before:inset-y-0 before:right-auto before:-left-2.5 before:border-l-2 before:border-dashed before:border-FluentLightControlStrokeColorSecondary',
         'dark:before:border-FluentDarkControlStrokeColorSecondary',
         'md:ml-3.5',

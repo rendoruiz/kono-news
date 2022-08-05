@@ -27,14 +27,6 @@ module.exports = {
     },
     extend: {
       colors: {
-        // knOrange: 'rgb(255, 102, 0)',
-        // knBackground: 'rgb(246, 246, 239)',
-        // knPrimary: 'rgb(30, 30, 30)',
-        // knSecondary: 'rgb(130, 130, 130)',
-        // knModalOverlay: 'rgba(0, 0, 0, 0.5)',
-        // knItemSelected: 'rgba(0, 0, 0, 0.05)',
-        knCommentThreadBorder: 'rgb(255, 194, 153)',
-
         KonoAccentLight: 'rgb(230, 107, 25)',
         KonoAccentDark: 'rgb(255, 102, 0)',
 
@@ -55,6 +47,10 @@ module.exports = {
         FluentLightSolidBackgroundFillColorQuarternary: '#FFFFFF',
         FluentLightSubtleFillColorSecondary: '#00000009',
         FluentLightSubtleFillColorTertiary: '#00000006',
+        FluentLightCardBackgroundFillColorDefault: '#FFFFFFB3',
+        FluentLightCardBackgroundFillColorSecondary: '#F6F6F680',
+        FluentLightCardStrokeColorDefault: '#0000000F',
+        FluentLightCardStrokeColorDefaultSolid: '#EBEBEB',
         FluentLightDividerStrokeColorDefault: '#0000000F',
 
         FluentDarkTextFillColorPrimary: '#FFFFFF',
@@ -71,6 +67,10 @@ module.exports = {
         FluentDarkSolidBackgroundFillColorQuarternary: '#2C2C2C',
         FluentDarkSubtleFillColorSecondary: '#FFFFFF0F',
         FluentDarkSubtleFillColorTertiary: '#FFFFFF0A',
+        FluentDarkCardBackgroundFillColorDefault: '#FFFFFF0D',
+        FluentDarkCardBackgroundFillColorSecondary: '#FFFFFF08',
+        FluentDarkCardStrokeColorDefault: '#00000019',
+        FluentDarkCardStrokeColorDefaultSolid: '#1C1C1C',
         FluentDarkDividerStrokeColorDefault: '#FFFFFF15',
       },
       zIndex: {

@@ -154,7 +154,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
 
         <div className={clsx(
           'relative grid mx-auto w-full h-screen max-w-screen-2xl',
-          'md:grid-cols-[1fr_2fr]',
+          'md:grid-cols-[1fr_2fr] md:p-2 md:gap-x-2',
           'xl:grid-cols-[1fr_2.5fr]',
           '2xl:grid-cols-[1fr_3fr] 2xl:overflow-hidden'
         )}>
