@@ -64,7 +64,6 @@ const NavigationFooter = React.memo(() => {
   const { resolvedTheme, setTheme } = useTheme();
 
   const toggleTheme = () => {
-    console.log('toggling theme');
     const currentTheme = resolvedTheme.replaceAll('\"', '');
     if (currentTheme === APP_THEME.dark) {
       setTheme(APP_THEME.light);
@@ -104,7 +103,6 @@ const NavigationFooter = React.memo(() => {
         )}>
           Switch Lights&nbsp;
           {resolvedTheme === APP_THEME.dark ? 'On' : 'Off'}
-          &nbsp;[c:{resolvedTheme}]
         </span>
       </button>
     </header>
