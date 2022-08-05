@@ -11,6 +11,7 @@ export const STORY_MODE = {
 
 export const QUERY_KEY = {
   STORY_LIST_MODE_ID: 'list',
+  IS_NAVIGATION_EXPANDED: 'nav',
   STORY_DISCUSSION_ID: 'story',
   IS_STORY_DISCUSSION_EXPANDED: 'discuss',
   IS_PERMALINK: 'permalink',
