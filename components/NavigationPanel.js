@@ -64,11 +64,12 @@ const NavigationFooter = React.memo(() => {
   const { theme, setTheme } = useTheme();
 
   const toggleTheme = () => {
+    console.log('toggling theme');
     const currentTheme = theme.replaceAll('\"', '');
     if (currentTheme === APP_THEME.dark) {
-      setTheme(APP_THEME.light)
+      setTheme(APP_THEME.light);
     } else if (currentTheme === APP_THEME.light) {
-      setTheme(APP_THEME.dark)
+      setTheme(APP_THEME.dark);
     }
   }
 
