@@ -6,13 +6,13 @@ import clsx from "clsx";
 
 import NavigationToggle from "./shared/NavigationToggle";
 import ExternalLink from "./shared/ExternalLink";
+import PillSelectedIndicator from "./shared/PillSelectedIndicator";
 
 import { useStory } from "../context/StoryContext";
 
 import { getNavigationItemByStoryListId, getShortTime } from "../utils";
 import { QUERY_KEY, reactQueryParams, STORIES_PER_PAGE } from "../utils/constants";
 import { getInitialStoryListData, getStoryData } from "../utils/fetchApi";
-import PillSelectedIndicator from "./shared/PillSelectedIndicator";
 
 const StoryListPanel = React.memo(({ storyListModeId }) => (
   <section className={clsx(

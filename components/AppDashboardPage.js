@@ -8,10 +8,10 @@ import StoryListPanel from "./StoryListPanel";
 import StoryDiscussionPanel from "./StoryDiscussionPanel";
 
 import { NavigationContext } from "../context/NavigationContext";
+import { StoryContext } from "../context/StoryContext";
 
 import { NAVIGATION_ACTION, QUERY_KEY, STORYDISCUSSION_ACTION } from "../utils/constants";
 import { parseStoryListModeId } from "../utils/fetchApi";
-import { StoryContext } from "../context/StoryContext";
 
 //#region reducer
 const navigationReducer = (state, action) => {
