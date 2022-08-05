@@ -110,40 +110,37 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
     <header className={clsx(
       'sticky z-10 top-0 flex items-center border-b-1 border-FluentLightDividerStrokeColorDefault px-5 pt-4 pb-3 bg-inherit',
       'dark:border-FluentDarkDividerStrokeColorDefault',
-      'md:static md:px-4 md:py-3'
+      'md:static md:p-3'
     )}>
       <button
         type='button'
         onClick={handleTogglePanel}
         disabled={!isExpanded}
         className={clsx(
-          'shrink-0 group rounded -mx-3 -my-2 px-3 py-2 leading-none transition-colors cursor-pointer',
+          'shrink-0 group rounded -mx-3 mr-2 -my-2 px-3 py-2 leading-none transition-colors cursor-pointer',
           'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
           'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
           'md:border-1 md:border-transparent',
           'md:hover:border-FluentLightControlStrokeColorDefault md:active:border-FluentLightControlStrokeColorSecondary md:hover:bg-FluentLightControlFillColorSecondary md:active:bg-FluentLightControlFillColorTertiary md:hover:shadow',
           'dark:md:hover:border-FluentDarkControlStrokeColorDefault dark:md:active:border-FluentDarkControlStrokeColorSecondary dark:md:hover:bg-FluentDarkControlFillColorSecondary dark:md:active:bg-FluentDarkControlFillColorTertiary',
-          {'md:hidden': !isPermalink},
+          {'md:-mr-3 md:w-0 md:opacity-0 md:pointer-events-none': !isPermalink},
         )}
       >
-        {isPermalink ? (
-          <FluentDismissRegular className={clsx(
-            'w-6 h-6 origin-center transition-transform',
-            'group-active:scale-x-[.60]',
-            'md:w-5 md:h-5'
-          )} />
-        ) : (
-          <FluentArrowLeftRegular className={clsx(
-            'w-6 h-6 origin-center transition-transform',
-            'group-active:scale-x-[0.80] group-active:translate-x-1.5',
-            'md:w-5 md:h-5'
-          )} />
-        )}
+        <div className={clsx(
+          'w-6 h-6 origin-center transition-transform',
+          'md:w-5 md:h-5',
+          isPermalink ? 'group-active:scale-x-[.60]' : 'group-active:scale-x-[0.80] group-active:translate-x-1.5',
+        )}>
+          {isPermalink ? (
+            <FluentDismissRegular />
+          ) : (
+            <FluentArrowLeftRegular />
+          )}
+        </div>
       </button>
       
       <p className={clsx(
-        'flex-1 ml-5 pr-1 font-knSansSerif font-bold text-sm leading-none tracking-wide overflow-x-hidden text-ellipsis whitespace-nowrap',
-      ' md:ml-0',
+        'flex-1 pr-1 font-bold text-sm leading-none tracking-wide overflow-x-hidden text-ellipsis whitespace-nowrap',
       )}>
         {title}
       </p>
