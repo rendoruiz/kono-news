@@ -104,6 +104,7 @@ const NavigationFooter = React.memo(() => {
         )}>
           Switch Lights&nbsp;
           {theme === APP_THEME.dark ? 'On' : 'Off'}
+          &nbsp;[c:{theme}]
         </span>
       </button>
     </header>
