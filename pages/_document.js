@@ -12,6 +12,11 @@ export default function Document() {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
         <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Open+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+        <meta property="og:image" content="https://news.kono.cx/og-image.png"/>
+        <meta property="og:image:width" content="1200"/>
+        <meta property="og:image:height" content="630"/>
+        <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <body>
         <Main />
