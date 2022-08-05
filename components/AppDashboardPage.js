@@ -107,7 +107,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
         }
       }, undefined, { shallow: true });
     }
-  });
+  }, [initialStoryListModeId, isMounted, router]);
 
   //#region navigation useeffect
   // set list mode id based on route query
