@@ -45,30 +45,36 @@ const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) =>
         />
 
         {isLoading && (
-          <p className='grid place-items-center h-4/5 text-heading2'>
+          <p className='grid place-items-center h-4/5 text-2xl'>
             Loading story...
           </p>
         )}
         {isError && (
-          <div className='grid content-center px-4 py-5 font-medium text-center leading-5'>
-            <h3 className='text-heading1'>
-              Something went wrong
+          <div className={clsx(
+            'flex flex-col justify-center px-5 py-4 h-4/5 font-medium text-center',
+            'md:h-full'
+          )}>
+            <h3 className='text-4xl'>
+              Something went wrong.
             </h3>
             <p className={clsx(
-              'mt-4 text-heading3 text-FluentLightTextFillColorSecondary',
+              'mt-2 mb-5 text-sm text-FluentLightTextFillColorSecondary',
               'dark:text-FluentDarkTextFillColorSecondary'
             )}>
               {error.message}
             </p>
-            <p className='mt-3'> 
+            <div className={clsx(
+              'text-sm text-KonoAccentLight',
+              'dark:text-KonoAccentDark',
+              '[&>:first-child]:mr-3'
+            )}>
               <ExternalLink href={error.cause.apiEndpoint}>
                 API Endpoint
               </ExternalLink>
-              <span className='mx-2'>•</span>
               <ExternalLink href={error.cause.originalUrl}>
                 YCombinator
               </ExternalLink>
-            </p>
+            </div>
           </div>
         )}
         {storyDiscussionData && (

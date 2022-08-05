@@ -71,25 +71,31 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
   if (isError || !fetchedStoryIds) {
     const { apiEndpoint, originalUrl} = error.cause;
     return (
-      <div className='flex flex-col justify-center px-5 py-4 font-medium text-center'>
-        <h3 className='text-heading1'>
+      <div className={clsx(
+        'flex flex-col justify-center px-5 py-4 h-4/5 font-medium text-center',
+        'md:h-full'
+      )}>
+        <h3 className='text-4xl'>
           Something went wrong.
         </h3>
         <p className={clsx(
-          'mt-4 text-heading-2 text-FluentLightTextFillColorSecondary',
+          'mt-2 mb-5 text-sm text-FluentLightTextFillColorSecondary',
           'dark:text-FluentDarkTextFillColorSecondary'
         )}>
           {error.message}
         </p>
-        <p>
+        <div className={clsx(
+          'text-sm text-KonoAccentLight',
+          'dark:text-KonoAccentDark',
+          '[&>:first-child]:mr-3'
+        )}>
           <ExternalLink href={apiEndpoint}>
             API Endpoint
           </ExternalLink>
-          <span className='mx-2'>•</span>
           <ExternalLink href={originalUrl}>
             YCombinator
           </ExternalLink>
-        </p>
+        </div>
       </div>
     );
   }
