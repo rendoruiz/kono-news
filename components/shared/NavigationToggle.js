@@ -5,11 +5,8 @@ import { FluentLineHorizontal3Regular } from "./FluentIcons";
 
 import { useNavigation } from "../../context/NavigationContext";
 
-import { NAVIGATION_ACTION } from "../../utils/constants";
-
 const NavigationToggle = React.memo(() => {
-  const dispatch = useNavigation();
-  const handleClick = () => dispatch({ type: NAVIGATION_ACTION.TOGGLE_PANEL });
+  const handleClick = useNavigation();
 
   return (
     <button

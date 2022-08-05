@@ -24,10 +24,15 @@ const navigationReducer = (state, action) => {
           : state.storyListModeId,
         isExpanded: false,
       };
-    case NAVIGATION_ACTION.TOGGLE_PANEL:
+    case NAVIGATION_ACTION.EXPAND_PANEL:
       return {
         ...state,
-        isExpanded: !state.isExpanded,
+        isExpanded: true,
+      }
+    case NAVIGATION_ACTION.RETRACT_PANEL:
+      return {
+        ...state,
+        isExpanded: false,
       }
     default:
       throw new Error();
@@ -62,6 +67,7 @@ const storyDiscussionReducer = (state, action) => {
 //#endregion
 
 const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, initialIsPermalink, }) => {
+  const [isMounted, setIsMounted] = React.useState(false);
   const router = useRouter(); 
   const [navigation, dispatchNavigation] = React.useReducer(
     navigationReducer, 
@@ -79,23 +85,31 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
     }
   );
 
-  //#region navigation useeffect
-  // set initial list mode id
+  // set initial list mode id & remove navigation expansion on mount
   React.useEffect(() => {
-    const storyListModeId = parseStoryListModeId(initialStoryListModeId);
-    dispatchNavigation({
-      type: NAVIGATION_ACTION.SET_ID,
-      storyListModeId,
-    });
-    // default query string on load, if query string is empty
-    router.replace({
-      query: {
-        ...router.query,
-        [QUERY_KEY.STORY_LIST_MODE_ID]: storyListModeId,
-      }
-    }, undefined, { shallow: true });
-  }, [initialStoryListModeId]);
+    if (!isMounted) {
+      setIsMounted(true);
+      
+      const storyListModeId = parseStoryListModeId(initialStoryListModeId);
+      dispatchNavigation({
+        type: NAVIGATION_ACTION.SET_ID,
+        storyListModeId,
+      });
+      // default query string on load, if query string is empty
+      const { 
+        [QUERY_KEY.IS_NAVIGATION_EXPANDED]: _,
+        ...newRouterQuery
+      } = router.query
+      router.replace({
+        query: {
+          ...newRouterQuery,
+          [QUERY_KEY.STORY_LIST_MODE_ID]: storyListModeId,
+        }
+      }, undefined, { shallow: true });
+    }
+  });
 
+  //#region navigation useeffect
   // set list mode id based on route query
   React.useEffect(() => {
     const { 
@@ -109,6 +123,19 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
       });
     }
   }, [router.query, navigation.storyListModeId]);
+
+  // handle navigation panel expansion
+  React.useEffect(() => {
+    const { 
+      [QUERY_KEY.IS_NAVIGATION_EXPANDED]: newIsExpanded,
+    } = router.query;
+
+    if (navigation.isExpanded && !newIsExpanded) {
+      dispatchNavigation({ type: NAVIGATION_ACTION.RETRACT_PANEL });
+    } else if (!navigation.isExpanded && newIsExpanded) {
+      dispatchNavigation({ type: NAVIGATION_ACTION.EXPAND_PANEL });
+    }
+  }, [router.query, navigation.isExpanded]);
   //#endregion
 
   //#region story discussion useeffect
@@ -145,8 +172,45 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
   }, [router.query, storyDiscussion.isPermalink]);
   //#endregion
 
+  const handleToggleNavigationPanel = () => {
+    if (!navigation.isExpanded) {
+      router.push(
+        { query: {
+          ...router.query,
+          [QUERY_KEY.IS_NAVIGATION_EXPANDED]: true,
+        }}, 
+        undefined, 
+        { shallow: true }
+      );
+    } else {
+      const {
+        [QUERY_KEY.STORY_LIST_MODE_ID]: newStoryListModeId,
+        [QUERY_KEY.STORY_DISCUSSION_ID]: newStoryDiscussionId,
+        [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: newIsExpanded,
+      } = router.query;
+      // prevent clogging history from navigation toggle button spam clicking
+      if (
+        (navigation.storyListModeId == newStoryListModeId) 
+        && (storyDiscussion.id == newStoryDiscussionId) 
+        && (storyDiscussion.isExpanded && newIsExpanded)
+      ) {
+        router.back(2);
+      } else {
+        const {
+          [QUERY_KEY.IS_NAVIGATION_EXPANDED]: _,
+          ...newRouterQuery
+        } = router.query;
+        router.replace(
+          { query: newRouterQuery}, 
+          undefined, 
+          { shallow: true }
+        );
+      }
+    }
+  }
+
   return ( 
-    <NavigationContext.Provider value={dispatchNavigation}>
+    <NavigationContext.Provider value={handleToggleNavigationPanel}>
       <StoryContext.Provider value={storyDiscussion.id}>
         <Head>
           <title>Kono News - A Hacker News Viewer</title>
@@ -166,7 +230,6 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
               />
               <StoryListPanel 
                 storyListModeId={navigation.storyListModeId} 
-                onToggleNavigationPanel={null}
               />
             </>
           )}

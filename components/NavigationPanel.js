@@ -10,7 +10,7 @@ import { FluentWeatherMoonRegular, FluentWeatherSunnyRegular } from './shared/Fl
 
 import { useNavigation } from '../context/NavigationContext';
 
-import { APP_THEME, NAVIGATION_ACTION, NAVIGATION_ITEMS, QUERY_KEY } from "../utils/constants";
+import { APP_THEME, NAVIGATION_ITEMS, QUERY_KEY } from "../utils/constants";
 
 const NavigationPanel = ({
   isExpanded, 
@@ -35,8 +35,7 @@ const NavigationPanel = ({
 );
 
 const NavigationPanelOverlay = ({ isExpanded }) => {
-  const dispatch = useNavigation();
-  const handleClick = () => dispatch({ type: NAVIGATION_ACTION.TOGGLE_PANEL });
+  const handleClick = useNavigation();
 
   return (
     <div 
@@ -130,20 +129,24 @@ const NavigationItem = React.memo(({
   isSelected,
 }) => {
   const router = useRouter();
-  const dispatch = useNavigation();
+  const handleClickCurrentSelected = useNavigation();
+  const { 
+    [QUERY_KEY.IS_NAVIGATION_EXPANDED]: _,
+    ...newRouterQuery 
+  } = router.query;
   const routeHrefObject = { 
     query: { 
-      ...router.query,
+      ...newRouterQuery,
       [QUERY_KEY.STORY_LIST_MODE_ID]: navigationItemData.id 
     }
   }
-  const handleClickCurrentSelected = () => dispatch({ type: NAVIGATION_ACTION.TOGGLE_PANEL });
   
   return (
     <li className='relative flex'>
       <Link 
         href={routeHrefObject} 
         shallow
+        replace
       >
         <a 
           className={clsx(
