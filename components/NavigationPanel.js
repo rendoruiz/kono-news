@@ -21,7 +21,7 @@ const NavigationPanel = ({
   <>
     <NavigationPanelOverlay isExpanded={isExpanded} />
     <section className={clsx(
-      'fixed z-modal inset-0 right-auto flex flex-col pt-2 pb-1 w-4/5 min-w-[140px] max-w-[300px] bg-FluentLightSolidBackgroundFillColorQuarternary -translate-x-full transition-transform ease-in-out overflow-y-auto pointer-events-none',
+      'fixed z-modal inset-0 right-auto grid grid-rows-[auto_1fr_auto] pt-2 pb-1 w-4/5 min-w-[140px] max-w-[300px] bg-FluentLightSolidBackgroundFillColorQuarternary -translate-x-full transition-transform ease-in-out overflow-y-auto pointer-events-none',
       'dark:bg-FluentDarkSolidBackgroundFillColorQuarternary',
       'md:border-1 md:rounded-r-lg md:border-FluentLightSurfaceStrokeColorDefault md:border-l-transparent md:px-1 md:w-full md:max-w-[280px] md:shadow md:transition-transformOpacity',
       'dark:md:border-FluentDarkSurfaceStrokeColorDefault',
@@ -78,9 +78,9 @@ const NavigationFooter = React.memo(() => {
   if (!mounted) return null;
 
   return (
-    <footer className='grid content-start mt-auto'>
+    <footer className='grid content-start mt-auto pt-1'>
       <ExternalLink
-        href='https://github.com/rendoruiz/kono-list'
+        href='https://github.com/rendoruiz/kono-news'
         className={clsx(
           'flex items-center px-5 py-3.5 text-left leading-none select-none',
           'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
@@ -136,7 +136,7 @@ const NavigationFooter = React.memo(() => {
 
 const NavigationList = React.memo(({ currentStoryModeId }) => (
   <ul className={clsx(
-    'grid',
+    'grid content-start overflow-y-auto',
     'md:gap-y-1 md:py-0.5'
   )}>
     {NAVIGATION_ITEMS.map((navigationItemData) => (
