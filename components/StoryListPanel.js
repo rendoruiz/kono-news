@@ -217,7 +217,7 @@ const StoryItem = React.memo(({ storyItemData, isSelected }) => {
     }
   
     return (
-      <li className='flex relative'>
+      <li className='relative flex'>
         <Link
           href={routeHrefObject}
           shallow
