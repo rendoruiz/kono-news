@@ -111,12 +111,13 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
     <header className={clsx(
       'sticky z-10 top-0 flex items-center border-b-1 border-FluentLightDividerStrokeColorDefault px-5 pt-4 pb-3 bg-inherit',
       'dark:border-FluentDarkDividerStrokeColorDefault',
-      'md:static md:p-3'
+      'md:static md:p-3',
+      {'md:px-4': isPermalink}
     )}>
       <button
         type='button'
         onClick={handleTogglePanel}
-        disabled={!isExpanded}
+        disabled={(!isExpanded && !isPermalink)}
         className={clsx(
           'shrink-0 group rounded -mx-3 mr-2 -my-2 px-3 py-2 leading-none transition-colors cursor-pointer',
           'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
@@ -130,7 +131,7 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
         <div className={clsx(
           'w-6 h-6 origin-center transition-transform',
           'md:w-5 md:h-5',
-          isPermalink ? 'group-active:scale-x-[.60]' : 'group-active:scale-x-[0.80] group-active:translate-x-1.5',
+          isPermalink ? 'group-active:scale-75' : 'group-active:scale-x-[0.80] group-active:translate-x-1.5',
         )}>
           {isPermalink ? (
             <FluentDismissRegular />
