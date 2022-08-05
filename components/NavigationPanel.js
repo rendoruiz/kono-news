@@ -61,11 +61,11 @@ const NavigationHeader = React.memo(() => (
 
 const NavigationFooter = React.memo(() => {
   const [mounted, setMounted] = useState(false)
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
 
   const toggleTheme = () => {
     console.log('toggling theme');
-    const currentTheme = theme.replaceAll('\"', '');
+    const currentTheme = resolvedTheme.replaceAll('\"', '');
     if (currentTheme === APP_THEME.dark) {
       setTheme(APP_THEME.light);
     } else if (currentTheme === APP_THEME.light) {
@@ -92,7 +92,7 @@ const NavigationFooter = React.memo(() => {
           'w-6 h-6 mr-4',
           'md:w-5 md:h-5 md:mr-5'
         )}>
-          {theme === APP_THEME.dark ? (
+          {resolvedTheme === APP_THEME.dark ? (
             <FluentWeatherSunnyRegular />
           ) : (
             <FluentWeatherMoonRegular />
@@ -103,8 +103,8 @@ const NavigationFooter = React.memo(() => {
           'md:text-base'
         )}>
           Switch Lights&nbsp;
-          {theme === APP_THEME.dark ? 'On' : 'Off'}
-          &nbsp;[c:{theme}]
+          {resolvedTheme === APP_THEME.dark ? 'On' : 'Off'}
+          &nbsp;[c:{resolvedTheme}]
         </span>
       </button>
     </header>
