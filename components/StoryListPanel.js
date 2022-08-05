@@ -6,19 +6,18 @@ import clsx from "clsx";
 
 import NavigationToggle from "./shared/NavigationToggle";
 import ExternalLink from "./shared/ExternalLink";
+import PillSelectedIndicator from "./shared/PillSelectedIndicator";
 
 import { useStory } from "../context/StoryContext";
 
 import { getNavigationItemByStoryListId, getShortTime } from "../utils";
 import { QUERY_KEY, reactQueryParams, STORIES_PER_PAGE } from "../utils/constants";
 import { getInitialStoryListData, getStoryData } from "../utils/fetchApi";
-import PillSelectedIndicator from "./shared/PillSelectedIndicator";
 
 const StoryListPanel = React.memo(({ storyListModeId }) => (
   <section className={clsx(
     'relative overflow-y-auto',
-    'md:border-1 md:border-FluentLightCardStrokeColorDefault md:bg-FluentLightCardBackgroundFillColorDefault md:shadow',
-    'md:grid md:grid-rows-[auto_1fr] md:overflow-y-auto',
+    'md:grid md:grid-rows-[auto_1fr] md:border-1 md:border-FluentLightCardStrokeColorDefault md:bg-FluentLightCardBackgroundFillColorDefault md:shadow md:overflow-y-auto',
     'dark:md:border-FluentDarkCardStrokeColorDefault dark:md:bg-FluentDarkCardBackgroundFillColorDefault',
     '2xl:rounded-lg',
   )}>
@@ -57,34 +56,51 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
   const [currentPage, setCurrentPage] = React.useState(1);
   const handlePageChange = () => setCurrentPage(currentPage + 1);
 
+  // reset current page count on story list mode change
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [storyListModeId]);
+
   if (isLoading) {
     return (
-      <ol className='grid content-start overflow-y-visible'>
+      <ol className={clsx(
+        'grid content-start py-0.5 divide-y-1 divide-FluentLightDividerStrokeColorDefault overflow-y-visible',
+        'dark:divide-FluentDarkDividerStrokeColorDefault',
+      )}>
         {[...Array(10)].map((_, index) => (
           <StoryItemSkeletonLoader key={index} />
         ))}
       </ol>
     );
   }
-  if (isError || !fetchedStoryIds) {
-    const { apiEndpoint, originalUrl} = error.cause;
+  if (isError) {
+    const { apiEndpoint, originalUrl } = error.cause;
     return (
-      <div className='flex flex-col justify-center px-5 py-4 font-medium text-center'>
-        <h3 className='text-heading1'>
+      <div className={clsx(
+        'flex flex-col justify-center px-5 py-4 h-4/5 font-medium text-center',
+        'md:h-full'
+      )}>
+        <h3 className='text-4xl'>
           Something went wrong.
         </h3>
-        <p className='mt-4 text-heading-2 text-knSecondary'>
+        <p className={clsx(
+          'mt-2 mb-5 text-sm text-FluentLightTextFillColorSecondary',
+          'dark:text-FluentDarkTextFillColorSecondary'
+        )}>
           {error.message}
         </p>
-        <p>
+        <div className={clsx(
+          'text-sm text-KonoAccentLight',
+          'dark:text-KonoAccentDark',
+          '[&>:first-child]:mr-3'
+        )}>
           <ExternalLink href={apiEndpoint}>
             API Endpoint
           </ExternalLink>
-          <span className='mx-2'>•</span>
           <ExternalLink href={originalUrl}>
             YCombinator
           </ExternalLink>
-        </p>
+        </div>
       </div>
     );
   }
@@ -111,11 +127,11 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
               <button 
                 type='button'
                 className={clsx(
-                  'rounded px-5 py-3.5 w-full font-bold text-base text-KonoAccentLight uppercase tracking-wide transition-colors cursor-pointer select-none',
+                  'rounded px-5 py-3.5 w-full font-medium text-base text-KonoAccentLight uppercase tracking-wide cursor-pointer select-none',
                   'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-opacity-80',
                   'dark:text-KonoAccentDark',
                   'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary',
-                  'md:px-3 md:py-2.5',
+                  'md:px-3 md:py-2.5 md:transition-colors',
                 )}
                 onClick={handlePageChange}
               >
@@ -163,8 +179,8 @@ const StoryItem = React.memo(({ storyItemData, isSelected }) => {
       <StoryItemSkeletonLoader />
     );
   }
-  if (isError || !storyData) {
-    const { apiEndpoint, originalUrl} = error.cause;
+  if (isError) {
+    const { apiEndpoint, originalUrl } = error.cause;
     return (
       <li>
         <p>{error.message}</p>
@@ -239,16 +255,18 @@ const StoryItem = React.memo(({ storyItemData, isSelected }) => {
 
 const StoryItemSkeletonLoader = React.memo(() => (
   <li className={clsx(
-    'group hidden py-1',
+    'group hidden px-3 py-2',
     '[&:nth-of-type(-n+10)]:grid [&:nth-of-type(-n+10)]:gap-y-1'
   )}>
     <span className={clsx(
-      'rounded w-11/12 h-7 bg-black/30 animate-pulse',
-      'group-odd:w-3/4'
+      'rounded w-11/12 h-6 bg-FluentLightSurfaceStrokeColorDefault animate-pulse',
+      'group-odd:w-3/4',
+      'dark:bg-FluentDarkSurfaceStrokeColorDefault'
     )} />
     <span className={clsx(
-      'rounded w-1/2 h-5 bg-black/30 animate-pulse',
-      'group-odd:w-3/5'
+      'rounded w-1/2 h-5 bg-FluentLightSurfaceStrokeColorDefault animate-pulse',
+      'group-odd:w-3/5',
+      'dark:bg-FluentDarkSurfaceStrokeColorDefault'
     )} />
   </li>
 ));

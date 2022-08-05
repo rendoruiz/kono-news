@@ -1,6 +1,5 @@
 import AppDashboardPage from "../components/AppDashboardPage";
 
-import { parseStoryListModeId } from "../utils/fetchApi";
 import { QUERY_KEY } from "../utils/constants";
 
 const HomePage = (props) => (
@@ -18,7 +17,7 @@ export const getServerSideProps = async ({ query }) => {
   return {
     props: {
       queryString: query,
-      initialStoryListModeId: parseStoryListModeId(listMode), 
+      initialStoryListModeId: listMode ?? null, 
       initialStoryDiscussionId: (!isExpanded && !isPermalink) ? null : storyDiscussionId ?? null,
       initialIsPermalink: isPermalink ?? null,
     }

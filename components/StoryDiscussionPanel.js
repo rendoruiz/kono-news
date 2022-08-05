@@ -29,12 +29,13 @@ const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) =>
       )}
       
       <section className={clsx(
-        'fixed z-modal inset-0 bg-FluentLightSolidBackgroundFillColorBase translate-x-full transition-transform panel-transition overflow-y-auto pointer-events-none',
+        'fixed z-modal inset-0 bg-FluentLightSolidBackgroundFillColorBase translate-x-full transition-transform overflow-y-auto pointer-events-none',
         'dark:bg-FluentDarkSolidBackgroundFillColorBase',
         {'!translate-x-0 !pointer-events-auto': isExpanded || isPermalink},
         'md:static md:z-auto md:grid md:grid-rows-[auto_1fr] md:border-1 md:border-FluentLightCardStrokeColorDefault md:w-full md:bg-FluentLightCardBackgroundFillColorDefault md:shadow md:transform-none md:transition-none md:pointer-events-auto',
         'md:only:col-span-2 md:only:mx-auto md:only:max-w-screen-xl',
         'dark:md:border-FluentDarkCardStrokeColorDefault dark:md:bg-FluentDarkCardBackgroundFillColorDefault',
+        {'md:hidden': (!isExpanded && !isPermalink)},
         '2xl:rounded-lg'
       )}>
         <StoryDiscussionHeader 
@@ -45,27 +46,39 @@ const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) =>
         />
 
         {isLoading && (
-          <p className='grid place-items-center h-4/5 text-heading2'>
+          <p className={clsx(
+            'grid place-items-center h-4/5 font-medium text-3xl',
+            'md:h-full'
+          )}>
             Loading story...
           </p>
         )}
         {isError && (
-          <div className='grid content-center px-4 py-5 font-medium text-center leading-5'>
-            <h3 className='text-heading1'>
-              Something went wrong
+          <div className={clsx(
+            'flex flex-col justify-center px-5 py-4 h-4/5 font-medium text-center',
+            'md:h-full'
+          )}>
+            <h3 className='text-4xl'>
+              Something went wrong.
             </h3>
-            <p className='mt-4 text-heading3 text-knSecondary'>
+            <p className={clsx(
+              'mt-2 mb-5 text-sm text-FluentLightTextFillColorSecondary',
+              'dark:text-FluentDarkTextFillColorSecondary'
+            )}>
               {error.message}
             </p>
-            <p className='mt-3'> 
+            <div className={clsx(
+              'text-sm text-KonoAccentLight',
+              'dark:text-KonoAccentDark',
+              '[&>:first-child]:mr-3'
+            )}>
               <ExternalLink href={error.cause.apiEndpoint}>
                 API Endpoint
               </ExternalLink>
-              <span className='mx-2'>•</span>
               <ExternalLink href={error.cause.originalUrl}>
                 YCombinator
               </ExternalLink>
-            </p>
+            </div>
           </div>
         )}
         {storyDiscussionData && (
@@ -112,14 +125,15 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
       'sticky z-10 top-0 flex items-center border-b-1 border-FluentLightDividerStrokeColorDefault px-5 pt-4 pb-3 bg-inherit',
       'dark:border-FluentDarkDividerStrokeColorDefault',
       'md:static md:p-3',
-      {'md:px-4': isPermalink}
+      {'md:px-4': isPermalink},
+      'xl:px-4'
     )}>
       <button
         type='button'
         onClick={handleTogglePanel}
         disabled={(!isExpanded && !isPermalink)}
         className={clsx(
-          'shrink-0 group rounded -mx-3 mr-2 -my-2 px-3 py-2 leading-none transition-colors cursor-pointer',
+          'shrink-0 group rounded -mx-3 mr-2 -my-2 px-3 py-2 leading-none cursor-pointer',
           'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
           'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
           'md:border-1 md:border-transparent',
@@ -157,7 +171,13 @@ const StoryDiscussionContent = React.memo(({ children, ...originalPostData }) =>
 
       {/* story comments list */}
       {children.length === 0 ? (
-        <p>No comments.</p>
+        <p className={clsx(
+          'p-3 text-FluentLightTextFillColorSecondary italic',
+          'dark:text-FluentDarkTextFillColorSecondary',
+          'xl:px-4'
+        )}>
+          There are no comments.
+        </p>
       ) : (
         <StoryDiscussionList storyDiscussionListData={children} />
       )}
@@ -176,8 +196,10 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
       '[&+ul]:ml-0 [&+ul]:py-3 [&+ul]:divide-y-1 [&+ul]:divide-FluentLightDividerStrokeColorDefault',
       'dark:[&+ul]:divide-FluentDarkDividerStrokeColorDefault',
       '[&+ul:before]:content-none',
-      '[&+ul>li]:mt-2 [&+ul>li]:pt-2 [&+ul>li]:px-3',
+      '[&+ul>li]:mt-3 [&+ul>li]:pt-2.5 [&+ul>li]:px-3',
       '[&+ul>li:first-of-type]:mt-0 [&+ul>li:first-of-type]:pt-0',
+      'xl:px-4',
+      'xl:[&+ul>li]:px-4',
     )}>
       {permalink && (
         <p className={clsx(
@@ -190,7 +212,7 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
         </p>
       )}
 
-      <header className='flex flex-col'>
+      <header className='flex flex-col max-w-3xl'>
         <h2 className='font-serif text-3xl leading-snug'>
           {title}
         </h2>
@@ -325,7 +347,8 @@ const StoryCommentItem = React.memo(({
                 'pl-1.5',
                 'md:pl-0',
                 'md:hover:underline',
-                'md:before:content-["•"] md:before:mx-1.5 md:before:inline-block md:before:text-knSecondary'
+                'md:before:content-["•"] md:before:mx-1.5 md:before:inline-block md:before:text-FluentLightTextFillColorSecondary',
+                'dark:md:before:text-FluentDarkTextFillColorSecondary',
               )}
             >
               {shortTime}
@@ -349,7 +372,11 @@ const StoryCommentItem = React.memo(({
           {text ? (
             <HtmlContent htmlString={text} />
           ) : (
-            <p className='text-sm text-knSecondary italic'>
+            <p className={clsx(
+              'text-sm text-FluentLightTextFillColorSecondary italic',
+              'dark:text-FluentDarkTextFillColorSecondary'
+
+            )}>
               deleted comment
             </p>
           )}

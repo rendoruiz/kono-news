@@ -27,5 +27,5 @@ body {
   @apply text-KonoAccentLight dark:text-KonoAccentDark;
 }
 .html-content pre {
-  @apply flex border-1 border-FluentLightControlStrokeColorSecondary rounded py-[5px] px-0.5 bg-FluentLightSolidBackgroundFillColorQuarternary font-mono whitespace-pre-wrap overflow-x-auto break-words dark:border-FluentDarkControlStrokeColorSecondary dark:bg-FluentDarkSolidBackgroundFillColorQuarternary;
+  @apply flex border-1 border-FluentLightControlStrokeColorSecondary rounded py-[5px] px-0.5 bg-FluentLightSolidBackgroundFillColorQuarternary font-mono whitespace-pre-wrap overflow-x-auto break-words dark:border-FluentDarkControlStrokeColorSecondary dark:bg-FluentDarkSolidBackgroundFillColorQuarternary mb-1.5;
 }

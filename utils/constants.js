@@ -1,4 +1,4 @@
-import { FluentArrowTrendingRegular, FluentChatHelpRegular, FluentHomeRegular, FluentLightbulbFilamentRegular, FluentNotepadPersonRegular, FluentRewardRegular } from "../components/shared/FluentIcons";
+import { FluentArrowTrendingRegular, FluentChatHelpRegular, FluentHomeRegular, FluentNotepadPersonRegular, FluentRocketRegular, FluentTrophyRegular } from "../components/shared/FluentIcons";
 
 export const STORY_MODE = {
   TOP: 'top',
@@ -11,10 +11,22 @@ export const STORY_MODE = {
 
 export const QUERY_KEY = {
   STORY_LIST_MODE_ID: 'list',
+  IS_NAVIGATION_EXPANDED: 'nav',
   STORY_DISCUSSION_ID: 'story',
   IS_STORY_DISCUSSION_EXPANDED: 'discuss',
   IS_PERMALINK: 'permalink',
 }
+
+export const NAVIGATION_ACTION = {
+  SET_ID: 'NAVIGATION_SET_ID',
+  EXPAND_PANEL: 'NAVIGATION_EXPAND_PANEL',
+  RETRACT_PANEL: 'NAVIGATION_RETRACT_PANEL',
+};
+export const STORYDISCUSSION_ACTION = {
+  SET_ID: 'STORYDISCUSSION_SET_ID',
+  RETRACT_PANEL: 'STORYDISCUSSION_RETRACT_PANEL',
+  DISABLE_PERMALINK: 'STORYDISCUSSION_DISABLE_PERMALINK',
+};
 
 export const STORY_MODE_API_QUERY = [
   {
@@ -57,7 +69,7 @@ export const NAVIGATION_ITEMS = [
   {
     id: STORY_MODE.BEST,
     label: 'Best',
-    icon: <FluentRewardRegular />,
+    icon: <FluentTrophyRegular />,
   },
   {
     id: STORY_MODE.ASK,
@@ -67,24 +79,14 @@ export const NAVIGATION_ITEMS = [
   {
     id: STORY_MODE.SHOW,
     label: 'Show',
-    icon: <FluentLightbulbFilamentRegular />,
+    icon: <FluentRocketRegular />,
   },
   {
     id: STORY_MODE.JOB,
-    label: 'Job',
+    label: 'Jobs',
     icon: <FluentNotepadPersonRegular />,
   },
 ];
-
-export const NAVIGATION_ACTION = {
-  SET_ID: 'NAVIGATION_SET_ID',
-  TOGGLE_PANEL: 'NAVIGATION_TOGGLE_PANEL',
-};
-export const STORYDISCUSSION_ACTION = {
-  SET_ID: 'STORYDISCUSSION_SET_ID',
-  RETRACT_PANEL: 'STORYDISCUSSION_RETRACT_PANEL',
-  DISABLE_PERMALINK: 'STORYDISCUSSION_DISABLE_PERMALINK',
-};
 
 export const STORIES_PER_PAGE = 30;
 

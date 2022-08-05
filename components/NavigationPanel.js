@@ -10,7 +10,7 @@ import { FluentWeatherMoonRegular, FluentWeatherSunnyRegular } from './shared/Fl
 
 import { useNavigation } from '../context/NavigationContext';
 
-import { APP_THEME, NAVIGATION_ACTION, NAVIGATION_ITEMS, QUERY_KEY } from "../utils/constants";
+import { APP_THEME, NAVIGATION_ITEMS, QUERY_KEY } from "../utils/constants";
 
 const NavigationPanel = ({
   isExpanded, 
@@ -19,11 +19,11 @@ const NavigationPanel = ({
   <>
     <NavigationPanelOverlay isExpanded={isExpanded} />
     <section className={clsx(
-      'fixed z-modal inset-0 right-auto flex flex-col pt-2 pb-1 w-4/5 min-w-[140px] max-w-[300px] bg-FluentLightSolidBackgroundFillColorBase -translate-x-full transition-all ease-in-out overflow-y-auto pointer-events-none',
-      'dark:bg-FluentDarkSolidBackgroundFillColorBase',
-      'md:border-1 md:rounded-r-lg md:border-FluentLightSurfaceStrokeColorDefault md:border-l-transparent md:px-1 md:w-full md:max-w-[280px] md:bg-FluentLightSolidBackgroundFillColorQuarternary md:shadow',
-      'dark:md:border-FluentDarkSurfaceStrokeColorDefault dark:md:bg-FluentDarkSolidBackgroundFillColorQuarternary',
-      '2xl:absolute 2xl:inset-2 2xl:rounded-lg 2xl:opacity-0 2xl:-translate-x-1/4 2xl:transition-all 2xl:duration-200',
+      'fixed z-modal inset-0 right-auto flex flex-col pt-2 pb-1 w-4/5 min-w-[140px] max-w-[300px] bg-FluentLightSolidBackgroundFillColorQuarternary -translate-x-full transition-transform ease-in-out overflow-y-auto pointer-events-none',
+      'dark:bg-FluentDarkSolidBackgroundFillColorQuarternary',
+      'md:border-1 md:rounded-r-lg md:border-FluentLightSurfaceStrokeColorDefault md:border-l-transparent md:px-1 md:w-full md:max-w-[280px] md:shadow md:transition-transformOpacity',
+      'dark:md:border-FluentDarkSurfaceStrokeColorDefault',
+      '2xl:absolute 2xl:inset-2 2xl:rounded-lg 2xl:opacity-0 2xl:-translate-x-1/4',
       {'translate-x-0 pointer-events-auto': isExpanded},
       {'2xl:opacity-100 2xl:translate-x-0': isExpanded},
     )}>
@@ -35,8 +35,7 @@ const NavigationPanel = ({
 );
 
 const NavigationPanelOverlay = ({ isExpanded }) => {
-  const dispatch = useNavigation();
-  const handleClick = () => dispatch({ type: NAVIGATION_ACTION.TOGGLE_PANEL });
+  const handleClick = useNavigation();
 
   return (
     <div 
@@ -61,14 +60,14 @@ const NavigationHeader = React.memo(() => (
 
 const NavigationFooter = React.memo(() => {
   const [mounted, setMounted] = useState(false)
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
 
   const toggleTheme = () => {
-    const currentTheme = theme.replaceAll('\"', '');
+    const currentTheme = resolvedTheme.replaceAll('\"', '');
     if (currentTheme === APP_THEME.dark) {
-      setTheme(APP_THEME.light)
+      setTheme(APP_THEME.light);
     } else if (currentTheme === APP_THEME.light) {
-      setTheme(APP_THEME.dark)
+      setTheme(APP_THEME.dark);
     }
   }
 
@@ -82,7 +81,8 @@ const NavigationFooter = React.memo(() => {
         type='button'
         onClick={toggleTheme}
         className={clsx(
-          'flex items-center px-5 py-3.5 text-left leading-none transition-colors hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
+          'flex items-center px-5 py-3.5 text-left leading-none select-none',
+          'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
           'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
           'md:border-1 md:border-transparent md:rounded md:px-3 md:py-2.5',
         )}
@@ -91,7 +91,7 @@ const NavigationFooter = React.memo(() => {
           'w-6 h-6 mr-4',
           'md:w-5 md:h-5 md:mr-5'
         )}>
-          {theme === APP_THEME.dark ? (
+          {resolvedTheme === APP_THEME.dark ? (
             <FluentWeatherSunnyRegular />
           ) : (
             <FluentWeatherMoonRegular />
@@ -102,7 +102,7 @@ const NavigationFooter = React.memo(() => {
           'md:text-base'
         )}>
           Switch Lights&nbsp;
-          {theme === APP_THEME.dark ? 'On' : 'Off'}
+          {resolvedTheme === APP_THEME.dark ? 'On' : 'Off'}
         </span>
       </button>
     </header>
@@ -129,24 +129,28 @@ const NavigationItem = React.memo(({
   isSelected,
 }) => {
   const router = useRouter();
-  const dispatch = useNavigation();
+  const handleClickCurrentSelected = useNavigation();
+  const { 
+    [QUERY_KEY.IS_NAVIGATION_EXPANDED]: _,
+    ...newRouterQuery 
+  } = router.query;
   const routeHrefObject = { 
     query: { 
-      ...router.query,
+      ...newRouterQuery,
       [QUERY_KEY.STORY_LIST_MODE_ID]: navigationItemData.id 
     }
   }
-  const handleClickCurrentSelected = () => dispatch({ type: NAVIGATION_ACTION.TOGGLE_PANEL });
   
   return (
     <li className='relative flex'>
       <Link 
         href={routeHrefObject} 
         shallow
+        replace
       >
         <a 
           className={clsx(
-            'relative flex-1 flex items-center px-5 py-3.5 leading-none transition-colors select-none cursor-pointer',
+            'relative flex-1 flex items-center px-5 py-3.5 leading-none select-none cursor-pointer',
             'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
             'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
             'md:border-1 md:border-transparent md:rounded md:px-3 md:py-2.5',
