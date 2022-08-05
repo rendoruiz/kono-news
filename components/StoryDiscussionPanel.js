@@ -54,7 +54,10 @@ const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) =>
             <h3 className='text-heading1'>
               Something went wrong
             </h3>
-            <p className='mt-4 text-heading3 text-knSecondary'>
+            <p className={clsx(
+              'mt-4 text-heading3 text-FluentLightTextFillColorSecondary',
+              'dark:text-FluentDarkTextFillColorSecondary'
+            )}>
               {error.message}
             </p>
             <p className='mt-3'> 
@@ -328,7 +331,8 @@ const StoryCommentItem = React.memo(({
                 'pl-1.5',
                 'md:pl-0',
                 'md:hover:underline',
-                'md:before:content-["•"] md:before:mx-1.5 md:before:inline-block md:before:text-knSecondary'
+                'md:before:content-["•"] md:before:mx-1.5 md:before:inline-block md:before:text-FluentLightTextFillColorSecondary',
+                'dark:text-FluentDarkTextFillColorSecondary',
               )}
             >
               {shortTime}
@@ -352,7 +356,11 @@ const StoryCommentItem = React.memo(({
           {text ? (
             <HtmlContent htmlString={text} />
           ) : (
-            <p className='text-sm text-knSecondary italic'>
+            <p className={clsx(
+              'text-sm text-FluentLightTextFillColorSecondary italic',
+              'dark:text-FluentDarkTextFillColorSecondary'
+
+            )}>
               deleted comment
             </p>
           )}

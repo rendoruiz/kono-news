@@ -75,7 +75,10 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
         <h3 className='text-heading1'>
           Something went wrong.
         </h3>
-        <p className='mt-4 text-heading-2 text-knSecondary'>
+        <p className={clsx(
+          'mt-4 text-heading-2 text-FluentLightTextFillColorSecondary',
+          'dark:text-FluentDarkTextFillColorSecondary'
+        )}>
           {error.message}
         </p>
         <p>
