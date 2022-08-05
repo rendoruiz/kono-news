@@ -68,8 +68,8 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
       </ol>
     );
   }
-  if (isError || !fetchedStoryIds) {
-    const { apiEndpoint, originalUrl} = error.cause;
+  if (isError) {
+    const { apiEndpoint, originalUrl } = error.cause;
     return (
       <div className={clsx(
         'flex flex-col justify-center px-5 py-4 h-4/5 font-medium text-center',
@@ -174,8 +174,8 @@ const StoryItem = React.memo(({ storyItemData, isSelected }) => {
       <StoryItemSkeletonLoader />
     );
   }
-  if (isError || !storyData) {
-    const { apiEndpoint, originalUrl} = error.cause;
+  if (isError) {
+    const { apiEndpoint, originalUrl } = error.cause;
     return (
       <li>
         <p>{error.message}</p>
