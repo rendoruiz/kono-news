@@ -19,7 +19,7 @@ const NavigationToggle = React.memo(() => {
         'group rounded -mx-3 -my-2 px-3 py-2 leading-none cursor-pointer',
         'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
         'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
-        'md:border-1 md:border-transparent md:transition-colors',
+        'md:border-1 md:border-transparent',
         'md:hover:border-FluentLightControlStrokeColorDefault md:active:border-FluentLightControlStrokeColorSecondary md:hover:bg-FluentLightControlFillColorSecondary md:active:bg-FluentLightControlFillColorTertiary md:hover:shadow',
         'dark:md:hover:border-FluentDarkControlStrokeColorDefault dark:md:active:border-FluentDarkControlStrokeColorSecondary dark:md:hover:bg-FluentDarkControlFillColorSecondary dark:md:active:bg-FluentDarkControlFillColorTertiary',
       )}

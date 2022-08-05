@@ -7,7 +7,7 @@
 }
 
 body {
-  @apply bg-FluentLightSolidBackgroundFillColorBase text-FluentLightTextFillColorPrimary md:transition-colors;
+  @apply bg-FluentLightSolidBackgroundFillColorBase text-FluentLightTextFillColorPrimary;
 }
 
 .dark body {
