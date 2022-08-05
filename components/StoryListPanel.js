@@ -58,7 +58,10 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
 
   if (isLoading) {
     return (
-      <ol className='grid content-start overflow-y-visible'>
+      <ol className={clsx(
+        'grid content-start py-0.5 divide-y-1 divide-FluentLightDividerStrokeColorDefault overflow-y-visible',
+        'dark:divide-FluentDarkDividerStrokeColorDefault',
+      )}>
         {[...Array(10)].map((_, index) => (
           <StoryItemSkeletonLoader key={index} />
         ))}
@@ -238,16 +241,18 @@ const StoryItem = React.memo(({ storyItemData, isSelected }) => {
 
 const StoryItemSkeletonLoader = React.memo(() => (
   <li className={clsx(
-    'group hidden py-1',
+    'group hidden px-3 py-2',
     '[&:nth-of-type(-n+10)]:grid [&:nth-of-type(-n+10)]:gap-y-1'
   )}>
     <span className={clsx(
-      'rounded w-11/12 h-7 bg-black/30 animate-pulse',
-      'group-odd:w-3/4'
+      'rounded w-11/12 h-6 bg-FluentLightSurfaceStrokeColorDefault animate-pulse',
+      'group-odd:w-3/4',
+      'dark:bg-FluentDarkSurfaceStrokeColorDefault'
     )} />
     <span className={clsx(
-      'rounded w-1/2 h-5 bg-black/30 animate-pulse',
-      'group-odd:w-3/5'
+      'rounded w-1/2 h-5 bg-FluentLightSurfaceStrokeColorDefault animate-pulse',
+      'group-odd:w-3/5',
+      'dark:bg-FluentDarkSurfaceStrokeColorDefault'
     )} />
   </li>
 ));
