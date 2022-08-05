@@ -46,7 +46,10 @@ const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) =>
         />
 
         {isLoading && (
-          <p className='grid place-items-center h-4/5 text-2xl'>
+          <p className={clsx(
+            'grid place-items-center h-4/5 font-medium text-3xl',
+            'md:h-full'
+          )}>
             Loading story...
           </p>
         )}
