@@ -19,11 +19,11 @@ const NavigationPanel = ({
   <>
     <NavigationPanelOverlay isExpanded={isExpanded} />
     <section className={clsx(
-      'fixed z-modal inset-0 right-auto flex flex-col pt-2 pb-1 w-4/5 min-w-[140px] max-w-[300px] bg-FluentLightSolidBackgroundFillColorBase -translate-x-full transition-all ease-in-out overflow-y-auto pointer-events-none',
+      'fixed z-modal inset-0 right-auto flex flex-col pt-2 pb-1 w-4/5 min-w-[140px] max-w-[300px] bg-FluentLightSolidBackgroundFillColorBase -translate-x-full transition-transform ease-in-out overflow-y-auto pointer-events-none',
       'dark:bg-FluentDarkSolidBackgroundFillColorBase',
-      'md:border-1 md:rounded-r-lg md:border-FluentLightSurfaceStrokeColorDefault md:border-l-transparent md:px-1 md:w-full md:max-w-[280px] md:bg-FluentLightSolidBackgroundFillColorQuarternary md:shadow',
+      'md:border-1 md:rounded-r-lg md:border-FluentLightSurfaceStrokeColorDefault md:border-l-transparent md:px-1 md:w-full md:max-w-[280px] md:bg-FluentLightSolidBackgroundFillColorQuarternary md:shadow md:transition-all',
       'dark:md:border-FluentDarkSurfaceStrokeColorDefault dark:md:bg-FluentDarkSolidBackgroundFillColorQuarternary',
-      '2xl:absolute 2xl:inset-2 2xl:rounded-lg 2xl:opacity-0 2xl:-translate-x-1/4 2xl:transition-all',
+      '2xl:absolute 2xl:inset-2 2xl:rounded-lg 2xl:opacity-0 2xl:-translate-x-1/4',
       {'translate-x-0 pointer-events-auto': isExpanded},
       {'2xl:opacity-100 2xl:translate-x-0': isExpanded},
     )}>
@@ -82,9 +82,9 @@ const NavigationFooter = React.memo(() => {
         type='button'
         onClick={toggleTheme}
         className={clsx(
-          'flex items-center px-5 py-3.5 text-left leading-none transition-colors hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
+          'flex items-center px-5 py-3.5 text-left leading-none hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
           'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
-          'md:border-1 md:border-transparent md:rounded md:px-3 md:py-2.5',
+          'md:border-1 md:border-transparent md:rounded md:px-3 md:py-2.5 md:transition-colors',
         )}
       >
         <div className={clsx(
@@ -146,10 +146,10 @@ const NavigationItem = React.memo(({
       >
         <a 
           className={clsx(
-            'relative flex-1 flex items-center px-5 py-3.5 leading-none transition-colors select-none cursor-pointer',
+            'relative flex-1 flex items-center px-5 py-3.5 leading-none select-none cursor-pointer',
             'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
             'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
-            'md:border-1 md:border-transparent md:rounded md:px-3 md:py-2.5',
+            'md:border-1 md:border-transparent md:rounded md:px-3 md:py-2.5 md:transition-colors',
             {'bg-FluentLightSubtleFillColorSecondary hover:bg-FluentLightSubtleFillColorTertiary': isSelected},
             {'dark:bg-FluentDarkSubtleFillColorSecondary dark:hover:bg-FluentDarkSubtleFillColorTertiary': isSelected},
           )}

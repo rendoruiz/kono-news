@@ -32,9 +32,9 @@ const StoryListHeader = React.memo(({ storyListModeId }) => {
   const listMode = getNavigationItemByStoryListId(storyListModeId);
   return (
     <header className={clsx(
-      'sticky z-10 top-0 flex items-center border-b-1 border-FluentLightDividerStrokeColorDefault px-5 pt-4 pb-3 bg-FluentLightSolidBackgroundFillColorBase transition-colors',
+      'sticky z-10 top-0 flex items-center border-b-1 border-FluentLightDividerStrokeColorDefault px-5 pt-4 pb-3 bg-FluentLightSolidBackgroundFillColorBase',
       'dark:border-FluentDarkDividerStrokeColorDefault dark:bg-FluentDarkSolidBackgroundFillColorBase',
-      'md:static md:px-4 md:py-3 md:bg-inherit',
+      'md:static md:px-4 md:py-3 md:bg-inherit md:transition-colors',
       'dark:md:bg-inherit'
     )}>
       <NavigationToggle />
@@ -110,11 +110,11 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
               <button 
                 type='button'
                 className={clsx(
-                  'rounded px-5 py-3.5 w-full font-bold text-base text-KonoAccentLight uppercase tracking-wide transition-colors cursor-pointer select-none',
+                  'rounded px-5 py-3.5 w-full font-bold text-base text-KonoAccentLight uppercase tracking-wide cursor-pointer select-none',
                   'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-opacity-80',
                   'dark:text-KonoAccentDark',
                   'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary',
-                  'md:px-3 md:py-2.5',
+                  'md:px-3 md:py-2.5 md:transition-colors',
                 )}
                 onClick={handlePageChange}
               >

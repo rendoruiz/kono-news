@@ -29,7 +29,7 @@ const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) =>
       )}
       
       <section className={clsx(
-        'fixed z-modal inset-0 bg-FluentLightSolidBackgroundFillColorBase translate-x-full transition-all overflow-y-auto pointer-events-none',
+        'fixed z-modal inset-0 bg-FluentLightSolidBackgroundFillColorBase translate-x-full transition-transform overflow-y-auto pointer-events-none',
         'dark:bg-FluentDarkSolidBackgroundFillColorBase',
         {'!translate-x-0 !pointer-events-auto': isExpanded || isPermalink},
         'md:static md:z-auto md:grid md:grid-rows-[auto_1fr] md:border-1 md:border-FluentLightCardStrokeColorDefault md:w-full md:bg-FluentLightCardBackgroundFillColorDefault md:shadow md:transform-none md:transition-colors md:pointer-events-auto',
@@ -119,10 +119,10 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
         onClick={handleTogglePanel}
         disabled={(!isExpanded && !isPermalink)}
         className={clsx(
-          'shrink-0 group rounded -mx-3 mr-2 -my-2 px-3 py-2 leading-none transition-colors cursor-pointer',
+          'shrink-0 group rounded -mx-3 mr-2 -my-2 px-3 py-2 leading-none cursor-pointer',
           'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
           'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
-          'md:border-1 md:border-transparent',
+          'md:border-1 md:border-transparent md:transition-colors',
           'md:hover:border-FluentLightControlStrokeColorDefault md:active:border-FluentLightControlStrokeColorSecondary md:hover:bg-FluentLightControlFillColorSecondary md:active:bg-FluentLightControlFillColorTertiary md:hover:shadow',
           'dark:md:hover:border-FluentDarkControlStrokeColorDefault dark:md:active:border-FluentDarkControlStrokeColorSecondary dark:md:hover:bg-FluentDarkControlFillColorSecondary dark:md:active:bg-FluentDarkControlFillColorTertiary',
           {'md:-mr-3 md:w-0 md:opacity-0 md:pointer-events-none': !isPermalink},
