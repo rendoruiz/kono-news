@@ -25,7 +25,7 @@ export const parseStoryListModeId = (modeString) => {
     return STORY_MODE.TOP;
   }
 
-  const parsedStoryMode = STORY_MODE[modeString];
+  const parsedStoryMode = STORY_MODE[modeString.toUpperCase()];
   return parsedStoryMode ? parsedStoryMode : STORY_MODE.TOP;
 }
 

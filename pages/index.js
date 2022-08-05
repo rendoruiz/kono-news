@@ -18,7 +18,7 @@ export const getServerSideProps = async ({ query }) => {
   return {
     props: {
       queryString: query,
-      initialStoryListModeId: parseStoryListModeId(listMode), 
+      initialStoryListModeId: listMode, 
       initialStoryDiscussionId: (!isExpanded && !isPermalink) ? null : storyDiscussionId ?? null,
       initialIsPermalink: isPermalink ?? null,
     }
