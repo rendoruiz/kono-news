@@ -190,9 +190,9 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
       } = router.query;
       // prevent clogging history from navigation toggle button spam clicking
       if (
-        (navigation.storyListModeId == newStoryListModeId) 
-        && (storyDiscussion.id == newStoryDiscussionId) 
-        && (storyDiscussion.isExpanded && newIsExpanded)
+        (newStoryDiscussionId === undefined || (navigation.storyListModeId == newStoryListModeId)) 
+        && (newStoryDiscussionId === undefined || (storyDiscussion.id == newStoryDiscussionId)) 
+        && (newIsExpanded === undefined || (storyDiscussion.isExpanded && newIsExpanded))
       ) {
         router.back(2);
       } else {
