@@ -176,7 +176,7 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
       '[&+ul]:ml-0 [&+ul]:py-3 [&+ul]:divide-y-1 [&+ul]:divide-FluentLightDividerStrokeColorDefault',
       'dark:[&+ul]:divide-FluentDarkDividerStrokeColorDefault',
       '[&+ul:before]:content-none',
-      '[&+ul>li]:mt-2 [&+ul>li]:pt-2 [&+ul>li]:px-3',
+      '[&+ul>li]:mt-3 [&+ul>li]:pt-2.5 [&+ul>li]:px-3',
       '[&+ul>li:first-of-type]:mt-0 [&+ul>li:first-of-type]:pt-0',
     )}>
       {permalink && (
