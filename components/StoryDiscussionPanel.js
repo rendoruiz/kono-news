@@ -184,11 +184,13 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
 
   return (
     <article className={clsx(
-      'border-b-1 border-FluentLightDividerStrokeColorDefault p-3',
+      'border-b-3 border-FluentLightDividerStrokeColorDefault p-3',
       'dark:border-FluentDarkDividerStrokeColorDefault',
-      '[&+ul]:ml-0 [&+ul]:p-3',
+      '[&+ul]:ml-0 [&+ul]:py-3 [&+ul]:divide-y-1 [&+ul]:divide-FluentLightDividerStrokeColorDefault',
+      'dark:[&+ul]:divide-FluentDarkDividerStrokeColorDefault',
       '[&+ul:before]:content-none',
-      '[&+ul>li:first-of-type]:mt-0',
+      '[&+ul>li]:mt-2 [&+ul>li]:pt-2 [&+ul>li]:px-3',
+      '[&+ul>li:first-of-type]:mt-0 [&+ul>li:first-of-type]:pt-0',
     )}>
       {permalink && (
         <p className={clsx(
