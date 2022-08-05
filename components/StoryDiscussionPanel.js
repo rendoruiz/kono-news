@@ -112,51 +112,38 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
       'dark:border-FluentDarkDividerStrokeColorDefault',
       'md:static md:px-4 md:py-3'
     )}>
-      {isPermalink ? (
-        <button
-          type='button'
-          onClick={handleTogglePanel}
-          className={clsx(
-            'shrink-0 group rounded -mx-3 -my-2 px-3 py-2 leading-none transition-colors cursor-pointer',
-            'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
-            'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
-            'md:border-1 md:border-transparent',
-            'md:hover:border-FluentLightControlStrokeColorDefault md:active:border-FluentLightControlStrokeColorSecondary md:hover:bg-FluentLightControlFillColorSecondary md:active:bg-FluentLightControlFillColorTertiary md:hover:shadow',
-            'dark:md:hover:border-FluentDarkControlStrokeColorDefault dark:md:active:border-FluentDarkControlStrokeColorSecondary dark:md:hover:bg-FluentDarkControlFillColorSecondary dark:md:active:bg-FluentDarkControlFillColorTertiary',
-          )}
-        >
+      <button
+        type='button'
+        onClick={handleTogglePanel}
+        disabled={!isExpanded}
+        className={clsx(
+          'shrink-0 group rounded -mx-3 -my-2 px-3 py-2 leading-none transition-colors cursor-pointer',
+          'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
+          'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
+          'md:border-1 md:border-transparent',
+          'md:hover:border-FluentLightControlStrokeColorDefault md:active:border-FluentLightControlStrokeColorSecondary md:hover:bg-FluentLightControlFillColorSecondary md:active:bg-FluentLightControlFillColorTertiary md:hover:shadow',
+          'dark:md:hover:border-FluentDarkControlStrokeColorDefault dark:md:active:border-FluentDarkControlStrokeColorSecondary dark:md:hover:bg-FluentDarkControlFillColorSecondary dark:md:active:bg-FluentDarkControlFillColorTertiary',
+          {'md:hidden': !isPermalink},
+        )}
+      >
+        {isPermalink ? (
           <FluentDismissRegular className={clsx(
             'w-6 h-6 origin-center transition-transform',
             'group-active:scale-x-[.60]',
             'md:w-5 md:h-5'
           )} />
-        </button>
-      ): (
-        <button
-          type='button'
-          onClick={handleTogglePanel}
-          disabled={!isExpanded}
-          className={clsx(
-            'shrink-0 group rounded -mx-3 -my-2 px-3 py-2 leading-none transition-colors cursor-pointer',
-            'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
-            'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
-            'md:border-1 md:border-transparent',
-            'md:hover:border-FluentLightControlStrokeColorDefault md:active:border-FluentLightControlStrokeColorSecondary md:hover:bg-FluentLightControlFillColorSecondary md:active:bg-FluentLightControlFillColorTertiary md:hover:shadow',
-            'dark:md:hover:border-FluentDarkControlStrokeColorDefault dark:md:active:border-FluentDarkControlStrokeColorSecondary dark:md:hover:bg-FluentDarkControlFillColorSecondary dark:md:active:bg-FluentDarkControlFillColorTertiary',
-            'md:hidden',
-          )}
-        >
+        ) : (
           <FluentArrowLeftRegular className={clsx(
             'w-6 h-6 origin-center transition-transform',
             'group-active:scale-x-[0.80] group-active:translate-x-1.5',
             'md:w-5 md:h-5'
           )} />
-        </button>
-      )}
+        )}
+      </button>
       
       <p className={clsx(
         'flex-1 ml-5 pr-1 font-knSansSerif font-bold text-sm leading-none tracking-wide overflow-x-hidden text-ellipsis whitespace-nowrap',
-        'md:ml-0',
+      ' md:ml-0',
       )}>
         {title}
       </p>
