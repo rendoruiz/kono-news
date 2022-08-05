@@ -6,12 +6,16 @@
   @apply font-sans;
 }
 
-.panel-transition {
-  @apply ease-panel duration-panel;
+body {
+  @apply bg-FluentLightSolidBackgroundFillColorBase text-FluentLightTextFillColorPrimary;
+}
+
+.dark body {
+  @apply bg-FluentDarkSolidBackgroundFillColorBase text-FluentDarkTextFillColorPrimary;
 }
 
 .html-content > :not(:first-child) {
-  @apply mt-6px;
+  @apply mt-1.5;
 }
 .html-content a,
 .html-content p, 
@@ -20,9 +24,8 @@
   overflow-wrap: anywhere;
 }
 .html-content a {
-  @apply text-knOrange/80;
+  @apply text-KonoAccentLight dark:text-KonoAccentDark;
 }
 .html-content pre {
-  @apply flex py-[5px] px-2px bg-knItemSelected font-mono whitespace-pre-wrap overflow-x-auto break-words;
-  /* overflow-wrap: anywhere; */
+  @apply flex border-1 border-FluentLightControlStrokeColorSecondary rounded py-[5px] px-0.5 bg-FluentLightSolidBackgroundFillColorQuarternary font-mono whitespace-pre-wrap overflow-x-auto break-words dark:border-FluentDarkControlStrokeColorSecondary dark:bg-FluentDarkSolidBackgroundFillColorQuarternary;
 }

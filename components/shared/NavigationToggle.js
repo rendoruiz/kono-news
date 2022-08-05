@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 
 import { FluentLineHorizontal3Regular } from "./FluentIcons";
 
@@ -14,11 +15,22 @@ const NavigationToggle = React.memo(() => {
     <button
       type='button'
       title='navigation panel toggle button'
-      className='group border-1 border-transparent rounded ml-1 px-2 py-1 leading-none transition-opacity cursor-pointer hover:opacity-50'
+      className={clsx(
+        'group rounded -mx-3 -my-2 px-3 py-2 leading-none transition-colors cursor-pointer',
+        'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
+        'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
+        'md:border-1 md:border-transparent',
+        'md:hover:border-FluentLightControlStrokeColorDefault md:active:border-FluentLightControlStrokeColorSecondary md:hover:bg-FluentLightControlFillColorSecondary md:active:bg-FluentLightControlFillColorTertiary md:hover:shadow',
+        'dark:md:hover:border-FluentDarkControlStrokeColorDefault dark:md:active:border-FluentDarkControlStrokeColorSecondary dark:md:hover:bg-FluentDarkControlFillColorSecondary dark:md:active:bg-FluentDarkControlFillColorTertiary',
+      )}
       onClick={handleClick}
     >
       <FluentLineHorizontal3Regular 
-        className='w-7 h-7 group-active:scale-[0.8] origin-center transition-transform'
+        className={clsx(
+          'w-6 h-6 origin-center transition-transform',
+          'group-active:scale-x-[.60]',
+          'md:w-5 md:h-5'
+        )}
       />
     </button>
   );

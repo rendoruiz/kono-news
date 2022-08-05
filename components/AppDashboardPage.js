@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 
@@ -147,31 +148,33 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
   return ( 
     <NavigationContext.Provider value={dispatchNavigation}>
       <StoryContext.Provider value={storyDiscussion.id}>
-        <div className='bg-knBackground'>
-          <div className={clsx(
-            'relative grid mx-auto w-full h-screen max-w-screen-2xl',
-            'md:grid-cols-[1fr_2fr]',
-            'xl:grid-cols-[1fr_2.5fr]',
-            '2xl:grid-cols-[1fr_3fr] 2xl:overflow-hidden'
-          )}>
-            {!storyDiscussion.isPermalink && (
-              <>
-                <NavigationPanel
-                  isExpanded={navigation.isExpanded}
-                  currentStoryModeId={navigation.storyListModeId}
-                />
-                <StoryListPanel 
-                  storyListModeId={navigation.storyListModeId} 
-                  onToggleNavigationPanel={null}
-                />
-              </>
-            )}
-            <StoryDiscussionPanel 
-              isExpanded={storyDiscussion.isExpanded}
-              isPermalink={storyDiscussion.isPermalink}
-              storyDiscussionId={storyDiscussion.id} 
-            />
-          </div>
+        <Head>
+          <title>Kono News - A Hacker News Viewer</title>
+        </Head>
+
+        <div className={clsx(
+          'relative grid mx-auto w-full h-screen max-w-screen-2xl',
+          'md:grid-cols-[1fr_2fr] md:gap-x-2',
+          'xl:grid-cols-[1fr_2.5fr]',
+          '2xl:grid-cols-[1fr_3fr] 2xl:overflow-hidden 2xl:p-2'
+        )}>
+          {!storyDiscussion.isPermalink && (
+            <>
+              <NavigationPanel
+                isExpanded={navigation.isExpanded}
+                currentStoryModeId={navigation.storyListModeId}
+              />
+              <StoryListPanel 
+                storyListModeId={navigation.storyListModeId} 
+                onToggleNavigationPanel={null}
+              />
+            </>
+          )}
+          <StoryDiscussionPanel 
+            isExpanded={storyDiscussion.isExpanded}
+            isPermalink={storyDiscussion.isPermalink}
+            storyDiscussionId={storyDiscussion.id} 
+          />
         </div>
       </StoryContext.Provider>
     </NavigationContext.Provider>

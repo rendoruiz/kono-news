@@ -1,17 +1,10 @@
-import Head from 'next/head';
-
 import AppDashboardPage from "../components/AppDashboardPage";
 
 import { parseStoryListModeId } from "../utils/fetchApi";
 import { QUERY_KEY } from "../utils/constants";
 
 const HomePage = (props) => (
-  <>
-    <Head>
-      <title>Kono News - A Hacker News Viewer</title>
-    </Head>
-    <AppDashboardPage {...props} />
-  </>
+  <AppDashboardPage {...props} />
 );
 
 export const getServerSideProps = async ({ query }) => {
@@ -26,7 +19,7 @@ export const getServerSideProps = async ({ query }) => {
     props: {
       queryString: query,
       initialStoryListModeId: parseStoryListModeId(listMode), 
-      initialStoryDiscussionId: !isExpanded ? null : storyDiscussionId ?? null,
+      initialStoryDiscussionId: (!isExpanded && !isPermalink) ? null : storyDiscussionId ?? null,
       initialIsPermalink: isPermalink ?? null,
     }
   };

@@ -29,10 +29,13 @@ const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) =>
       )}
       
       <section className={clsx(
-        'fixed z-modal inset-0 bg-knBackground translate-x-full transition-transform panel-transition overflow-y-auto pointer-events-none',
+        'fixed z-modal inset-0 bg-FluentLightSolidBackgroundFillColorBase translate-x-full transition-transform panel-transition overflow-y-auto pointer-events-none',
+        'dark:bg-FluentDarkSolidBackgroundFillColorBase',
         {'!translate-x-0 !pointer-events-auto': isExpanded || isPermalink},
-        'md:static md:z-auto md:w-full md:transform-none md:transition-none md:pointer-events-auto',
-        'md:only:col-span-2 md:only:mx-auto md:only:max-w-screen-xl'
+        'md:static md:z-auto md:grid md:grid-rows-[auto_1fr] md:border-1 md:border-FluentLightCardStrokeColorDefault md:w-full md:bg-FluentLightCardBackgroundFillColorDefault md:shadow md:transform-none md:transition-none md:pointer-events-auto',
+        'md:only:col-span-2 md:only:mx-auto md:only:max-w-screen-xl',
+        'dark:md:border-FluentDarkCardStrokeColorDefault dark:md:bg-FluentDarkCardBackgroundFillColorDefault',
+        '2xl:rounded-lg'
       )}>
         <StoryDiscussionHeader 
           title={storyDiscussionData?.title}
@@ -106,42 +109,41 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
 
   return (
     <header className={clsx(
-      'sticky z-10 top-0 flex items-center gap-2 py-2 px-1 bg-knBackground/60 backdrop-blur-sm',
-      'md:static'
+      'sticky z-10 top-0 flex items-center border-b-1 border-FluentLightDividerStrokeColorDefault px-5 pt-4 pb-3 bg-inherit',
+      'dark:border-FluentDarkDividerStrokeColorDefault',
+      'md:static md:p-3',
+      {'md:px-4': isPermalink}
     )}>
-      {isPermalink ? (
-        <button
-          type='button'
-          onClick={handleTogglePanel}
-          className={clsx(
-            'group shrink-0 border-1 border-transparent rounded ml-1 px-2 py-1 leading-none transition-opacity cursor-pointer',
-            'hover:opacity-50',
+      <button
+        type='button'
+        onClick={handleTogglePanel}
+        disabled={(!isExpanded && !isPermalink)}
+        className={clsx(
+          'shrink-0 group rounded -mx-3 mr-2 -my-2 px-3 py-2 leading-none transition-colors cursor-pointer',
+          'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
+          'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
+          'md:border-1 md:border-transparent',
+          'md:hover:border-FluentLightControlStrokeColorDefault md:active:border-FluentLightControlStrokeColorSecondary md:hover:bg-FluentLightControlFillColorSecondary md:active:bg-FluentLightControlFillColorTertiary md:hover:shadow',
+          'dark:md:hover:border-FluentDarkControlStrokeColorDefault dark:md:active:border-FluentDarkControlStrokeColorSecondary dark:md:hover:bg-FluentDarkControlFillColorSecondary dark:md:active:bg-FluentDarkControlFillColorTertiary',
+          {'md:-mr-3 md:w-0 md:opacity-0 md:pointer-events-none': !isPermalink},
+        )}
+      >
+        <div className={clsx(
+          'w-6 h-6 origin-center transition-transform',
+          'md:w-5 md:h-5',
+          isPermalink ? 'group-active:scale-75' : 'group-active:scale-x-[0.80] group-active:translate-x-1.5',
+        )}>
+          {isPermalink ? (
+            <FluentDismissRegular />
+          ) : (
+            <FluentArrowLeftRegular />
           )}
-        >
-          <FluentDismissRegular className={clsx(
-            'w-7 h-7 origin-center transition-transform',
-            'group-active:scale-[0.8]'
-          )} />
-        </button>
-      ): (
-        <button
-          type='button'
-          onClick={handleTogglePanel}
-          disabled={!isExpanded}
-          className={clsx(
-            'group shrink-0 border-1 border-transparent rounded ml-1 px-2 py-1 leading-none transition-opacity cursor-pointer',
-            'hover:opacity-50',
-            'md:hidden',
-          )}
-        >
-          <FluentArrowLeftRegular className={clsx(
-            'w-7 h-7 origin-center transition-transform',
-            'group-active:scale-[0.8]'
-          )} />
-        </button>
-      )}
+        </div>
+      </button>
       
-      <p className='flex-1 pr-1 font-knSansSerif font-bold text-sm leading-6 tracking-wide overflow-x-hidden text-ellipsis whitespace-nowrap'>
+      <p className={clsx(
+        'flex-1 pr-1 -my-1 font-bold text-sm tracking-wide overflow-x-hidden text-ellipsis whitespace-nowrap',
+      )}>
         {title}
       </p>
     </header>
@@ -150,7 +152,7 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
 
 const StoryDiscussionContent = React.memo(({ children, ...originalPostData }) => {
   return (
-    <main className='grid grid-rows-[auto_1fr] gap-y-2 pb-3 overflow-y-auto'>
+    <main className='overflow-y-auto'>
       <StoryDiscussionOriginalPost {...originalPostData} />
 
       {/* story comments list */}
@@ -169,15 +171,19 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
 
   return (
     <article className={clsx(
-      'border-b-3 border-b-black/10 pt-2 pb-3 px-3',
-      '[&+ul]:mt-1 [&+ul]:ml-0 [&+ul]:py-0 [&+ul]:px-3',
+      'border-b-3 border-FluentLightDividerStrokeColorDefault p-3',
+      'dark:border-FluentDarkDividerStrokeColorDefault',
+      '[&+ul]:ml-0 [&+ul]:py-3 [&+ul]:divide-y-1 [&+ul]:divide-FluentLightDividerStrokeColorDefault',
+      'dark:[&+ul]:divide-FluentDarkDividerStrokeColorDefault',
       '[&+ul:before]:content-none',
-      '[&+ul>li:first-of-type]:mt-0',
+      '[&+ul>li]:mt-2 [&+ul>li]:pt-2 [&+ul>li]:px-3',
+      '[&+ul>li:first-of-type]:mt-0 [&+ul>li:first-of-type]:pt-0',
     )}>
       {permalink && (
         <p className={clsx(
-          'grid rounded -mt-1 mb-3 p-2 bg-knOrange/20 font-medium text-xs',
-          'md:block md:text-center'
+          'grid rounded -mt-1 mb-2 p-2 bg-FluentLightSystemFillColorCautionBackground font-medium text-xs text-center',
+          'dark:bg-FluentDarkSystemFillColorCautionBackground',
+          'md:block'
         )}>
           <span className='md:mr-1'>You are viewing a single comment thread.</span>
           <span>Press the close button to view the whole thread.</span>
@@ -189,7 +195,8 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
           {title}
         </h2>
         <div className={clsx(
-          'mt-1 flex flex-wrap items-center text-xs text-knSecondary stroke-knSecondary stroke-[0.5]',
+          'mt-1 flex flex-wrap items-center text-xs text-FluentLightTextFillColorSecondary',
+          'dark:text-FluentDarkTextFillColorSecondary',
           '[&>:not(:last-child)]:mr-3',
         )}>
           <span className='flex items-center'>
@@ -219,7 +226,10 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
           <ExternalLink
             href={url}
             title='open story url'
-            className='self-start border-1 border-knOrange rounded-2xl mt-3 py-1 px-[10px] bg-knOrange/5 text-2xs font-medium leading-none uppercase'
+            className={clsx(
+              'self-start border-1 border-KonoAccentLight rounded-2xl mt-3 py-1.5 px-2.5 bg-KonoAccentLight/5 font-medium text-2xs leading-none uppercase',
+              'dark:border-KonoAccentDark dark:bg-KonoAccentDark/10'
+            )}
           >
             {urlHostname}
           </ExternalLink>
@@ -240,10 +250,11 @@ const StoryDiscussionList = React.memo(({ storyDiscussionListData }) => {
   } else {
     return (
       <ul className={clsx(
-        'relative ml-[10px]',
-        'before:absolute before:inset-y-0 before:right-auto before:left-[-10px] before:border-l-1.5 before:border-l-knCommentThreadBorder',
-        'md:ml-[14px]',
-        'md:before:left-[-14px]'
+        'relative ml-2.5',
+        'before:absolute before:inset-y-0 before:right-auto before:-left-2.5 before:border-l-2 before:border-dashed before:border-FluentLightControlStrokeColorSecondary',
+        'dark:before:border-FluentDarkControlStrokeColorSecondary',
+        'md:ml-3.5',
+        'md:before:-left-3.5'
       )}>
         {storyDiscussionListData.map((storyCommentItemData) =>
           <StoryCommentItem
@@ -283,7 +294,8 @@ const StoryCommentItem = React.memo(({
         <StoryItemCommentVisibilityToggle radioButtonId={radioId}/>
 
         <header className={clsx(
-          'col-start-2 grid grid-cols-[1fr_auto] items-center text-2xs text-knSecondary tracking-wide',
+          'col-start-2 grid grid-cols-[1fr_auto] items-center text-2xs text-FluentLightTextFillColorSecondary tracking-wide',
+          'dark:text-FluentDarkTextFillColorSecondary',
           '[&>*]:row-start-1',
           'md:flex md:text-xs',
         )}>
@@ -331,7 +343,7 @@ const StoryCommentItem = React.memo(({
           </label>
         </header>
         <main className={clsx(
-          'col-span-2 mt-2px',
+          'col-span-2 mt-0.5',
           'peer-checked:hidden'
         )}>
           {text ? (
@@ -368,14 +380,22 @@ const StoryItemCommentVisibilityToggle = React.memo(({ radioButtonId }) => (
     />
     <label 
       htmlFor={radioButtonId} 
-      className='col-start-1 hidden pr-1 font-mono text-[0.8em] text-knOrange select-none cursor-pointer peer-checked:block'
+      className={clsx(
+        'col-start-1 hidden pr-1 font-mono text-xs text-KonoAccentLight select-none cursor-pointer',
+        'peer-checked:block',
+        'dark:text-KonoAccentDark',
+      )}
       title='expand comment thread'
     >
       [+]
     </label>
     <label 
       htmlFor={radioButtonId} 
-      className='col-start-1 block pr-1 font-mono text-[0.8em] text-knOrange/80 select-none cursor-pointer peer-checked:hidden'
+      className={clsx(
+        'col-start-1 block pr-1 font-mono text-xs text-KonoAccentLight select-none cursor-pointer',
+        'peer-checked:hidden',
+        'dark:text-KonoAccentDark'
+      )}
       title='retract comment thread'
     >
       [-]
