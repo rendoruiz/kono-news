@@ -109,7 +109,7 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
     <header className={clsx(
       'sticky z-10 top-0 flex items-center border-b-1 border-FluentLightDividerStrokeColorDefault px-5 pt-4 pb-3 bg-inherit',
       'dark:border-FluentDarkDividerStrokeColorDefault',
-      'md:static'
+      'md:static md:px-3'
     )}>
       {isPermalink ? (
         <button
@@ -153,7 +153,10 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
         </button>
       )}
       
-      <p className='flex-1 ml-5 pr-1 font-knSansSerif font-bold text-sm leading-6 tracking-wide overflow-x-hidden text-ellipsis whitespace-nowrap'>
+      <p className={clsx(
+        'flex-1 ml-5 pr-1 font-knSansSerif font-bold text-sm leading-6 tracking-wide overflow-x-hidden text-ellipsis whitespace-nowrap',
+        'md:ml-0',
+      )}>
         {title}
       </p>
     </header>
@@ -162,7 +165,7 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
 
 const StoryDiscussionContent = React.memo(({ children, ...originalPostData }) => {
   return (
-    <main className='grid grid-rows-[auto_1fr] gap-y-2 pb-3 overflow-y-auto'>
+    <main className='overflow-y-auto'>
       <StoryDiscussionOriginalPost {...originalPostData} />
 
       {/* story comments list */}
@@ -181,8 +184,9 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
 
   return (
     <article className={clsx(
-      'border-b-3 border-b-black/10 pt-2 pb-3 px-3',
-      '[&+ul]:mt-1 [&+ul]:ml-0 [&+ul]:py-0 [&+ul]:px-3',
+      'border-b-1 border-FluentLightDividerStrokeColorDefault p-3',
+      'dark:border-FluentDarkDividerStrokeColorDefault',
+      '[&+ul]:ml-0 [&+ul]:p-3',
       '[&+ul:before]:content-none',
       '[&+ul>li:first-of-type]:mt-0',
     )}>
@@ -201,7 +205,8 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
           {title}
         </h2>
         <div className={clsx(
-          'mt-1 flex flex-wrap items-center text-xs text-knSecondary stroke-knSecondary stroke-[0.5]',
+          'mt-1 flex flex-wrap items-center text-xs text-FluentLightTextFillColorSecondary',
+          'dark:text-FluentDarkTextFillColorSecondary',
           '[&>:not(:last-child)]:mr-3',
         )}>
           <span className='flex items-center'>
@@ -231,7 +236,10 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
           <ExternalLink
             href={url}
             title='open story url'
-            className='self-start border-1 border-knOrange rounded-2xl mt-3 py-1 px-[10px] bg-knOrange/5 text-2xs font-medium leading-none uppercase'
+            className={clsx(
+              'self-start border-1 border-KonoAccentLight rounded-2xl mt-3 py-1.5 px-2.5 bg-KonoAccentLight/5 font-medium text-2xs leading-none uppercase',
+              'dark:border-KonoAccentDark dark:bg-KonoAccentDark/10'
+            )}
           >
             {urlHostname}
           </ExternalLink>
@@ -253,9 +261,10 @@ const StoryDiscussionList = React.memo(({ storyDiscussionListData }) => {
     return (
       <ul className={clsx(
         'relative ml-[10px]',
-        'before:absolute before:inset-y-0 before:right-auto before:left-[-10px] before:border-l-1.5 before:border-l-knCommentThreadBorder',
-        'md:ml-[14px]',
-        'md:before:left-[-14px]'
+        'before:absolute before:inset-y-0 before:right-auto before:-left-2.5 before:border-l-2 before:border-dashed before:border-FluentLightControlStrokeColorSecondary',
+        'dark:before:border-FluentDarkControlStrokeColorSecondary',
+        'md:ml-3.5',
+        'md:before:-left-3.5'
       )}>
         {storyDiscussionListData.map((storyCommentItemData) =>
           <StoryCommentItem
@@ -295,7 +304,8 @@ const StoryCommentItem = React.memo(({
         <StoryItemCommentVisibilityToggle radioButtonId={radioId}/>
 
         <header className={clsx(
-          'col-start-2 grid grid-cols-[1fr_auto] items-center text-2xs text-knSecondary tracking-wide',
+          'col-start-2 grid grid-cols-[1fr_auto] items-center text-2xs text-FluentLightTextFillColorSecondary tracking-wide',
+          'dark:text-FluentDarkTextFillColorSecondary',
           '[&>*]:row-start-1',
           'md:flex md:text-xs',
         )}>
@@ -380,14 +390,22 @@ const StoryItemCommentVisibilityToggle = React.memo(({ radioButtonId }) => (
     />
     <label 
       htmlFor={radioButtonId} 
-      className='col-start-1 hidden pr-1 font-mono text-[0.8em] text-knOrange select-none cursor-pointer peer-checked:block'
+      className={clsx(
+        'col-start-1 hidden pr-1 font-mono text-xs text-KonoAccentLight select-none cursor-pointer',
+        'peer-checked:block',
+        'dark:text-KonoAccentDark',
+      )}
       title='expand comment thread'
     >
       [+]
     </label>
     <label 
       htmlFor={radioButtonId} 
-      className='col-start-1 block pr-1 font-mono text-[0.8em] text-knOrange/80 select-none cursor-pointer peer-checked:hidden'
+      className={clsx(
+        'col-start-1 block pr-1 font-mono text-xs text-KonoAccentLight select-none cursor-pointer',
+        'peer-checked:hidden',
+        'dark:text-KonoAccentDark'
+      )}
       title='retract comment thread'
     >
       [-]

@@ -16,7 +16,7 @@ import PillSelectedIndicator from "./shared/PillSelectedIndicator";
 
 const StoryListPanel = React.memo(({ storyListModeId }) => (
   <section className={clsx(
-    'relative',
+    'relative overflow-y-auto',
     'md:grid md:grid-rows-[auto,1fr] md:overflow-y-auto',
   )}>
     <StoryListHeader storyListModeId={storyListModeId} />
