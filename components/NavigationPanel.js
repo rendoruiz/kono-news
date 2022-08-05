@@ -19,10 +19,10 @@ const NavigationPanel = ({
   <>
     <NavigationPanelOverlay isExpanded={isExpanded} />
     <section className={clsx(
-      'fixed z-modal inset-0 right-auto flex flex-col pt-2 pb-1 w-4/5 min-w-[140px] max-w-[300px] bg-FluentLightSolidBackgroundFillColorBase -translate-x-full transition-transform ease-in-out overflow-y-auto pointer-events-none',
-      'dark:bg-FluentDarkSolidBackgroundFillColorBase',
-      'md:border-1 md:rounded-r-lg md:border-FluentLightSurfaceStrokeColorDefault md:border-l-transparent md:px-1 md:w-full md:max-w-[280px] md:bg-FluentLightSolidBackgroundFillColorQuarternary md:shadow md:transition-transformOpacity',
-      'dark:md:border-FluentDarkSurfaceStrokeColorDefault dark:md:bg-FluentDarkSolidBackgroundFillColorQuarternary',
+      'fixed z-modal inset-0 right-auto flex flex-col pt-2 pb-1 w-4/5 min-w-[140px] max-w-[300px] bg-FluentLightSolidBackgroundFillColorQuarternary -translate-x-full transition-transform ease-in-out overflow-y-auto pointer-events-none',
+      'dark:bg-FluentDarkSolidBackgroundFillColorQuarternary',
+      'md:border-1 md:rounded-r-lg md:border-FluentLightSurfaceStrokeColorDefault md:border-l-transparent md:px-1 md:w-full md:max-w-[280px] md:shadow md:transition-transformOpacity',
+      'dark:md:border-FluentDarkSurfaceStrokeColorDefault',
       '2xl:absolute 2xl:inset-2 2xl:rounded-lg 2xl:opacity-0 2xl:-translate-x-1/4',
       {'translate-x-0 pointer-events-auto': isExpanded},
       {'2xl:opacity-100 2xl:translate-x-0': isExpanded},
