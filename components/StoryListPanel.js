@@ -56,6 +56,11 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
   const [currentPage, setCurrentPage] = React.useState(1);
   const handlePageChange = () => setCurrentPage(currentPage + 1);
 
+  // reset current page count on story list mode change
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [storyListModeId]);
+
   if (isLoading) {
     return (
       <ol className={clsx(
