@@ -17,9 +17,10 @@ import PillSelectedIndicator from "./shared/PillSelectedIndicator";
 const StoryListPanel = React.memo(({ storyListModeId }) => (
   <section className={clsx(
     'relative overflow-y-auto',
-    'md:border-1 md:border-FluentLightCardStrokeColorDefault md:rounded-lg md:bg-FluentLightCardBackgroundFillColorDefault md:shadow',
+    'md:border-1 md:border-FluentLightCardStrokeColorDefault md:bg-FluentLightCardBackgroundFillColorDefault md:shadow',
     'md:grid md:grid-rows-[auto_1fr] md:overflow-y-auto',
     'dark:md:border-FluentDarkCardStrokeColorDefault dark:md:bg-FluentDarkCardBackgroundFillColorDefault',
+    '2xl:rounded-lg',
   )}>
     <StoryListHeader storyListModeId={storyListModeId} />
     {storyListModeId && (

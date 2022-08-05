@@ -32,9 +32,10 @@ const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) =>
         'fixed z-modal inset-0 bg-FluentLightSolidBackgroundFillColorBase translate-x-full transition-transform panel-transition overflow-y-auto pointer-events-none',
         'dark:bg-FluentDarkSolidBackgroundFillColorBase',
         {'!translate-x-0 !pointer-events-auto': isExpanded || isPermalink},
-        'md:static md:z-auto md:grid md:grid-rows-[auto_1fr] md:border-1 md:border-FluentLightCardStrokeColorDefault md:rounded-lg md:w-full md:bg-FluentLightCardBackgroundFillColorDefault md:shadow md:transform-none md:transition-none md:pointer-events-auto',
+        'md:static md:z-auto md:grid md:grid-rows-[auto_1fr] md:border-1 md:border-FluentLightCardStrokeColorDefault md:w-full md:bg-FluentLightCardBackgroundFillColorDefault md:shadow md:transform-none md:transition-none md:pointer-events-auto',
+        'md:only:col-span-2 md:only:mx-auto md:only:max-w-screen-xl',
         'dark:md:border-FluentDarkCardStrokeColorDefault dark:md:bg-FluentDarkCardBackgroundFillColorDefault',
-        'md:only:col-span-2 md:only:mx-auto md:only:max-w-screen-xl'
+        '2xl:rounded-lg'
       )}>
         <StoryDiscussionHeader 
           title={storyDiscussionData?.title}
@@ -140,7 +141,7 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
       </button>
       
       <p className={clsx(
-        'flex-1 pr-1 font-bold text-sm leading-none tracking-wide overflow-x-hidden text-ellipsis whitespace-nowrap',
+        'flex-1 pr-1 -my-1 font-bold text-sm tracking-wide overflow-x-hidden text-ellipsis whitespace-nowrap',
       )}>
         {title}
       </p>
