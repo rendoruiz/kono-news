@@ -84,7 +84,8 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
       id: initialStoryDiscussionId,
     }
   );
-
+  
+  //#region oncomponentmount useeffect
   // set initial list mode id & remove navigation expansion on mount
   React.useEffect(() => {
     if (!isMounted) {
@@ -108,6 +109,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
       }, undefined, { shallow: true });
     }
   }, [initialStoryListModeId, isMounted, router]);
+  //#endregion
 
   //#region navigation useeffect
   // set list mode id based on route query

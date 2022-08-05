@@ -3,9 +3,11 @@ import Link from 'next/link';
 import { useRouter } from "next/router";
 import { useTheme } from 'next-themes';
 import clsx from "clsx";
+import { Github } from '@icons-pack/react-simple-icons';
 
 import NavigationToggle from "./shared/NavigationToggle";
 import PillSelectedIndicator from './shared/PillSelectedIndicator';
+import ExternalLink from './shared/ExternalLink';
 import { FluentWeatherMoonRegular, FluentWeatherSunnyRegular } from './shared/FluentIcons';
 
 import { useNavigation } from '../context/NavigationContext';
@@ -19,7 +21,7 @@ const NavigationPanel = ({
   <>
     <NavigationPanelOverlay isExpanded={isExpanded} />
     <section className={clsx(
-      'fixed z-modal inset-0 right-auto flex flex-col pt-2 pb-1 w-4/5 min-w-[140px] max-w-[300px] bg-FluentLightSolidBackgroundFillColorQuarternary -translate-x-full transition-transform ease-in-out overflow-y-auto pointer-events-none',
+      'fixed z-modal inset-0 right-auto grid grid-rows-[auto_1fr_auto] pt-2 pb-1 w-4/5 min-w-[140px] max-w-[300px] bg-FluentLightSolidBackgroundFillColorQuarternary -translate-x-full transition-transform ease-in-out overflow-y-auto pointer-events-none',
       'dark:bg-FluentDarkSolidBackgroundFillColorQuarternary',
       'md:border-1 md:rounded-r-lg md:border-FluentLightSurfaceStrokeColorDefault md:border-l-transparent md:px-1 md:w-full md:max-w-[280px] md:shadow md:transition-transformOpacity',
       'dark:md:border-FluentDarkSurfaceStrokeColorDefault',
@@ -76,7 +78,30 @@ const NavigationFooter = React.memo(() => {
   if (!mounted) return null;
 
   return (
-    <header className='grid mt-auto'>
+    <footer className='grid content-start mt-auto pt-1'>
+      <ExternalLink
+        href='https://github.com/rendoruiz/kono-news'
+        className={clsx(
+          'flex items-center px-5 py-3.5 text-left leading-none select-none',
+          'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
+          'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
+          'md:border-1 md:border-transparent md:rounded md:px-3 md:py-2.5',
+        )}
+      >
+        <Github className={clsx(
+          'p-[1px] w-6 h-6 mr-4',
+          'md:w-5 md:h-5 md:mr-5'
+        )} />
+        <span className={clsx(
+          'text-lg',
+          'md:text-base'
+        )}>
+          Fork at GitHub
+        </span>
+      </ExternalLink>
+      
+      <NavigationListDivider />
+
       <button
         type='button'
         onClick={toggleTheme}
@@ -105,13 +130,13 @@ const NavigationFooter = React.memo(() => {
           {resolvedTheme === APP_THEME.dark ? 'On' : 'Off'}
         </span>
       </button>
-    </header>
+    </footer>
   );
 });
 
 const NavigationList = React.memo(({ currentStoryModeId }) => (
   <ul className={clsx(
-    'grid',
+    'grid content-start overflow-y-auto',
     'md:gap-y-1 md:py-0.5'
   )}>
     {NAVIGATION_ITEMS.map((navigationItemData) => (
@@ -177,5 +202,13 @@ const NavigationItem = React.memo(({
     </li>
   );
 });
+
+const NavigationListDivider = React.memo(() => (
+  <div className={clsx(
+    'w-full h-[1px] bg-FluentLightDividerStrokeColorDefault',
+    'dark:bg-FluentDarkDividerStrokeColorDefault',
+    'md:my-1'
+  )} />
+));
 
 export default NavigationPanel;
