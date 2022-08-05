@@ -35,6 +35,7 @@ const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) =>
         'md:static md:z-auto md:grid md:grid-rows-[auto_1fr] md:border-1 md:border-FluentLightCardStrokeColorDefault md:w-full md:bg-FluentLightCardBackgroundFillColorDefault md:shadow md:transform-none md:transition-none md:pointer-events-auto',
         'md:only:col-span-2 md:only:mx-auto md:only:max-w-screen-xl',
         'dark:md:border-FluentDarkCardStrokeColorDefault dark:md:bg-FluentDarkCardBackgroundFillColorDefault',
+        {'md:hidden': !isExpanded},
         '2xl:rounded-lg'
       )}>
         <StoryDiscussionHeader 
