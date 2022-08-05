@@ -25,6 +25,7 @@ const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) =>
       {(isExpanded || isPermalink) && storyDiscussionData && (
         <Head>
           <title>Kono News | {storyDiscussionData.title}</title>
+          <meta property="og:title" content={`Kono News - ${storyDiscussionData.title}`} />
         </Head>
       )}
       
