@@ -171,7 +171,13 @@ const StoryDiscussionContent = React.memo(({ children, ...originalPostData }) =>
 
       {/* story comments list */}
       {children.length === 0 ? (
-        <p>No comments.</p>
+        <p className={clsx(
+          'p-3 text-FluentLightTextFillColorSecondary italic',
+          'dark:text-FluentDarkTextFillColorSecondary',
+          'xl:px-4'
+        )}>
+          There are no comments.
+        </p>
       ) : (
         <StoryDiscussionList storyDiscussionListData={children} />
       )}
