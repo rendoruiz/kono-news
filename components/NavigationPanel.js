@@ -82,7 +82,8 @@ const NavigationFooter = React.memo(() => {
         type='button'
         onClick={toggleTheme}
         className={clsx(
-          'flex items-center px-5 py-3.5 text-left leading-none hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
+          'flex items-center px-5 py-3.5 text-left leading-none select-none',
+          'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
           'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
           'md:border-1 md:border-transparent md:rounded md:px-3 md:py-2.5',
         )}
