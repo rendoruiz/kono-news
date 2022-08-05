@@ -342,7 +342,7 @@ const StoryCommentItem = React.memo(({
                 'md:pl-0',
                 'md:hover:underline',
                 'md:before:content-["•"] md:before:mx-1.5 md:before:inline-block md:before:text-FluentLightTextFillColorSecondary',
-                'dark:text-FluentDarkTextFillColorSecondary',
+                'dark:md:before:text-FluentDarkTextFillColorSecondary',
               )}
             >
               {shortTime}
