@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="29" height="29" fill="none" version="1.1" viewBox="0 0 29 29" xmlns="http://www.w3.org/2000/svg">
+ <rect width="29" height="29" rx="3.625" style="fill:#f60;stroke-width:0"/>
+ <g style="font-variation-settings:'wght' 700" aria-label="K">
+  <path d="m23 23.875h-5.5444l-6.4245-8.0805q-0.10265-0.13075-0.24935-0.37918-0.13201-0.24843-0.30802-0.58839h-0.0733v9.0481h-4.4004v-18.75h4.4003v8.7082h0.0733q0.08806-0.16998 0.23468-0.41841 0.14668-0.24843 0.35203-0.56224l6.1165-7.7275h5.1337l-7.4953 8.8651z" style="fill:#fff;stroke-width:1.0636"/>
+ </g>
+</svg>
