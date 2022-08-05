@@ -71,7 +71,7 @@ export const NAVIGATION_ITEMS = [
   },
   {
     id: STORY_MODE.JOB,
-    label: 'Job',
+    label: 'Jobs',
     icon: <FluentNotepadPersonRegular />,
   },
 ];
