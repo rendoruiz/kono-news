@@ -1,6 +1,5 @@
 import AppDashboardPage from "../components/AppDashboardPage";
 
-import { parseStoryListModeId } from "../utils/fetchApi";
 import { QUERY_KEY } from "../utils/constants";
 
 const HomePage = (props) => (
