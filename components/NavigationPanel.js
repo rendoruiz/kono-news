@@ -76,7 +76,7 @@ const NavigationFooter = React.memo(() => {
   if (!mounted) return null;
 
   return (
-    <header className='grid mt-auto'>
+    <footer className='grid mt-auto'>
       <button
         type='button'
         onClick={toggleTheme}
@@ -105,7 +105,7 @@ const NavigationFooter = React.memo(() => {
           {resolvedTheme === APP_THEME.dark ? 'On' : 'Off'}
         </span>
       </button>
-    </header>
+    </footer>
   );
 });
 
