@@ -112,7 +112,8 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
       'sticky z-10 top-0 flex items-center border-b-1 border-FluentLightDividerStrokeColorDefault px-5 pt-4 pb-3 bg-inherit',
       'dark:border-FluentDarkDividerStrokeColorDefault',
       'md:static md:p-3',
-      {'md:px-4': isPermalink}
+      {'md:px-4': isPermalink},
+      'xl:px-4'
     )}>
       <button
         type='button'
@@ -178,6 +179,8 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
       '[&+ul:before]:content-none',
       '[&+ul>li]:mt-3 [&+ul>li]:pt-2.5 [&+ul>li]:px-3',
       '[&+ul>li:first-of-type]:mt-0 [&+ul>li:first-of-type]:pt-0',
+      'xl:px-4',
+      'xl:[&+ul>li]:px-4',
     )}>
       {permalink && (
         <p className={clsx(
@@ -190,7 +193,7 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
         </p>
       )}
 
-      <header className='flex flex-col'>
+      <header className='flex flex-col max-w-3xl'>
         <h2 className='font-serif text-3xl leading-snug'>
           {title}
         </h2>
