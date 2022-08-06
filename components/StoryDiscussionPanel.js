@@ -157,7 +157,7 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
       </button>
       
       <p className={clsx(
-        'flex-1 pr-1 -my-1 font-bold text-sm tracking-wide overflow-x-hidden text-ellipsis whitespace-nowrap',
+        'flex-1 pr-1 -my-1 font-sans font-bold text-sm tracking-wide overflow-x-hidden text-ellipsis whitespace-nowrap',
       )}>
         {title}
       </p>
@@ -313,7 +313,10 @@ const StoryCommentItem = React.memo(({
   created_at_i: time,
   text, 
   children, 
+  hidden = false,
 }) => {
+  const [isHidden, setIsHidden] = React.useState(hidden);
+  const handleToggleIsHidden = () => setIsHidden(!isHidden);
   // dont show deleted items with no children (id and time only)
   if (text === null && children.length === 0) {
     return null; 
@@ -328,29 +331,49 @@ const StoryCommentItem = React.memo(({
     }
 
     const shortTime = getShortTime(time);
-    const radioId = `story-comment-item-${id}`;
-    return (
-      <li className='grid grid-cols-[auto_1fr] mt-4'>
-        <StoryItemCommentVisibilityToggle radioButtonId={radioId}/>
 
+    return (
+      <li className='flex flex-col mt-4'>
         <header className={clsx(
-          'col-start-2 grid grid-cols-[1fr_auto] items-center text-2xs text-FluentLightTextFillColorSecondary tracking-wide',
+          'relative grid grid-cols-[auto_1fr_auto] items-center text-2xs text-FluentLightTextFillColorSecondary tracking-wide',
           'dark:text-FluentDarkTextFillColorSecondary',
           '[&>*]:row-start-1',
           'md:flex md:text-xs',
         )}>
-          {author ? (
+          <button
+            type='font'
+            title='toggle comment visibility'
+            className={clsx(
+              '-m-1.5 p-1.5 font-mono text-KonoAccentLight select-none',
+              'dark:text-KonoAccentDark',
+              'hover:opacity-80 active:opacity-70'
+            )}    
+            onClick={handleToggleIsHidden}
+          >
+            [{isHidden ? '+' : '-'}]
+          </button>
+          <div className={clsx(
+            'relative flex items-center pl-1',
+            'md:after:content-["•"] md:after:mx-1.5 md:after:inline-block md:after:text-FluentLightTextFillColorSecondary',
+            'dark:md:after:text-FluentDarkTextFillColorSecondary',
+          )}>
             <StoryDiscussionUserLink
               userId={author}
               className={clsx(
-                'col-start-1 pointer-events-none',
+                'pointer-events-none',
                 'md:ml-1.5 md:font-medium md:pointer-events-auto',
                 'md:hover:underline'
               )}
             />
-          ) : (
-            <span className='col-start-1'>[deleted author]</span>
-          )}
+            <div 
+              title='toggle comment visibility'
+              className={clsx(
+                'absolute inset-0',
+                'md:hidden'
+              )}
+              onClick={handleToggleIsHidden}
+            />
+          </div>
           <Link 
             href={{ query: {
               [QUERY_KEY.STORY_DISCUSSION_ID]: id,
@@ -365,27 +388,15 @@ const StoryCommentItem = React.memo(({
                 'pl-1.5',
                 'md:pl-0',
                 'md:hover:underline',
-                'md:before:content-["•"] md:before:mx-1.5 md:before:inline-block md:before:text-FluentLightTextFillColorSecondary',
-                'dark:md:before:text-FluentDarkTextFillColorSecondary',
               )}
             >
               {shortTime}
             </a>
           </Link>
-
-          <label 
-            htmlFor={radioId}
-            className={clsx(
-              'col-start-1 h-full cursor-pointer',
-              'md:hidden md:pointer-events-none',
-            )}
-            title='comment expansion toggle'
-          >
-          </label>
         </header>
         <main className={clsx(
           'col-span-2 mt-0.5',
-          'peer-checked:hidden'
+          {'hidden': isHidden}
         )}>
           {text ? (
             <HtmlContent htmlString={text} />
@@ -408,44 +419,27 @@ const StoryCommentItem = React.memo(({
   }
 });
 
-const StoryDiscussionUserLink = React.memo(({ userId, ...props }) => (
-  <ExternalLink
-    href={'https://news.ycombinator.com/user?id=' + userId}
-    title='open user page on ycombinator'
-    {...props}
-  >
-    {userId}
-  </ExternalLink>
-));
-
-const StoryItemCommentVisibilityToggle = React.memo(({ radioButtonId }) => (
-  <>
-    <input type='checkbox' name='story-comment-item' id={radioButtonId} 
-      className='peer absolute opacity-0 pointer-events-none'
-    />
-    <label 
-      htmlFor={radioButtonId} 
-      className={clsx(
-        'col-start-1 hidden pr-1 font-mono text-xs text-KonoAccentLight select-none cursor-pointer',
-        'peer-checked:block',
-        'dark:text-KonoAccentDark',
-      )}
-      title='expand comment thread'
-    >
-      [+]
-    </label>
-    <label 
-      htmlFor={radioButtonId} 
-      className={clsx(
-        'col-start-1 block pr-1 font-mono text-xs text-KonoAccentLight select-none cursor-pointer',
-        'peer-checked:hidden',
-        'dark:text-KonoAccentDark'
-      )}
-      title='retract comment thread'
-    >
-      [-]
-    </label>
-  </>
-));
+const StoryDiscussionUserLink = React.memo(({ userId, ...props }) => {
+  if (!userId) {
+    return (
+      <span className={clsx(
+        props.className,
+        '!italic !pointer-events-none'
+      )}>
+        [deleted author]
+      </span>
+    )
+  } else {
+    return (
+      <ExternalLink
+        href={'https://news.ycombinator.com/user?id=' + userId}
+        title='open user page on ycombinator'
+        {...props}
+      >
+        {userId}
+      </ExternalLink>
+    )
+  }
+});
 
 export default StoryDiscussionPanel;
