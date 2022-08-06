@@ -157,7 +157,7 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
       </button>
       
       <p className={clsx(
-        'flex-1 pr-1 -my-1 font-bold text-sm tracking-wide overflow-x-hidden text-ellipsis whitespace-nowrap',
+        'flex-1 pr-1 -my-1 font-sans font-bold text-sm tracking-wide overflow-x-hidden text-ellipsis whitespace-nowrap',
       )}>
         {title}
       </p>
@@ -335,7 +335,7 @@ const StoryCommentItem = React.memo(({
     return (
       <li className='flex flex-col mt-4'>
         <header className={clsx(
-          'grid grid-cols-[auto_1fr_auto] items-center text-2xs text-FluentLightTextFillColorSecondary tracking-wide',
+          'relative grid grid-cols-[auto_1fr_auto] items-center text-2xs text-FluentLightTextFillColorSecondary tracking-wide',
           'dark:text-FluentDarkTextFillColorSecondary',
           '[&>*]:row-start-1',
           'md:flex md:text-xs',
@@ -344,7 +344,7 @@ const StoryCommentItem = React.memo(({
             type='font'
             title='toggle comment visibility'
             className={clsx(
-              'pr-1 font-mono text-KonoAccentLight leading-none select-none cursor-pointer',
+              '-m-1.5 p-1.5 font-mono text-KonoAccentLight select-none',
               'dark:text-KonoAccentDark',
               'hover:opacity-80 active:opacity-70'
             )}    
@@ -352,26 +352,28 @@ const StoryCommentItem = React.memo(({
           >
             [{isHidden ? '+' : '-'}]
           </button>
-          <div 
-            title='toggle comment visibility'
-            className={clsx(
-              'row-start-1 col-start-2 h-full',
-              'md:hidden'
-            )}
-            onClick={handleToggleIsHidden}
-          />
-          {author ? (
+          <div className={clsx(
+            'relative flex items-center pl-1',
+            'md:after:content-["•"] md:after:mx-1.5 md:after:inline-block md:after:text-FluentLightTextFillColorSecondary',
+            'dark:md:after:text-FluentDarkTextFillColorSecondary',
+          )}>
             <StoryDiscussionUserLink
               userId={author}
               className={clsx(
-                'row-start-1 col-start-2 pointer-events-none',
+                'pointer-events-none',
                 'md:ml-1.5 md:font-medium md:pointer-events-auto',
                 'md:hover:underline'
               )}
             />
-          ) : (
-            <span className='row-start-1 col-start-2'>[deleted author]</span>
-          )}
+            <div 
+              title='toggle comment visibility'
+              className={clsx(
+                'absolute inset-0',
+                'md:hidden'
+              )}
+              onClick={handleToggleIsHidden}
+            />
+          </div>
           <Link 
             href={{ query: {
               [QUERY_KEY.STORY_DISCUSSION_ID]: id,
@@ -386,8 +388,6 @@ const StoryCommentItem = React.memo(({
                 'pl-1.5',
                 'md:pl-0',
                 'md:hover:underline',
-                'md:before:content-["•"] md:before:mx-1.5 md:before:inline-block md:before:text-FluentLightTextFillColorSecondary',
-                'dark:md:before:text-FluentDarkTextFillColorSecondary',
               )}
             >
               {shortTime}
@@ -419,14 +419,27 @@ const StoryCommentItem = React.memo(({
   }
 });
 
-const StoryDiscussionUserLink = React.memo(({ userId, ...props }) => (
-  <ExternalLink
-    href={'https://news.ycombinator.com/user?id=' + userId}
-    title='open user page on ycombinator'
-    {...props}
-  >
-    {userId}
-  </ExternalLink>
-));
+const StoryDiscussionUserLink = React.memo(({ userId, ...props }) => {
+  if (!userId) {
+    return (
+      <span className={clsx(
+        props.className,
+        '!italic !pointer-events-none'
+      )}>
+        [deleted author]
+      </span>
+    )
+  } else {
+    return (
+      <ExternalLink
+        href={'https://news.ycombinator.com/user?id=' + userId}
+        title='open user page on ycombinator'
+        {...props}
+      >
+        {userId}
+      </ExternalLink>
+    )
+  }
+});
 
 export default StoryDiscussionPanel;
