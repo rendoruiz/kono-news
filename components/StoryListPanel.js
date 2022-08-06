@@ -208,27 +208,50 @@ const StoryItem = React.memo(({ storyItemData, isSelected }) => {
     } = storyData;
     const shortTime = getShortTime(time);
 
-    const routeHrefObject = { 
+    // when story item is click
+    const routeHrefObjectPrimary = { 
       query: { 
         ...router.query,
         [QUERY_KEY.STORY_DISCUSSION_ID]: id, 
         [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: true,
       }
     }
+
+    // when middle clicked / open in new tab
+    const routeHrefObjectSecondary = { 
+      query: { 
+        ...router.query,
+        [QUERY_KEY.STORY_DISCUSSION_ID]: id, 
+        [QUERY_KEY.IS_PERMALINK]: true,
+      }
+    }
+
+    const handleClick = (e) => {
+      e.preventDefault();
+      router.push(
+        routeHrefObjectPrimary,
+        undefined, 
+        { shallow: true }
+      )
+    }
   
     return (
       <li className='relative flex'>
         <Link
-          href={routeHrefObject}
-          shallow
+          href={routeHrefObjectSecondary}
+          passHref
         >
-          <a className={clsx(
-            'flex-1 relative px-3 py-2 cursor-pointer select-none',
-            'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
-            'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
-            {'bg-FluentLightSubtleFillColorSecondary hover:bg-FluentLightSubtleFillColorTertiary': isSelected},
-            {'dark:bg-FluentDarkSubtleFillColorSecondary dark:hover:bg-FluentDarkSubtleFillColorTertiary': isSelected},
-          )}>
+          <a 
+            className={clsx(
+              'flex-1 relative px-3 py-2 cursor-pointer select-none',
+              'hover:bg-FluentLightSubtleFillColorSecondary active:bg-FluentLightSubtleFillColorTertiary active:text-FluentLightTextFillColorTertiary',
+              'dark:hover:bg-FluentDarkSubtleFillColorSecondary dark:active:bg-FluentDarkSubtleFillColorTertiary dark:active:text-FluentDarkTextFillColorTertiary',
+              {'bg-FluentLightSubtleFillColorSecondary hover:bg-FluentLightSubtleFillColorTertiary': isSelected},
+              {'dark:bg-FluentDarkSubtleFillColorSecondary dark:hover:bg-FluentDarkSubtleFillColorTertiary': isSelected},
+            )}
+            target='_blank'
+            onClick={handleClick}
+          >
             <PillSelectedIndicator isSelected={isSelected} large />
             <p className={clsx(
               'font-serif text-sm leading-snug break-words tracking-wide',
