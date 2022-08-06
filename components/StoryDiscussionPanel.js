@@ -313,7 +313,10 @@ const StoryCommentItem = React.memo(({
   created_at_i: time,
   text, 
   children, 
+  hidden = false,
 }) => {
+  const [isHidden, setIsHidden] = React.useState(hidden);
+  const handleToggleIsHidden = () => setIsHidden(!isHidden);
   // dont show deleted items with no children (id and time only)
   if (text === null && children.length === 0) {
     return null; 
@@ -328,28 +331,46 @@ const StoryCommentItem = React.memo(({
     }
 
     const shortTime = getShortTime(time);
-    const radioId = `story-comment-item-${id}`;
-    return (
-      <li className='grid grid-cols-[auto_1fr] mt-4'>
-        <StoryItemCommentVisibilityToggle radioButtonId={radioId}/>
 
+    return (
+      <li className='flex flex-col mt-4'>
         <header className={clsx(
-          'col-start-2 grid grid-cols-[1fr_auto] items-center text-2xs text-FluentLightTextFillColorSecondary tracking-wide',
+          'grid grid-cols-[auto_1fr_auto] items-center text-2xs text-FluentLightTextFillColorSecondary tracking-wide',
           'dark:text-FluentDarkTextFillColorSecondary',
           '[&>*]:row-start-1',
           'md:flex md:text-xs',
         )}>
+          <button
+            type='font'
+            title='toggle comment visibility'
+            className={clsx(
+              'pr-1 font-mono text-KonoAccentLight leading-none select-none cursor-pointer',
+              'dark:text-KonoAccentDark',
+              'hover:opacity-80 active:opacity-70'
+            )}    
+            onClick={handleToggleIsHidden}
+          >
+            [{isHidden ? '+' : '-'}]
+          </button>
+          <div 
+            title='toggle comment visibility'
+            className={clsx(
+              'row-start-1 col-start-2 h-full',
+              'md:hidden'
+            )}
+            onClick={handleToggleIsHidden}
+          />
           {author ? (
             <StoryDiscussionUserLink
               userId={author}
               className={clsx(
-                'col-start-1 pointer-events-none',
+                'row-start-1 col-start-2 pointer-events-none',
                 'md:ml-1.5 md:font-medium md:pointer-events-auto',
                 'md:hover:underline'
               )}
             />
           ) : (
-            <span className='col-start-1'>[deleted author]</span>
+            <span className='row-start-1 col-start-2'>[deleted author]</span>
           )}
           <Link 
             href={{ query: {
@@ -372,20 +393,10 @@ const StoryCommentItem = React.memo(({
               {shortTime}
             </a>
           </Link>
-
-          <label 
-            htmlFor={radioId}
-            className={clsx(
-              'col-start-1 h-full cursor-pointer',
-              'md:hidden md:pointer-events-none',
-            )}
-            title='comment expansion toggle'
-          >
-          </label>
         </header>
         <main className={clsx(
           'col-span-2 mt-0.5',
-          'peer-checked:hidden'
+          {'hidden': isHidden}
         )}>
           {text ? (
             <HtmlContent htmlString={text} />
@@ -416,36 +427,6 @@ const StoryDiscussionUserLink = React.memo(({ userId, ...props }) => (
   >
     {userId}
   </ExternalLink>
-));
-
-const StoryItemCommentVisibilityToggle = React.memo(({ radioButtonId }) => (
-  <>
-    <input type='checkbox' name='story-comment-item' id={radioButtonId} 
-      className='peer absolute opacity-0 pointer-events-none'
-    />
-    <label 
-      htmlFor={radioButtonId} 
-      className={clsx(
-        'col-start-1 hidden pr-1 font-mono text-xs text-KonoAccentLight select-none cursor-pointer',
-        'peer-checked:block',
-        'dark:text-KonoAccentDark',
-      )}
-      title='expand comment thread'
-    >
-      [+]
-    </label>
-    <label 
-      htmlFor={radioButtonId} 
-      className={clsx(
-        'col-start-1 block pr-1 font-mono text-xs text-KonoAccentLight select-none cursor-pointer',
-        'peer-checked:hidden',
-        'dark:text-KonoAccentDark'
-      )}
-      title='retract comment thread'
-    >
-      [-]
-    </label>
-  </>
 ));
 
 export default StoryDiscussionPanel;
