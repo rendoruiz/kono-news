@@ -242,7 +242,24 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
           </span>
           <span className='flex items-center'>
             <FluentClockRegular className='mr-1 w-4 h-4' />
-            {roundTime}
+            <Link 
+              href={{ query: {
+                [QUERY_KEY.STORY_DISCUSSION_ID]: id,
+                [QUERY_KEY.IS_PERMALINK]: true,
+              }}} 
+              passHref
+            >
+              <a 
+                target='_blank'
+                title='open story discussion permalink'
+                className={clsx(
+                  'md:font-medium',
+                  'md:hover:underline'
+                )}
+              >
+                {roundTime}
+              </a>
+            </Link>
           </span>
         </div>
         {urlHostname && (
