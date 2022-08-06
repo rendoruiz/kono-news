@@ -96,7 +96,7 @@ const NavigationFooter = React.memo(() => {
           'text-lg',
           'md:text-base'
         )}>
-          Fork at GitHub
+          Star on GitHub
         </span>
       </ExternalLink>
       
