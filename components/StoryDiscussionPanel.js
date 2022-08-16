@@ -316,7 +316,7 @@ const StoryCommentItem = React.memo(({
   hidden = false,
 }) => {
   const [isHidden, setIsHidden] = React.useState(hidden);
-  const handleToggleIsHidden = () => setIsHidden(!isHidden);
+  const handleToggleIsHidden = () => setIsHidden(prevState => !prevState);
   // dont show deleted items with no children (id and time only)
   if (text === null && children.length === 0) {
     return null; 
