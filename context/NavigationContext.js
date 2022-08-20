@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from 'react';
+import { createContext, useEffect, useReducer, useState } from 'react';
 import { useRouter } from "next/router";
 
 import { NAVIGATION_ACTION, QUERY_KEY } from '../utils/constants';
@@ -32,6 +32,7 @@ const navigationReducer = (state, action) => {
 }
 
 export const NavigationProvider = ({ children, initialStoryListModeId }) => {
+  const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
   const [navigation, dispatchNavigation] = useReducer(navigationReducer, {
 
@@ -40,22 +41,25 @@ export const NavigationProvider = ({ children, initialStoryListModeId }) => {
   // set initial story list mode
   useEffect(() => {
     console.log('nav init useeffect()')
-    const storyListModeId = parseStoryListModeId(initialStoryListModeId);
-    dispatchNavigation({
-      type: NAVIGATION_ACTION.SET_ID,
-      storyListModeId,
-    });
-    // default query string on load, if query string is empty
-    const { 
-      [QUERY_KEY.IS_NAVIGATION_EXPANDED]: _,
-      ...newRouterQuery
-    } = router.query
-    router.replace({
-      query: {
-        ...newRouterQuery,
-        [QUERY_KEY.STORY_LIST_MODE_ID]: storyListModeId,
-      }
-    }, undefined, { shallow: true });
+    if (!isMounted) {
+      setIsMounted(true);
+      const storyListModeId = parseStoryListModeId(initialStoryListModeId);
+      dispatchNavigation({
+        type: NAVIGATION_ACTION.SET_ID,
+        storyListModeId,
+      });
+      // default query string on load, if query string is empty
+      const { 
+        [QUERY_KEY.IS_NAVIGATION_EXPANDED]: _,
+        ...newRouterQuery
+      } = router.query
+      router.replace({
+        query: {
+          ...newRouterQuery,
+          [QUERY_KEY.STORY_LIST_MODE_ID]: storyListModeId,
+        }
+      }, undefined, { shallow: true });
+    }
   }, [initialStoryListModeId, router]);
 
   // navigation panel expansion toggle
