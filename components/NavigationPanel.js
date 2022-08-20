@@ -5,17 +5,23 @@ import { useTheme } from 'next-themes';
 import clsx from "clsx";
 import { Github } from '@icons-pack/react-simple-icons';
 
-import { useNavigation } from '../hooks/useNavigation';
-
 import NavigationToggle from "./shared/NavigationToggle";
 import PillSelectedIndicator from './shared/PillSelectedIndicator';
 import ExternalLink from './shared/ExternalLink';
 import { FluentWeatherMoonRegular, FluentWeatherSunnyRegular } from './shared/FluentIcons';
 
+import { useNavigation } from '../hooks/useNavigation';
+import { useStoryDiscussion } from '../hooks/useStoryDiscussion';
+
 import { APP_THEME, NAVIGATION_ITEMS, QUERY_KEY } from "../utils/constants";
 
 const NavigationPanel = () => {
   const { isExpanded } = useNavigation();
+  const { isPermalink } = useStoryDiscussion();
+
+  if (isPermalink) {
+    return null;
+  }
 
   return (
     <>

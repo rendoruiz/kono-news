@@ -9,14 +9,19 @@ import ExternalLink from "./shared/ExternalLink";
 import PillSelectedIndicator from "./shared/PillSelectedIndicator";
 
 import { useNavigation } from "../hooks/useNavigation";
+import { useStoryDiscussion } from "../hooks/useStoryDiscussion";
 
 import { getNavigationItemByStoryListId, getShortTime } from "../utils";
 import { QUERY_KEY, reactQueryParams, STORIES_PER_PAGE } from "../utils/constants";
 import { getInitialStoryListData, getStoryData } from "../utils/fetchApi";
-import { useStoryDiscussion } from "../hooks/useStoryDiscussion";
 
 const StoryListPanel = React.memo(() => {
   const { storyListModeId } = useNavigation();
+  const { isPermalink } = useStoryDiscussion();
+
+  if (isPermalink) {
+    return null;
+  }
   
   return (
     <section className={clsx(
@@ -151,7 +156,7 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
 });
 
 const StoryList = React.memo(({ storyListData }) => {
-  const currentStoryDiscussionId = useStoryDiscussion();
+  const { id: storyDiscussionId } = useStoryDiscussion();
   return (
     <ol className={clsx(
       'grid content-start py-0.5 divide-y-1 divide-FluentLightDividerStrokeColorDefault',
@@ -161,11 +166,11 @@ const StoryList = React.memo(({ storyListData }) => {
         <StoryItem
           key={storyItemData.id}
           storyItemData={storyItemData}
-          isSelected={storyItemData.id == currentStoryDiscussionId}
+          isSelected={storyItemData.id == storyDiscussionId}
         />
       ))}
     </ol>
-  )
+  );
 });
 
 const StoryItem = React.memo(({ storyItemData, isSelected }) => {

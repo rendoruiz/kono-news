@@ -9,11 +9,14 @@ import HtmlContent from "./shared/HtmlContent";
 import ExternalLink from './shared/ExternalLink';
 import { FluentArrowLeftRegular, FluentClockRegular, FluentCommentRegular, FluentDismissRegular, FluentKeyboardShiftRegular, FluentPersonRegular } from "./shared/FluentIcons";
 
+import { useStoryDiscussion } from '../hooks/useStoryDiscussion';
+
 import { getRoundTime, getShortTime, getStringCount, getUrlHostname } from "../utils";
 import { QUERY_KEY, reactQueryParams } from "../utils/constants";
 import { getStoryDiscussionData } from "../utils/fetchApi";
 
-const StoryDiscussionPanel = ({ isExpanded, isPermalink, storyDiscussionId }) => {
+const StoryDiscussionPanel = () => {
+  const { id: storyDiscussionId, isExpanded, isPermalink} = useStoryDiscussion();
   const { isLoading, isError, data: storyDiscussionData, error } = useQuery(
     ['storycommentsdata', storyDiscussionId], 
     () => getStoryDiscussionData(storyDiscussionId),
