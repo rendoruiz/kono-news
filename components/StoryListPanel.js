@@ -8,13 +8,12 @@ import NavigationToggle from "./shared/NavigationToggle";
 import ExternalLink from "./shared/ExternalLink";
 import PillSelectedIndicator from "./shared/PillSelectedIndicator";
 
-import { useStory } from "../context/StoryContext";
-
 import { useNavigation } from "../hooks/useNavigation";
 
 import { getNavigationItemByStoryListId, getShortTime } from "../utils";
 import { QUERY_KEY, reactQueryParams, STORIES_PER_PAGE } from "../utils/constants";
 import { getInitialStoryListData, getStoryData } from "../utils/fetchApi";
+import { useStoryDiscussion } from "../hooks/useStoryDiscussion";
 
 const StoryListPanel = React.memo(() => {
   const { storyListModeId } = useNavigation();
@@ -152,7 +151,7 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
 });
 
 const StoryList = React.memo(({ storyListData }) => {
-  const currentStoryDiscussionId = useStory();
+  const currentStoryDiscussionId = useStoryDiscussion();
   return (
     <ol className={clsx(
       'grid content-start py-0.5 divide-y-1 divide-FluentLightDividerStrokeColorDefault',

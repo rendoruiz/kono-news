@@ -7,7 +7,7 @@ import StoryListPanel from "./StoryListPanel";
 import StoryDiscussionPanel from "./StoryDiscussionPanel";
 
 import { NavigationProvider } from "../context/NavigationContext";
-import { StoryContext } from "../context/StoryContext";
+import { StoryDiscussionProvider } from "../context/StoryDiscussionContext";
 
 import { QUERY_KEY, STORYDISCUSSION_ACTION } from "../utils/constants";
 
@@ -90,7 +90,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
       discussionId={storyDiscussion.id}
       isDiscussionExpanded={storyDiscussion.isExpanded}
     >
-      <StoryContext.Provider value={storyDiscussion.id}>
+      <StoryDiscussionProvider value={storyDiscussion.id}>
         <div className={clsx(
           'relative grid mx-auto w-full h-screen max-w-screen-2xl',
           'md:grid-cols-[1fr_2fr] md:gap-x-1.5',
@@ -109,7 +109,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
             storyDiscussionId={storyDiscussion.id} 
           />
         </div>
-      </StoryContext.Provider>
+      </StoryDiscussionProvider>
     </NavigationProvider>
   );
 }
