@@ -35,7 +35,8 @@ export const NavigationProvider = ({ children, initialStoryListModeId, discussio
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
   const [navigation, dispatchNavigation] = useReducer(navigationReducer, {
-
+    isExpanded: false,
+    storyListModeId: null,
   });
 
   // set initial story list mode
