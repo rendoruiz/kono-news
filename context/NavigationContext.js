@@ -40,7 +40,6 @@ export const NavigationProvider = ({ children, initialStoryListModeId }) => {
 
   // set initial story list mode
   useEffect(() => {
-    console.log('nav init useeffect()')
     if (!isMounted) {
       setIsMounted(true);
       const storyListModeId = parseStoryListModeId(initialStoryListModeId);
@@ -60,7 +59,7 @@ export const NavigationProvider = ({ children, initialStoryListModeId }) => {
         }
       }, undefined, { shallow: true });
     }
-  }, [initialStoryListModeId, router]);
+  }, [initialStoryListModeId,, isMounted, router]);
 
   // navigation panel expansion toggle
   useEffect(() => {
