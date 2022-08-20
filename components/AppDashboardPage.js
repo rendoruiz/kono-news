@@ -99,7 +99,11 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
               <StoryListPanel />
             </>
           )}
-          <StoryDiscussionPanel storyDiscussionId={storyDiscussion.id} />
+          <StoryDiscussionPanel 
+            isExpanded={storyDiscussion.isExpanded}
+            isPermalink={storyDiscussion.isPermalink}
+            storyDiscussionId={storyDiscussion.id} 
+          />
         </div>
       </StoryContext.Provider>
     </NavigationProvider>
