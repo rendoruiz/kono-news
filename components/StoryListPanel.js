@@ -10,23 +10,29 @@ import PillSelectedIndicator from "./shared/PillSelectedIndicator";
 
 import { useStory } from "../context/StoryContext";
 
+import { useNavigation } from "../hooks/useNavigation";
+
 import { getNavigationItemByStoryListId, getShortTime } from "../utils";
 import { QUERY_KEY, reactQueryParams, STORIES_PER_PAGE } from "../utils/constants";
 import { getInitialStoryListData, getStoryData } from "../utils/fetchApi";
 
-const StoryListPanel = React.memo(({ storyListModeId }) => (
-  <section className={clsx(
-    'relative overflow-y-auto',
-    'md:grid md:grid-rows-[auto_1fr] md:border-1 md:border-FluentLightCardStrokeColorDefault md:bg-FluentLightCardBackgroundFillColorDefault md:shadow md:overflow-y-auto',
-    'dark:md:border-FluentDarkCardStrokeColorDefault dark:md:bg-FluentDarkCardBackgroundFillColorDefault',
-    '2xl:rounded-lg',
-  )}>
-    <StoryListHeader storyListModeId={storyListModeId} />
-    {storyListModeId && (
-      <StoryListContent storyListModeId={storyListModeId} />
-    )}
-  </section>
-));
+const StoryListPanel = React.memo(() => {
+  const { storyListModeId } = useNavigation();
+  
+  return (
+    <section className={clsx(
+      'relative overflow-y-auto',
+      'md:grid md:grid-rows-[auto_1fr] md:border-1 md:border-FluentLightCardStrokeColorDefault md:bg-FluentLightCardBackgroundFillColorDefault md:shadow md:overflow-y-auto',
+      'dark:md:border-FluentDarkCardStrokeColorDefault dark:md:bg-FluentDarkCardBackgroundFillColorDefault',
+      '2xl:rounded-lg',
+    )}>
+      <StoryListHeader storyListModeId={storyListModeId} />
+      {storyListModeId && (
+        <StoryListContent storyListModeId={storyListModeId} />
+      )}
+    </section>
+  );
+});
 
 const StoryListHeader = React.memo(({ storyListModeId }) => {
   const listMode = getNavigationItemByStoryListId(storyListModeId);
