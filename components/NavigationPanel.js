@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { memo, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from "next/router";
 import { useTheme } from 'next-themes';
@@ -58,7 +58,7 @@ const NavigationPanelOverlay = () => {
   );
 }
 
-const NavigationHeader = React.memo(() => (
+const NavigationHeader = memo(() => (
   <header className={clsx(
     'px-5 py-2',
     'md:px-3 md:py-1'
@@ -67,7 +67,7 @@ const NavigationHeader = React.memo(() => (
   </header>
 ));
 
-const NavigationFooter = React.memo(() => {
+const NavigationFooter = memo(() => {
   const [mounted, setMounted] = useState(false)
   const { resolvedTheme, setTheme } = useTheme();
 
@@ -80,7 +80,7 @@ const NavigationFooter = React.memo(() => {
     }
   }
 
-  React.useEffect(() => setMounted(true), []);
+  useEffect(() => setMounted(true), []);
 
   if (!mounted) return null;
 
@@ -141,7 +141,7 @@ const NavigationFooter = React.memo(() => {
   );
 });
 
-const NavigationList = React.memo(() =>  {
+const NavigationList = memo(() =>  {
   const { storyListModeId } = useNavigation();
 
   return (
@@ -160,7 +160,7 @@ const NavigationList = React.memo(() =>  {
   );
 });
 
-const NavigationItem = React.memo(({ 
+const NavigationItem = memo(({ 
   navigationItemData, 
   isSelected,
 }) => {
@@ -214,7 +214,7 @@ const NavigationItem = React.memo(({
   );
 });
 
-const NavigationListDivider = React.memo(() => (
+const NavigationListDivider = memo(() => (
   <div className={clsx(
     'w-full h-[1px] bg-FluentLightDividerStrokeColorDefault',
     'dark:bg-FluentDarkDividerStrokeColorDefault',

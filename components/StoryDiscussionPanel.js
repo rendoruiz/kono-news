@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo, useState } from 'react';
 import { useQuery } from "react-query";
 import { useRouter } from "next/router";
 import Link from 'next/link';
@@ -168,7 +168,7 @@ const StoryDiscussionHeader = ({ title, isExpanded, isPermalink, originalPostId 
   );
 }
 
-const StoryDiscussionContent = React.memo(({ children, ...originalPostData }) => {
+const StoryDiscussionContent = memo(({ children, ...originalPostData }) => {
   return (
     <main className='overflow-y-auto'>
       <StoryDiscussionOriginalPost {...originalPostData} />
@@ -189,7 +189,7 @@ const StoryDiscussionContent = React.memo(({ children, ...originalPostData }) =>
   );
 });
 
-const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_i: time, url, text, points, post_count, permalink }) => {
+const StoryDiscussionOriginalPost = memo(({ id, title, author, created_at_i: time, url, text, points, post_count, permalink }) => {
   const urlHostname = getUrlHostname(url);
   const roundTime = getRoundTime(time);
 
@@ -287,7 +287,7 @@ const StoryDiscussionOriginalPost = React.memo(({ id, title, author, created_at_
   );
 });
 
-const StoryDiscussionList = React.memo(({ storyDiscussionListData }) => {
+const StoryDiscussionList = memo(({ storyDiscussionListData }) => {
   if (!storyDiscussionListData) {
     return null;
   } else {
@@ -310,7 +310,7 @@ const StoryDiscussionList = React.memo(({ storyDiscussionListData }) => {
   }
 });
 
-const StoryCommentItem = React.memo(({ 
+const StoryCommentItem = memo(({ 
   id, 
   author, 
   created_at_i: time,
@@ -318,7 +318,7 @@ const StoryCommentItem = React.memo(({
   children, 
   hidden = false,
 }) => {
-  const [isHidden, setIsHidden] = React.useState(hidden);
+  const [isHidden, setIsHidden] = useState(hidden);
   const handleToggleIsHidden = () => setIsHidden(prevState => !prevState);
   // dont show deleted items with no children (id and time only)
   if (text === null && children.length === 0) {
@@ -422,7 +422,7 @@ const StoryCommentItem = React.memo(({
   }
 });
 
-const StoryDiscussionUserLink = React.memo(({ userId, ...props }) => {
+const StoryDiscussionUserLink = memo(({ userId, ...props }) => {
   if (!userId) {
     return (
       <span className={clsx(

@@ -1,11 +1,11 @@
-import React from "react";
+import { memo } from "react";
 import clsx from "clsx";
 
 import { FluentLineHorizontal3Regular } from "./FluentIcons";
 
 import { useNavigation } from "../../hooks/useNavigation";
 
-const NavigationToggle = React.memo(() => {
+const NavigationToggle = memo(() => {
   const { toggleNavigation } = useNavigation();
 
   return (

@@ -1,4 +1,4 @@
-import React from "react";
+import { memo, useState, useEffect } from "react";
 import Link from 'next/link';
 import { useRouter } from "next/router";
 import { useQuery } from 'react-query';
@@ -15,7 +15,7 @@ import { getNavigationItemByStoryListId, getShortTime } from "../utils";
 import { QUERY_KEY, reactQueryParams, STORIES_PER_PAGE } from "../utils/constants";
 import { getInitialStoryListData, getStoryData } from "../utils/fetchApi";
 
-const StoryListPanel = React.memo(() => {
+const StoryListPanel = memo(() => {
   const { storyListModeId } = useNavigation();
   const { isPermalink } = useStoryDiscussion();
 
@@ -38,7 +38,7 @@ const StoryListPanel = React.memo(() => {
   );
 });
 
-const StoryListHeader = React.memo(({ storyListModeId }) => {
+const StoryListHeader = memo(({ storyListModeId }) => {
   const listMode = getNavigationItemByStoryListId(storyListModeId);
   return (
     <header className={clsx(
@@ -57,17 +57,17 @@ const StoryListHeader = React.memo(({ storyListModeId }) => {
   );
 });
 
-const StoryListContent = React.memo(({ storyListModeId }) => {
+const StoryListContent = memo(({ storyListModeId }) => {
   const { isLoading, isError, data: fetchedStoryIds, error } = useQuery(
     ['storylist', storyListModeId], 
     () => getInitialStoryListData(storyListModeId, true),
     reactQueryParams
   );
-  const [currentPage, setCurrentPage] = React.useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const handlePageChange = () => setCurrentPage(prevState => prevState + 1);
 
   // reset current page count on story list mode change
-  React.useEffect(() => {
+  useEffect(() => {
     setCurrentPage(1);
   }, [storyListModeId]);
 
@@ -155,7 +155,7 @@ const StoryListContent = React.memo(({ storyListModeId }) => {
   }
 });
 
-const StoryList = React.memo(({ storyListData }) => {
+const StoryList = memo(({ storyListData }) => {
   const { id: storyDiscussionId } = useStoryDiscussion();
   return (
     <ol className={clsx(
@@ -173,7 +173,7 @@ const StoryList = React.memo(({ storyListData }) => {
   );
 });
 
-const StoryItem = React.memo(({ storyItemData, isSelected }) => {
+const StoryItem = memo(({ storyItemData, isSelected }) => {
   const router = useRouter();
   const { isLoading, isError, data: storyData, error } = useQuery(
     ['storydata', storyItemData.id], 
@@ -286,7 +286,7 @@ const StoryItem = React.memo(({ storyItemData, isSelected }) => {
   }
 });
 
-const StoryItemSkeletonLoader = React.memo(() => (
+const StoryItemSkeletonLoader = memo(() => (
   <li className={clsx(
     'group hidden px-3 py-2',
     '[&:nth-of-type(-n+10)]:grid [&:nth-of-type(-n+10)]:gap-y-1'

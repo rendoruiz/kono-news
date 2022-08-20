@@ -1,9 +1,9 @@
-import React from 'react';
+import { memo } from 'react';
 import clsx from "clsx";
 
 import { sanitizeHtmlLinks } from "../../utils";
 
-const HtmlContent = React.memo(({ htmlString }) => {
+const HtmlContent = memo(({ htmlString }) => {
   if (!htmlString) {
     return null;
   } else {
