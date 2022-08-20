@@ -5,39 +5,40 @@ import { useTheme } from 'next-themes';
 import clsx from "clsx";
 import { Github } from '@icons-pack/react-simple-icons';
 
+import { useNavigation } from '../hooks/useNavigation';
+
 import NavigationToggle from "./shared/NavigationToggle";
 import PillSelectedIndicator from './shared/PillSelectedIndicator';
 import ExternalLink from './shared/ExternalLink';
 import { FluentWeatherMoonRegular, FluentWeatherSunnyRegular } from './shared/FluentIcons';
 
-import { useNavigation } from '../context/NavigationContext';
-
 import { APP_THEME, NAVIGATION_ITEMS, QUERY_KEY } from "../utils/constants";
 
-const NavigationPanel = ({
-  isExpanded, 
-  currentStoryModeId,
-}) => (
-  <>
-    <NavigationPanelOverlay isExpanded={isExpanded} />
-    <section className={clsx(
-      'fixed z-modal inset-0 right-auto grid grid-rows-[auto_1fr_auto] pt-2 pb-1 w-4/5 min-w-[140px] max-w-[300px] bg-FluentLightSolidBackgroundFillColorQuarternary -translate-x-full transition-transform ease-in-out overflow-y-auto pointer-events-none',
-      'dark:bg-FluentDarkSolidBackgroundFillColorQuarternary',
-      'md:border-1 md:rounded-r-lg md:border-FluentLightSurfaceStrokeColorDefault md:border-l-transparent md:px-1 md:w-full md:max-w-[280px] md:shadow md:transition-transformOpacity',
-      'dark:md:border-FluentDarkSurfaceStrokeColorDefault',
-      '2xl:absolute 2xl:inset-2 2xl:rounded-lg 2xl:opacity-0 2xl:-translate-x-1/4',
-      {'translate-x-0 pointer-events-auto': isExpanded},
-      {'2xl:opacity-100 2xl:translate-x-0': isExpanded},
-    )}>
-      <NavigationHeader />
-      <NavigationList currentStoryModeId={currentStoryModeId} />
-      <NavigationFooter />
-    </section>
-  </>
-);
+const NavigationPanel = () => {
+  const { isExpanded } = useNavigation();
 
-const NavigationPanelOverlay = ({ isExpanded }) => {
-  const handleClick = useNavigation();
+  return (
+    <>
+      <NavigationPanelOverlay />
+      <section className={clsx(
+        'fixed z-modal inset-0 right-auto grid grid-rows-[auto_1fr_auto] pt-2 pb-1 w-4/5 min-w-[140px] max-w-[300px] bg-FluentLightSolidBackgroundFillColorQuarternary -translate-x-full transition-transform ease-in-out overflow-y-auto pointer-events-none',
+        'dark:bg-FluentDarkSolidBackgroundFillColorQuarternary',
+        'md:border-1 md:rounded-r-lg md:border-FluentLightSurfaceStrokeColorDefault md:border-l-transparent md:px-1 md:w-full md:max-w-[280px] md:shadow md:transition-transformOpacity',
+        'dark:md:border-FluentDarkSurfaceStrokeColorDefault',
+        '2xl:absolute 2xl:inset-2 2xl:rounded-lg 2xl:opacity-0 2xl:-translate-x-1/4',
+        {'translate-x-0 pointer-events-auto': isExpanded},
+        {'2xl:opacity-100 2xl:translate-x-0': isExpanded},
+      )}>
+        <NavigationHeader />
+        <NavigationList />
+        <NavigationFooter />
+      </section>
+    </>
+  );
+}
+
+const NavigationPanelOverlay = () => {
+  const { isExpanded, toggleNavigation } = useNavigation();
 
   return (
     <div 
@@ -45,7 +46,7 @@ const NavigationPanelOverlay = ({ isExpanded }) => {
         'fixed z-modal inset-0 bg-FluentSmokeFillColorDefault opacity-0 transition-opacity pointer-events-none',
         {'opacity-100 pointer-events-auto': isExpanded},
       )}
-      onClick={handleClick}
+      onClick={toggleNavigation}
       title='navigation panel toggleable overlay'
     />
   );
@@ -134,27 +135,31 @@ const NavigationFooter = React.memo(() => {
   );
 });
 
-const NavigationList = React.memo(({ currentStoryModeId }) => (
-  <ul className={clsx(
-    'grid content-start overflow-y-auto',
-    'md:gap-y-1 md:py-0.5'
-  )}>
-    {NAVIGATION_ITEMS.map((navigationItemData) => (
-      <NavigationItem
-        key={navigationItemData.label}
-        navigationItemData={navigationItemData}
-        isSelected={navigationItemData.id === currentStoryModeId}
-      />
-    ))}
-  </ul>
-));
+const NavigationList = React.memo(() =>  {
+  const { storyListModeId } = useNavigation();
+
+  return (
+    <ul className={clsx(
+      'grid content-start overflow-y-auto',
+      'md:gap-y-1 md:py-0.5'
+    )}>
+      {NAVIGATION_ITEMS.map((navigationItemData) => (
+        <NavigationItem
+          key={navigationItemData.label}
+          navigationItemData={navigationItemData}
+          isSelected={navigationItemData.id === storyListModeId}
+        />
+      ))}
+    </ul>
+  );
+});
 
 const NavigationItem = React.memo(({ 
   navigationItemData, 
   isSelected,
 }) => {
   const router = useRouter();
-  const handleClickCurrentSelected = useNavigation();
+  const { toggleNavigation } = useNavigation();
   const { 
     [QUERY_KEY.IS_NAVIGATION_EXPANDED]: _,
     ...newRouterQuery 
@@ -182,7 +187,7 @@ const NavigationItem = React.memo(({
             {'bg-FluentLightSubtleFillColorSecondary hover:bg-FluentLightSubtleFillColorTertiary': isSelected},
             {'dark:bg-FluentDarkSubtleFillColorSecondary dark:hover:bg-FluentDarkSubtleFillColorTertiary': isSelected},
           )}
-          onClick={isSelected && handleClickCurrentSelected}
+          onClick={isSelected && toggleNavigation}
         >
           <PillSelectedIndicator isSelected={isSelected} />
           <div className={clsx(
