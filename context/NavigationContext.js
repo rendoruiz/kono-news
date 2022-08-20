@@ -31,7 +31,7 @@ const navigationReducer = (state, action) => {
   }
 }
 
-export const NavigationProvider = ({ children, initialStoryListModeId, discussionId, isDiscussionExpanded }) => {
+export const NavigationProvider = ({ children, initialStoryListModeId }) => {
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
   const [navigation, dispatchNavigation] = useReducer(navigationReducer, {
@@ -102,15 +102,9 @@ export const NavigationProvider = ({ children, initialStoryListModeId, discussio
     } else {
       const {
         [QUERY_KEY.STORY_LIST_MODE_ID]: newStoryListModeId,
-        [QUERY_KEY.STORY_DISCUSSION_ID]: newStoryDiscussionId,
-        [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: newIsDiscussionExpanded,
       } = router.query;
       // prevent clogging history from navigation toggle button spam clicking
-      if (
-        (newStoryDiscussionId === undefined || (navigation.storyListModeId == newStoryListModeId)) 
-        && (newStoryDiscussionId === undefined || (discussionId == newStoryDiscussionId)) 
-        && (newIsDiscussionExpanded === undefined || (isDiscussionExpanded && newIsDiscussionExpanded))
-      ) {
+      if (newStoryListModeId === undefined || (navigation.storyListModeId == newStoryListModeId)) {
         router.back(2);
       } else {
         const {
@@ -118,7 +112,7 @@ export const NavigationProvider = ({ children, initialStoryListModeId, discussio
           ...newRouterQuery
         } = router.query;
         router.replace(
-          { query: newRouterQuery}, 
+          { query: newRouterQuery }, 
           undefined, 
           { shallow: true }
         );
