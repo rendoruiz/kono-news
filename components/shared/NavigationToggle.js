@@ -1,12 +1,12 @@
 import React from "react";
 import clsx from "clsx";
 
+import { useNavigation } from "../../hooks/useNavigation";
+
 import { FluentLineHorizontal3Regular } from "./FluentIcons";
 
-import { useNavigation } from "../../context/NavigationContext";
-
 const NavigationToggle = React.memo(() => {
-  const handleClick = useNavigation();
+  const { toggleNavigation } = useNavigation();
 
   return (
     <button
@@ -20,7 +20,7 @@ const NavigationToggle = React.memo(() => {
         'md:hover:border-FluentLightControlStrokeColorDefault md:active:border-FluentLightControlStrokeColorSecondary md:hover:bg-FluentLightControlFillColorSecondary md:active:bg-FluentLightControlFillColorTertiary md:hover:shadow',
         'dark:md:hover:border-FluentDarkControlStrokeColorDefault dark:md:active:border-FluentDarkControlStrokeColorSecondary dark:md:hover:bg-FluentDarkControlFillColorSecondary dark:md:active:bg-FluentDarkControlFillColorTertiary',
       )}
-      onClick={handleClick}
+      onClick={toggleNavigation}
     >
       <FluentLineHorizontal3Regular 
         className={clsx(
