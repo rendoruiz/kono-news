@@ -7,7 +7,7 @@ import StoryDiscussionPanel from "./StoryDiscussionPanel";
 import { NavigationProvider } from "../context/NavigationContext";
 import { StoryDiscussionProvider } from "../context/StoryDiscussionContext";
 
-const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, initialIsPermalink, }) => {
+const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, initialIsPermalink }) => {
   return ( 
     <NavigationProvider initialStoryListModeId={initialStoryListModeId}>
       <StoryDiscussionProvider
