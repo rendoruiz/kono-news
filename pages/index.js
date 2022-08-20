@@ -1,9 +1,20 @@
+import Head from "next/head";
+
 import AppDashboardPage from "../components/AppDashboardPage";
 
 import { QUERY_KEY } from "../utils/constants";
 
 const HomePage = (props) => (
-  <AppDashboardPage {...props} />
+  <>
+    <Head>
+      <title>Kono News - A Fluent Hacker News Viewer</title>
+      <meta name="description" content="Kono News is a heavily-opinionated Hacker News viewer with a splash of Microsoft's Fluent Design." />
+      <meta property="og:title" content="Kono News - A Fluent Hacker News Viewer" />
+      <meta property="og:description" content="Kono News is a heavily-opinionated Hacker News viewer with a splash of Microsoft's Fluent Design." />
+      <meta property="og:url" content="https://news.kono.cx/" />
+    </Head>
+    <AppDashboardPage {...props} />
+  </>
 );
 
 export const getServerSideProps = async ({ query }) => {

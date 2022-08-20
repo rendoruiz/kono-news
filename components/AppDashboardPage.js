@@ -88,14 +88,6 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
   return ( 
     <NavigationProvider initialStoryListModeId={initialStoryListModeId}>
       <StoryContext.Provider value={storyDiscussion.id}>
-        <Head>
-          <title>Kono News - A Fluent Hacker News Viewer</title>
-          <meta name="description" content="Kono News is a heavily-opinionated Hacker News viewer with a splash of Microsoft's Fluent Design." />
-          <meta property="og:title" content="Kono News - A Fluent Hacker News Viewer" />
-          <meta property="og:description" content="Kono News is a heavily-opinionated Hacker News viewer with a splash of Microsoft's Fluent Design." />
-          <meta property="og:url" content="https://news.kono.cx/" />
-        </Head>
-
         <div className={clsx(
           'relative grid mx-auto w-full h-screen max-w-screen-2xl',
           'md:grid-cols-[1fr_2fr] md:gap-x-1.5',
@@ -108,11 +100,7 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
               <StoryListPanel />
             </>
           )}
-          <StoryDiscussionPanel 
-            isExpanded={storyDiscussion.isExpanded}
-            isPermalink={storyDiscussion.isPermalink}
-            storyDiscussionId={storyDiscussion.id} 
-          />
+          <StoryDiscussionPanel storyDiscussionId={storyDiscussion.id} />
         </div>
       </StoryContext.Provider>
     </NavigationProvider>
