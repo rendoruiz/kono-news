@@ -85,7 +85,11 @@ const AppDashboardPage = ({ initialStoryListModeId, initialStoryDiscussionId, in
   //#endregion
 
   return ( 
-    <NavigationProvider initialStoryListModeId={initialStoryListModeId}>
+    <NavigationProvider 
+      initialStoryListModeId={initialStoryListModeId}
+      discussionId={storyDiscussion.id}
+      isDiscussionExpanded={storyDiscussion.isExpanded}
+    >
       <StoryContext.Provider value={storyDiscussion.id}>
         <div className={clsx(
           'relative grid mx-auto w-full h-screen max-w-screen-2xl',
