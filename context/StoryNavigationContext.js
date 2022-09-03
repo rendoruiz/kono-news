@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router';
 import { createContext, useReducer } from 'react';
+import { NAVIGATION_ITEMS } from '../components/NavigationBar';
+
 import { QUERY_KEY } from '../utils/constants';
 
 export const StoryNavigationContext = createContext(null);
@@ -9,9 +11,23 @@ const ACTION = {
   TOGGLE_PANEL: 'TOGGLE_PANEL',
 }
 
-const defaultState = {
-  listType: null,
-  isExpanded: false,
+const getListType = (listTypeId) => {
+  let listType = NAVIGATION_ITEMS.filter((item) => item.id === listTypeId).pop();
+  if (!listType) {
+    listType = NAVIGATION_ITEMS[0];
+  }
+  return {
+    id: listType.id,
+    name: listType.name,
+  }
+}
+
+const initState = (initialListTypeId) => {
+  const listType = getListType(initialListTypeId);
+  return {
+    listType,
+    isExpanded: false,
+  }
 }
 
 const storyNavigationReducer = (state, action) => {
@@ -32,8 +48,8 @@ const storyNavigationReducer = (state, action) => {
   }
 }
 
-export const StoryNavigationProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(storyNavigationReducer, defaultState);
+export const StoryNavigationProvider = ({ children, initialListTypeId }) => {
+  const [state, dispatch] = useReducer(storyNavigationReducer, initialListTypeId, initState);
   const router = useRouter();
 
   const toggleNavigation = () => {
