@@ -1,16 +1,10 @@
 import Head from "next/head";
-import clsx from "clsx";
-
-import NavigationPanel from "../components/NavigationPanel";
-import StoryDiscussionPanel from "../components/StoryDiscussionPanel";
-import StoryListPanel from "../components/StoryListPanel";
-
-import { NavigationProvider } from "../context/NavigationContext";
-import { StoryDiscussionProvider } from "../context/StoryDiscussionContext";
 
 import { QUERY_KEY } from "../utils/constants";
+import { StoryNavigationPanel } from "../components/StoryNavigationPanel";
+import { StoryNavigationProvider } from "../context/StoryNavigationContext";
 
-const HomePage = ({ initialStoryListModeId, initialStoryDiscussionId, initialIsPermalink }) => (
+const HomePage = ({ initialListModeId, initialStoryDiscussionId, initialIsPermalink }) => (
   <>
     <Head>
       <title>Kono News - A Fluent Hacker News Viewer</title>
@@ -20,29 +14,15 @@ const HomePage = ({ initialStoryListModeId, initialStoryDiscussionId, initialIsP
       <meta property="og:url" content="https://news.kono.cx/" />
     </Head>
 
-    <NavigationProvider initialStoryListModeId={initialStoryListModeId}>
-      <StoryDiscussionProvider
-        initialIsPermalink={initialIsPermalink}
-        initialStoryDiscussionId={initialStoryDiscussionId}
-      >
-        <div className={clsx(
-          'relative grid mx-auto w-full h-screen max-w-screen-2xl',
-          'md:grid-cols-[1fr_2fr] md:gap-x-1.5',
-          'xl:grid-cols-[1fr_2.5fr]',
-          '2xl:grid-cols-[1fr_3fr] 2xl:gap-x-2 2xl:overflow-hidden 2xl:p-2'
-        )}>
-          <NavigationPanel />
-          <StoryListPanel />
-          <StoryDiscussionPanel />
-        </div>
-      </StoryDiscussionProvider>
-    </NavigationProvider>
+    <StoryNavigationProvider initialListModeId={initialListModeId}>
+      <StoryNavigationPanel />
+    </StoryNavigationProvider>
   </>
 );
 
 export const getServerSideProps = async ({ query }) => {
   const { 
-    [QUERY_KEY.STORY_LIST_MODE_ID]: listMode, 
+    [QUERY_KEY.STORY_LIST_MODE_ID]: listModeId, 
     [QUERY_KEY.STORY_DISCUSSION_ID]: storyDiscussionId,
     [QUERY_KEY.IS_PERMALINK]: isPermalink,
     [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: isExpanded,
@@ -51,7 +31,7 @@ export const getServerSideProps = async ({ query }) => {
   return {
     props: {
       queryString: query,
-      initialStoryListModeId: listMode ?? null, 
+      initialListModeId: listModeId ?? null, 
       initialStoryDiscussionId: (!isExpanded && !isPermalink) ? null : storyDiscussionId ?? null,
       initialIsPermalink: isPermalink ?? null,
     }
