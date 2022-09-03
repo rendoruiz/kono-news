@@ -1,10 +1,11 @@
 import Head from "next/head";
 
 import { QUERY_KEY } from "../utils/constants";
-import { StoryNavigationPanel } from "../components/StoryNavigationPanel";
 import { StoryNavigationProvider } from "../context/StoryNavigationContext";
+import { StoryList } from "../components/StoryList";
+import { NavigationBar } from "../components/NavigationBar";
 
-const HomePage = ({ initialListModeId, initialStoryDiscussionId, initialIsPermalink }) => (
+const HomePage = ({ initialListTypeId, initialStoryDiscussionId, initialIsPermalink }) => (
   <>
     <Head>
       <title>Kono News - A Fluent Hacker News Viewer</title>
@@ -14,15 +15,18 @@ const HomePage = ({ initialListModeId, initialStoryDiscussionId, initialIsPermal
       <meta property="og:url" content="https://news.kono.cx/" />
     </Head>
 
-    <StoryNavigationProvider initialListModeId={initialListModeId}>
-      <StoryNavigationPanel />
+    <StoryNavigationProvider initialListTypeId={initialListTypeId}>
+      <section>
+        <NavigationBar />
+        <StoryList />
+      </section>
     </StoryNavigationProvider>
   </>
 );
 
 export const getServerSideProps = async ({ query }) => {
   const { 
-    [QUERY_KEY.STORY_LIST_MODE_ID]: listModeId, 
+    [QUERY_KEY.STORY_LIST_TYPE_ID]: listTypeId, 
     [QUERY_KEY.STORY_DISCUSSION_ID]: storyDiscussionId,
     [QUERY_KEY.IS_PERMALINK]: isPermalink,
     [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: isExpanded,
@@ -31,7 +35,7 @@ export const getServerSideProps = async ({ query }) => {
   return {
     props: {
       queryString: query,
-      initialListModeId: listModeId ?? null, 
+      initialListTypeId: listTypeId ?? null, 
       initialStoryDiscussionId: (!isExpanded && !isPermalink) ? null : storyDiscussionId ?? null,
       initialIsPermalink: isPermalink ?? null,
     }
