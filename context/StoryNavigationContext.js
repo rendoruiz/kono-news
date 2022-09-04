@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { createContext, useReducer } from 'react';
+import { createContext, useEffect, useReducer } from 'react';
 import { NAVIGATION_ITEMS } from '../components/NavigationBar';
 
 import { QUERY_KEY } from '../utils/constants';
@@ -52,6 +52,17 @@ export const StoryNavigationProvider = ({ children, initialListTypeId }) => {
   const [state, dispatch] = useReducer(storyNavigationReducer, initialListTypeId, initState);
   const router = useRouter();
 
+  useEffect(() => {
+    const { [QUERY_KEY.STORY_LIST_TYPE_ID]: listTypeId } = router.query;
+    const listType = getListType(listTypeId);
+    if (listType.id !== state.listType.id) {
+      dispatch({
+        type: ACTION.SET_LIST_TYPE,
+        listType,
+      });
+    }
+  }, [router.query]);
+
   const toggleNavigation = () => {
     if (state.isExpanded) {
       router.back(2);
@@ -66,26 +77,15 @@ export const StoryNavigationProvider = ({ children, initialListTypeId }) => {
     dispatch({ type: ACTION.TOGGLE_PANEL });
   }
 
-  const setListType = (_type) => {
-    if (_type.id === state.listType.id) {
+  const setListType = (listType) => {
+    if (listType.id === state.listType.id) {
       dispatch({ type: ACTION.TOGGLE_PANEL });
-      router.back(2);
+      router.back(1);
     } else {
       dispatch({
         type: ACTION.SET_LIST_TYPE,
-        listType: _type,
+        listType,
       });
-
-      const { 
-        [QUERY_KEY.IS_NAVIGATION_EXPANDED]: _,
-        ...query
-      } = router.query;
-      router.replace({ 
-        query: {
-          [QUERY_KEY.STORY_LIST_TYPE_ID]: true,
-          ...query
-        }
-      }, undefined, { shallow: true });
     }
   }
 

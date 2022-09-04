@@ -1,8 +1,12 @@
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Portal } from "react-portal";
 
 import { FluentLineHorizontal3Regular, FluentArrowTrendingRegular, FluentChatHelpRegular, FluentHomeRegular, FluentNotepadPersonRegular, FluentRocketRegular, FluentTrophyRegular } from "./shared/FluentIcons";
 
 import { useStoryNavigation } from "../hooks/useStoryNavigation";
+
+import { QUERY_KEY } from '../utils/constants';
 
 const STORY_TYPE = {
   TOP: 'top',
@@ -56,7 +60,7 @@ export const NavigationBar = () => {
   const { listType } = useStoryNavigation();
   return (
     <>
-      <div>
+      <div className="flex">
         <NavigationToggle />
         <p>{listType.name}</p>
       </div>
@@ -80,11 +84,44 @@ const NavigationPanel = () => {
           <div className="fixed top-0 left-0 w-full max-w-xs h-screen bg-black">
             <NavigationToggle />
 
-
+            <ul>
+              {NAVIGATION_ITEMS.map((navItem) =>      <NavigationItem  
+                key={navItem.id}
+                navItem={navItem}
+                isSelected={navItem.id === listType.id}
+              />
+              )}
+            </ul>
           </div>
         )}
       </> 
     </Portal>
+  )
+}
+
+const NavigationItem = ({ navItem, isSelected }) => {
+  const router = useRouter();
+  const { setListType } = useStoryNavigation();
+  const {
+    [QUERY_KEY.IS_NAVIGATION_EXPANDED]: _,
+    ...newQuery
+  } = router.query;
+  const hrefObject = { query: {
+    ...newQuery,
+    [QUERY_KEY.STORY_LIST_TYPE_ID]: navItem.id
+  }}
+  return (
+    <li>
+      <Link href={hrefObject} shallow replace>
+        <a className='flex' onClick={() => setListType(navItem)}>
+          <div className='w-5 h-5'>
+            {navItem.icon}
+          </div>
+          {navItem.name}
+          {isSelected && ' [S]'}
+        </a>
+      </Link>
+    </li>
   )
 }
 
