@@ -2,72 +2,72 @@ import axios from "axios";
 import { getStringCount } from ".";
 import { STORIES_PER_PAGE, STORY_MODE, STORY_MODE_API_QUERY } from "./constants";
 
-const HACKERNEWS_URL = 'https://news.ycombinator.com/';
-const HACKERNEWS_ITEM_URL = 'https://news.ycombinator.com/item?id=';
+// const HACKERNEWS_URL = 'https://news.ycombinator.com/';
+// const HACKERNEWS_ITEM_URL = 'https://news.ycombinator.com/item?id=';
 
-const HN_API_ENDPOINT = 'https://hacker-news.firebaseio.com/v0/';
-const getStoryListIdsEndpoint = (storyListMode) => `${HN_API_ENDPOINT}${storyListMode}.json`;
+// const HN_API_ENDPOINT = 'https://hacker-news.firebaseio.com/v0/';
+// const getStoryListIdsEndpoint = (storyListMode) => `${HN_API_ENDPOINT}${storyListMode}.json`;
 const getStoryDataEndpoint = (storyId) => `${HN_API_ENDPOINT}item/${storyId}.json`;
 
 const ALGOLIA_API_ENDPOINT = 'https://hn.algolia.com/api/v1/';
 const getStoryDiscussionDataEndpoint = (commentDataId) =>`${ALGOLIA_API_ENDPOINT}items/${commentDataId}`;
 
-const getServerErrorMessage = (requestObject) => `Failed to fetch resource: ${requestObject}`;
-const getServerErrorObject = (apiEndpoint, originalUrl) => ({
-  cause: {
-    apiEndpoint,
-    originalUrl,
-  }
-});
+// const getServerErrorMessage = (requestObject) => `Failed to fetch resource: ${requestObject}`;
+// const getServerErrorObject = (apiEndpoint, originalUrl) => ({
+//   cause: {
+//     apiEndpoint,
+//     originalUrl,
+//   }
+// });
 
-export const parseStoryListModeId = (modeString) => {
-  if (!modeString) {
-    return STORY_MODE.TOP;
-  }
+// export const parseStoryListModeId = (modeString) => {
+//   if (!modeString) {
+//     return STORY_MODE.TOP;
+//   }
 
-  const parsedStoryMode = STORY_MODE[modeString.toUpperCase()];
-  return parsedStoryMode ? parsedStoryMode : STORY_MODE.TOP;
-}
+//   const parsedStoryMode = STORY_MODE[modeString.toUpperCase()];
+//   return parsedStoryMode ? parsedStoryMode : STORY_MODE.TOP;
+// }
 
 // returns: [...int]
-export const getStoryListIds = async (listMode, isListModeParsed = false) => {
-  const storyListId = isListModeParsed ? listMode : parseStoryListModeId(listMode);
-  const storyListModeApi = STORY_MODE_API_QUERY.filter((mode) => mode.id === storyListId).pop();
-  const endpoint = getStoryListIdsEndpoint(storyListModeApi.apiQuery);
-  try {
-    const response = await axios.get(endpoint);
-    return response.data;
-  } catch {
-    throw new Error(
-      getServerErrorMessage('story list ids'), 
-      getServerErrorObject(
-        endpoint, 
-        HACKERNEWS_URL,
-      ),
-    );
-  }
-}
+// export const getStoryListIds = async (listMode, isListModeParsed = false) => {
+//   const storyListId = isListModeParsed ? listMode : parseStoryListModeId(listMode);
+//   const storyListModeApi = STORY_MODE_API_QUERY.filter((mode) => mode.id === storyListId).pop();
+//   const endpoint = getStoryListIdsEndpoint(storyListModeApi.apiQuery);
+//   try {
+//     const response = await axios.get(endpoint);
+//     return response.data;
+//   } catch {
+//     throw new Error(
+//       getServerErrorMessage('story list ids'), 
+//       getServerErrorObject(
+//         endpoint, 
+//         HACKERNEWS_URL,
+//       ),
+//     );
+//   }
+// }
 
 // returns: {...story}
-export const getStoryData = async (storyId) => {
-  if (!storyId) {
-    return null;
-  }
+// export const getStoryData = async (storyId) => {
+//   if (!storyId) {
+//     return null;
+//   }
 
-  const endpoint = getStoryDataEndpoint(storyId);
-  try {
-    const response = await axios.get(endpoint);
-    return response.data;
-  } catch {
-    throw new Error(
-      getServerErrorMessage('story data'),
-      getServerErrorObject(
-        endpoint, 
-        HACKERNEWS_ITEM_URL + storyId,
-      ),
-    );
-  }
-}
+//   const endpoint = getStoryDataEndpoint(storyId);
+//   try {
+//     const response = await axios.get(endpoint);
+//     return response.data;
+//   } catch {
+//     throw new Error(
+//       getServerErrorMessage('story data'),
+//       getServerErrorObject(
+//         endpoint, 
+//         HACKERNEWS_ITEM_URL + storyId,
+//       ),
+//     );
+//   }
+// }
 
 // returns: {...storyComment}
 export const getStoryDiscussionData = async (storyDiscussionId) => {
@@ -127,25 +127,25 @@ export const getStoryDiscussionData = async (storyDiscussionId) => {
 
 // returns: [...{storyData}]
 // the number of fetched full story data is based on STORIES_PER_PAGE
-export const getInitialStoryListData = async (listMode, isListModeParsed) => {
-  try {
-    const storyListIds = await getStoryListIds(listMode, isListModeParsed);
-    const initialStoryListIds = storyListIds.slice(0, STORIES_PER_PAGE);
-    let initialStoryListData = await Promise.all(
-      initialStoryListIds.map((storyId) => getStoryData(storyId))
-    );
-    initialStoryListData = initialStoryListData.filter((data) => data);
+// export const getInitialStoryListData = async (listMode, isListModeParsed) => {
+//   try {
+//     const storyListIds = await getStoryListIds(listMode, isListModeParsed);
+//     const initialStoryListIds = storyListIds.slice(0, STORIES_PER_PAGE);
+//     let initialStoryListData = await Promise.all(
+//       initialStoryListIds.map((storyId) => getStoryData(storyId))
+//     );
+//     initialStoryListData = initialStoryListData.filter((data) => data);
 
-    return [
-      ...initialStoryListData,
-      ...storyListIds.slice(STORIES_PER_PAGE).map((storyId) => {
-        return {
-          id: storyId,
-          isDataEmpty: true,
-        }
-      }),
-    ];
-  } catch (error) {
-    throw error;
-  }
-}
+//     return [
+//       ...initialStoryListData,
+//       ...storyListIds.slice(STORIES_PER_PAGE).map((storyId) => {
+//         return {
+//           id: storyId,
+//           isDataEmpty: true,
+//         }
+//       }),
+//     ];
+//   } catch (error) {
+//     throw error;
+//   }
+// }

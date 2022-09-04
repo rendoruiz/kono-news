@@ -55,7 +55,11 @@ export const StoryNavigationProvider = ({ children, initialListTypeId }) => {
   const router = useRouter();
 
   useEffect(() => {
-    const { [QUERY_KEY.STORY_LIST_TYPE_ID]: listTypeId } = router.query;
+    const { 
+      [QUERY_KEY.STORY_LIST_TYPE_ID]: listTypeId,
+      [QUERY_KEY.IS_NAVIGATION_EXPANDED]: isExpanded
+    } = router.query;
+
     const listType = getListType(listTypeId);
     if (listType.id !== state.listType.id) {
       dispatch({
@@ -63,11 +67,15 @@ export const StoryNavigationProvider = ({ children, initialListTypeId }) => {
         listType,
       });
     }
+
+    if (!isExpanded && state.isExpanded) {
+      dispatch({ type: ACTION.TOGGLE_PANEL });
+    }
   }, [router.query]);
 
   const toggleNavigation = () => {
     if (state.isExpanded) {
-      router.back(2);
+      router.back(1);
     } else {
       router.push({
         query: {

@@ -12,6 +12,8 @@ export const QUERY_KEY = {
 //   DISABLE_PERMALINK: 'STORYDISCUSSION_DISABLE_PERMALINK',
 // };
 
+export const HN_API_ENDPOINT = 'https://hacker-news.firebaseio.com/v0/'
+
 export const STORIES_PER_PAGE = 30;
 
 const twentyFourHoursInMs = 1000 * 60 * 60 * 24;
