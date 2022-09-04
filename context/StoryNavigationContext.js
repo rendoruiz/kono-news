@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { createContext, useEffect, useReducer } from 'react';
+ 
 import { NAVIGATION_ITEMS } from '../components/NavigationBar';
 
 import { QUERY_KEY } from '../utils/constants';
@@ -19,6 +20,7 @@ const getListType = (listTypeId) => {
   return {
     id: listType.id,
     name: listType.name,
+    apiQuery: listType.apiQuery,
   }
 }
 
