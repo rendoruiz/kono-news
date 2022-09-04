@@ -1,94 +1,16 @@
-// import { FluentArrowTrendingRegular, FluentChatHelpRegular, FluentHomeRegular, FluentNotepadPersonRegular, FluentRocketRegular, FluentTrophyRegular } from "../components/shared/FluentIcons";
-
-// export const STORY_MODE = {
-//   TOP: 'top',
-//   NEW: 'new',
-//   BEST: 'best',
-//   ASK: 'ask',
-//   SHOW: 'show',
-//   JOB: 'job',
-// }
-
 export const QUERY_KEY = {
-  STORY_LIST_MODE_ID: 'list',
   STORY_LIST_TYPE_ID: 'list',
   IS_NAVIGATION_EXPANDED: 'nav',
   STORY_DISCUSSION_ID: 'story',
   IS_STORY_DISCUSSION_EXPANDED: 'discuss',
   IS_PERMALINK: 'permalink',
-
 }
 
-// export const NAVIGATION_ACTION = {
-//   SET_ID: 'NAVIGATION_SET_ID',
-//   EXPAND_PANEL: 'NAVIGATION_EXPAND_PANEL',
-//   RETRACT_PANEL: 'NAVIGATION_RETRACT_PANEL',
-// };
 // export const STORYDISCUSSION_ACTION = {
 //   SET_ID: 'STORYDISCUSSION_SET_ID',
 //   RETRACT_PANEL: 'STORYDISCUSSION_RETRACT_PANEL',
 //   DISABLE_PERMALINK: 'STORYDISCUSSION_DISABLE_PERMALINK',
 // };
-
-// export const STORY_MODE_API_QUERY = [
-//   {
-//     id: STORY_MODE.TOP,
-//     apiQuery: 'topstories',
-//   },
-//   {
-//     id: STORY_MODE.NEW,
-//     apiQuery: 'newstories',
-//   },
-//   {
-//     id: STORY_MODE.BEST,
-//     apiQuery: 'beststories',
-//   },
-//   {
-//     id: STORY_MODE.ASK,
-//     apiQuery: 'askstories',
-//   },
-//   {
-//     id: STORY_MODE.SHOW,
-//     apiQuery: 'showstories',
-//   },
-//   {
-//     id: STORY_MODE.JOB,
-//     apiQuery: 'jobstories',
-//   },
-// ];
-
-// export const NAVIGATION_ITEMS = [
-//   {
-//     id: STORY_MODE.TOP,
-//     label: 'Home',
-//     icon: <FluentHomeRegular />,
-//   },
-//   {
-//     id: STORY_MODE.NEW,
-//     label: 'New',
-//     icon: <FluentArrowTrendingRegular />,
-//   },
-//   {
-//     id: STORY_MODE.BEST,
-//     label: 'Best',
-//     icon: <FluentTrophyRegular />,
-//   },
-//   {
-//     id: STORY_MODE.ASK,
-//     label: 'Ask',
-//     icon: <FluentChatHelpRegular />,
-//   },
-//   {
-//     id: STORY_MODE.SHOW,
-//     label: 'Show',
-//     icon: <FluentRocketRegular />,
-//   },
-//   {
-//     id: STORY_MODE.JOB,
-//     label: 'Jobs',
-//     icon: <FluentNotepadPersonRegular />,
-//   },
-// ];
 
 export const STORIES_PER_PAGE = 30;
 
