@@ -19,7 +19,7 @@ const getListType = (listTypeId) => {
   }
 }
 
-const initState = (initialListTypeId) => {
+const setInitialState = (initialListTypeId) => {
   const listType = getListType(initialListTypeId);
   return {
     listType,
@@ -51,7 +51,7 @@ const storyNavigationReducer = (state, action) => {
 }
 
 export const StoryNavigationProvider = ({ children, initialListTypeId }) => {
-  const [state, dispatch] = useReducer(storyNavigationReducer, initialListTypeId, initState);
+  const [state, dispatch] = useReducer(storyNavigationReducer, initialListTypeId, setInitialState);
   const router = useRouter();
 
   useEffect(() => {
