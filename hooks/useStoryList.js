@@ -64,7 +64,7 @@ const getStoryListData = async (apiQuery, storyCount) => {
 export const useStoryList = (apiQuery, storyCount = DEFAULT_STORY_COUNT) => {
   const [storyListIds, setStoryListIds] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isPageLimitReached, setIsPageLimitReached] = useState(false);
+  const [isPageEnd, setIsPageEnd] = useState(false);
   const { isLoading, isError, data: fetchedStoryListIds, refetch } = useQuery(
     ['storylist', apiQuery],
     () => getStoryListData(apiQuery, storyCount),
@@ -74,7 +74,7 @@ export const useStoryList = (apiQuery, storyCount = DEFAULT_STORY_COUNT) => {
   useEffect(() => {
     if (fetchedStoryListIds) {
       setCurrentPage(1);
-      setIsPageLimitReached(false);
+      setIsPageEnd(false);
       setStoryListIds(fetchedStoryListIds.slice(0, storyCount));
     }
   }, [fetchedStoryListIds]);
@@ -83,12 +83,12 @@ export const useStoryList = (apiQuery, storyCount = DEFAULT_STORY_COUNT) => {
     if (fetchedStoryListIds) {
       setStoryListIds(fetchedStoryListIds.slice(0, storyCount * currentPage));
       if ((storyCount * currentPage) >= fetchedStoryListIds.length) {
-        setIsPageLimitReached(true);
+        setIsPageEnd(true);
       }
     }
   }, [currentPage]);
 
   const loadMoreStories = () => setCurrentPage((prevState) => prevState + 1);
 
-  return { storyListIds, isPageLimitReached, isLoading, isError, refetch, loadMoreStories }
+  return { storyListIds, isPageEnd, isLoading, isError, refetch, loadMoreStories }
 }
