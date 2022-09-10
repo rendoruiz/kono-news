@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react"
+import { useEffect, useReducer, useState } from "react"
 import { useQuery } from "react-query";
 import { HN_API_ENDPOINT, reactQueryParams } from "../utils/constants";
 
@@ -61,10 +61,49 @@ const getStoryListData = async (apiQuery, storyCount) => {
   }
 }
 
+const initialState = {
+  currentPage: 1,
+  isPageEnd: false,
+  storyListIds: null,
+}
+
+const ACTION = {
+  INITIALIZE_LIST: 'INITIALIZE_LIST',
+  UPDATE_LIST: 'UPDATE_LIST',
+  INCREASE_PAGE: 'INCREASE_PAGE',
+  TOGGLE_PAGE_END: 'TOGGLE_PAGE_END',
+}
+
+const storyListReducer = (state, action) => {
+  switch (action.type) {
+    case ACTION.INITIALIZE_LIST:
+      return {
+        ...state,
+        ...initialState,
+        storyListIds: action.storyListIds,
+      }
+    case ACTION.UPDATE_LIST:
+      return {
+        ...state,
+        storyListIds: action.storyListIds,
+      }
+    case ACTION.INCREASE_PAGE:
+      return {
+        ...state,
+        currentPage: state.currentPage + 1,
+      }
+    case ACTION.TOGGLE_PAGE_END:
+      return {
+        ...state,
+        isPageEnd: true,
+      }
+    default:
+      return state;
+  }
+}
+
 export const useStoryList = (apiQuery, storyCount = DEFAULT_STORY_COUNT) => {
-  const [storyListIds, setStoryListIds] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isPageEnd, setIsPageEnd] = useState(false);
+  const [state, dispatch] = useReducer(storyListReducer, initialState);
   const { isLoading, isError, data: fetchedStoryListIds, refetch } = useQuery(
     ['storylist', apiQuery],
     () => getStoryListData(apiQuery, storyCount),
@@ -73,22 +112,26 @@ export const useStoryList = (apiQuery, storyCount = DEFAULT_STORY_COUNT) => {
 
   useEffect(() => {
     if (fetchedStoryListIds) {
-      setCurrentPage(1);
-      setIsPageEnd(false);
-      setStoryListIds(fetchedStoryListIds.slice(0, storyCount));
+      dispatch({
+        type: ACTION.INITIALIZE_LIST,
+        storyListIds: fetchedStoryListIds.slice(0, storyCount),
+      });
     }
   }, [fetchedStoryListIds]);
 
   useEffect(() => {
     if (fetchedStoryListIds) {
-      setStoryListIds(fetchedStoryListIds.slice(0, storyCount * currentPage));
-      if ((storyCount * currentPage) >= fetchedStoryListIds.length) {
-        setIsPageEnd(true);
+      dispatch({
+        type: ACTION.UPDATE_LIST,
+        storyListIds: fetchedStoryListIds.slice(0, storyCount * state.currentPage),
+      });
+      if ((storyCount * state.currentPage) >= fetchedStoryListIds.length) {
+        dispatch({ type: ACTION.TOGGLE_PAGE_END });
       }
     }
-  }, [currentPage]);
+  }, [fetchedStoryListIds, state.currentPage]);
 
-  const loadMoreStories = () => setCurrentPage((prevState) => prevState + 1);
+  const listNextPage = () => dispatch({ type: ACTION.INCREASE_PAGE });
 
-  return { storyListIds, isPageEnd, isLoading, isError, refetch, loadMoreStories }
+  return { ...state, isLoading, isError, refetch, listNextPage }
 }
