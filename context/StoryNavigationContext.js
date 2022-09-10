@@ -7,11 +7,6 @@ import { QUERY_KEY } from '../utils/constants';
 
 export const StoryNavigationContext = createContext(null);
 
-const ACTION = {
-  SET_LIST_TYPE: 'SET_LIST_TYPE',
-  TOGGLE_PANEL: 'TOGGLE_PANEL',
-}
-
 const getListType = (listTypeId) => {
   let listType = NAVIGATION_ITEMS.filter((item) => item.id === listTypeId).pop();
   if (!listType) {
@@ -30,6 +25,11 @@ const initState = (initialListTypeId) => {
     listType,
     isExpanded: false,
   }
+}
+
+const ACTION = {
+  SET_LIST_TYPE: 'SET_LIST_TYPE',
+  TOGGLE_PANEL: 'TOGGLE_PANEL',
 }
 
 const storyNavigationReducer = (state, action) => {
