@@ -131,7 +131,7 @@ export const useStoryList = (apiQuery, storyCount = DEFAULT_STORY_COUNT) => {
     }
   }, [fetchedStoryListIds, state.currentPage]);
 
-  const listNextPage = () => dispatch({ type: ACTION.INCREASE_PAGE });
+  const loadNextPage = () => dispatch({ type: ACTION.INCREASE_PAGE });
 
-  return { ...state, isLoading, isError, refetch, listNextPage }
+  return { ...state, isLoading, isError, refetch, loadNextPage }
 }
