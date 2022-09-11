@@ -44,7 +44,7 @@ export const StoryList = () => {
 }
 
 const StoryItem = ({ initialStoryData, isSelected }) => {
-  const { storyData, isLoading, isError, refetch, openDiscussion } = useStoryItem(initialStoryData);
+  const { storyData, isLoading, isError, openDiscussion } = useStoryItem(initialStoryData);
 
   if (isLoading || isError) {
     return (
@@ -53,7 +53,6 @@ const StoryItem = ({ initialStoryData, isSelected }) => {
         {isError && (
           <>
             <p>Something went horribly wrong.</p>
-            <button onClick={refetch}>Refresh</button>
           </>
         )}
       </div>

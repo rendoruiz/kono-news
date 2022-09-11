@@ -48,5 +48,5 @@ export const useStoryItem = (initialStoryData) => {
     refetch();
   }
 
-  return { storyData, isLoading, isError, refetch, openDiscussion }
+  return { storyData, isLoading, isError, openDiscussion }
 }
