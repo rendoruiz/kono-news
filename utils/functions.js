@@ -6,3 +6,8 @@ const timeAgo = new TimeAgo('en-US');
 
 export const getMiniTime = (unixTime) =>
   !unixTime ? null : timeAgo.format(new Date(unixTime * 1000), 'twitter');
+
+export const throwAndLogError = (errorString) => {
+  console.log(errorString);
+  throw new Error(errorString);
+}
