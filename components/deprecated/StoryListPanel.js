@@ -6,7 +6,7 @@ import clsx from "clsx";
 
 import NavigationToggle from "./shared/NavigationToggle";
 import ExternalLink from "../shared/ExternalLink";
-import PillSelectedIndicator from "../shared/PillSelectedIndicator";
+import PillSelectedIndicator from "./PillSelectedIndicator";
 
 import { useNavigation } from "../hooks/useNavigation";
 import { useStoryDiscussion } from "../../hooks/useStoryDiscussion";
