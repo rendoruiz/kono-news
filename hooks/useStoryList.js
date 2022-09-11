@@ -63,7 +63,7 @@ const getStoryListData = async (apiQuery, storyCount) => {
 
 const initialState = {
   currentPage: 1,
-  isPageEnd: false,
+  isLastPage: false,
   storyListIds: null,
 }
 
@@ -95,7 +95,7 @@ const storyListReducer = (state, action) => {
     case ACTION.TOGGLE_PAGE_END:
       return {
         ...state,
-        isPageEnd: true,
+        isLastPage: true,
       }
     default:
       return state;
