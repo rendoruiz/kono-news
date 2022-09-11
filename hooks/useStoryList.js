@@ -8,12 +8,21 @@ const DEFAULT_STORY_COUNT = 25;
 const getStoryListEndpoint = (apiQuery) =>
   HN_API_ENDPOINT + apiQuery + '.json';
 
-export const getStoryItemEndpoint = (storyId) =>
+const getStoryItemEndpoint = (storyId) =>
   `${HN_API_ENDPOINT}item/${storyId}.json`;
 
 const throwAndLogError = (errorString) => {
   console.log(errorString);
   throw new Error(errorString);
+}
+
+export const getStoryData = async (storyId) => {
+  try {
+    const response = await axios.get(getStoryItemEndpoint(storyId));
+    return response.data;
+  } catch {
+    throwAndLogError('[getStoryData]: Failed to connect to server');
+  }
 }
 
 const getStoryListIds = async (apiQuery) => {
@@ -22,15 +31,6 @@ const getStoryListIds = async (apiQuery) => {
     return response.data;
   } catch {
     throwAndLogError('[getStoryListIds]: Failed to connect to server');
-  }
-}
-
-const getStoryData = async (storyId) => {
-  try {
-    const response = await axios.get(getStoryItemEndpoint(storyId));
-    return response.data;
-  } catch {
-    throwAndLogError('[getStoryData]: Failed to connect to server');
   }
 }
 

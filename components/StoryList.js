@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { useQuery } from "react-query";
+import { useStoryItem } from "../hooks/useStoryItem";
 import { useStoryList } from "../hooks/useStoryList";
 import { useStoryNavigation } from "../hooks/useStoryNavigation";
 import { HN_API_ENDPOINT, reactQueryParams } from "../utils/constants";
@@ -6,7 +8,7 @@ import { getInitialStoryListData } from "../utils/fetchApi";
 
 export const StoryList = () => {
   const { listType } = useStoryNavigation();
-  const { storyListIds, isPageLimitReached, isLoading, isError, refetch, loadMoreStories } = useStoryList(listType.apiQuery);
+  const { storyListIds, isLastPage, isLoading, isError, refetch, loadNextPage } = useStoryList(listType.apiQuery);
 
   if (isLoading || isError) { 
     return (
@@ -28,12 +30,12 @@ export const StoryList = () => {
         {storyListIds.map((storyItem) => (
           <StoryItem
             key={storyItem.id}
-            story={storyItem}
+            initialStoryData={storyItem}
           />
         ))}
       </ul>
-      {!isPageLimitReached && (
-        <button onClick={loadMoreStories}>
+      {!isLastPage && (
+        <button onClick={loadNextPage}>
           Load More Stories
         </button>
       )}
@@ -41,10 +43,30 @@ export const StoryList = () => {
   );
 }
 
-const StoryItem = ({ story, isSelected }) => {
-  return (
+const StoryItem = ({ initialStoryData, isSelected }) => {
+  const { storyData, isLoading, isError, refetch, openDiscussion } = useStoryItem(initialStoryData);
+
+  if (isLoading || isError) {
+    return (
+      <div>
+        {isLoading && <p>Loading...</p>}
+        {isError && (
+          <>
+            <p>Something went horribly wrong.</p>
+            <button onClick={refetch}>Refresh</button>
+          </>
+        )}
+      </div>
+    );
+  }
+
+  return storyData && !isError && (
     <li>
-      {story.id} {story?.title}
+      <Link href={storyData.permalinkHrefObject} passHref>
+        <a target='_blank' onClick={openDiscussion}>
+          {storyData.title} | {storyData.time}
+        </a>
+      </Link>
     </li>
   );
 }
