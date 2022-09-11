@@ -5,15 +5,15 @@ import Link from 'next/link';
 import Head from 'next/head';
 import clsx from "clsx";
 
-import HtmlContent from "./shared/HtmlContent";
-import ExternalLink from './shared/ExternalLink';
-import { FluentArrowLeftRegular, FluentClockRegular, FluentCommentRegular, FluentDismissRegular, FluentKeyboardShiftRegular, FluentPersonRegular } from "./shared/FluentIcons";
+import HtmlContent from "../shared/HtmlContent";
+import ExternalLink from '../shared/ExternalLink';
+import { FluentArrowLeftRegular, FluentClockRegular, FluentCommentRegular, FluentDismissRegular, FluentKeyboardShiftRegular, FluentPersonRegular } from "../shared/FluentIcons";
 
-import { useStoryDiscussion } from '../hooks/useStoryDiscussion';
+import { useStoryDiscussion } from '../../hooks/useStoryDiscussion';
 
-import { getRoundTime, getShortTime, getStringCount, getUrlHostname } from "../utils";
-import { QUERY_KEY, reactQueryParams } from "../utils/constants";
-import { getStoryDiscussionData } from "../utils/fetchApi";
+import { getRoundTime, getShortTime, getStringCount, getUrlHostname } from "../../utils";
+import { QUERY_KEY, reactQueryParams } from "../../utils/constants";
+import { getStoryDiscussionData } from "../../utils/fetchApi";
 
 const StoryDiscussionPanel = () => {
   const { id: storyDiscussionId, isExpanded, isPermalink} = useStoryDiscussion();
