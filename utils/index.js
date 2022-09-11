@@ -46,6 +46,6 @@ export const getStringCount = (object, identifier) => {
 
 TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo('en-US')
-export const getShortTime = (unixTime) =>
+export const getMiniTime = (unixTime) =>
   !unixTime ? null : timeAgo.format(new Date(unixTime * 1000), 'twitter');
 export const getRoundTime = (unixTime) => !unixTime ? null : timeAgo.format(new Date(unixTime * 1000), 'round');
