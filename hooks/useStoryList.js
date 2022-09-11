@@ -13,7 +13,14 @@ const getStoryListEndpoint = (apiQuery) =>
 const fetchStoryListIds = async (apiQuery) => {
   try {
     const response = await axios.get(getStoryListEndpoint(apiQuery));
-    return response.data;
+    return {
+      id: response.data.id,
+      title: response.data.title,
+      url: response.data?.url,
+      author: response.data.by,
+      points: response.data.score,
+      post_count: response.data.descendants,
+    };
   } catch {
     throwAndLogError('[fetchStoryListIds]: Failed to connect to server');
   }
