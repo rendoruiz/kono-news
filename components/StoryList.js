@@ -1,8 +1,11 @@
 import Link from "next/link";
+import { useQueries } from "react-query";
 
 import { useStoryNavigation } from "../hooks/useStoryNavigation";
 import { useStoryList } from "../hooks/useStoryList";
-import { useStoryItem } from "../hooks/useStoryItem";
+import { getStoryData, useStoryItem } from "../hooks/useStoryItem";
+
+import { reactQueryParams } from "../utils/constants";
 
 export const StoryList = () => {
   const { listType } = useStoryNavigation();
@@ -22,7 +25,7 @@ export const StoryList = () => {
     );
   }
 
-  return storyListPages && !isError && (
+  return storyListPages && (
     <>
       {storyListPages.map((storyListPage) => (
         <StoryListPage 
@@ -31,7 +34,7 @@ export const StoryList = () => {
         />
       ))}
       {!isLastPage && (
-        <button onClick={loadNextPage}>
+        <button type="button" onClick={loadNextPage}>
           Load More Stories
         </button>
       )}
@@ -40,36 +43,50 @@ export const StoryList = () => {
 }
 
 const StoryListPage = ({ page, pageIds }) => {
+  const result = useQueries(
+    pageIds.map((storyId) => ({ 
+      queryKey: ['storyitem', storyId],
+      queryFn: () => getStoryData(storyId),
+      reactQueryParams
+    }))
+  );
+  
+  const isLoading = !result.find((story) => story.isLoading) ? false : true;
 
   return (
     <ul>
-      <h2>{page}</h2>
-      <p>{JSON.stringify(pageIds)}</p>
+      {isLoading && <p>Loading...</p>}
+      {!isLoading && result.map((resultItem) => (
+        <StoryItem 
+          key={resultItem.data.id}
+          {...resultItem.data}
+        />
+      ))}
     </ul>
   )
 }
 
-const StoryItem = ({ initialStoryData, isSelected }) => {
-  const { storyData, isLoading, isError, openDiscussion } = useStoryItem(initialStoryData);
+const StoryItem = (storyData) => {
+  // const { storyData, isLoading, isError, openDiscussion } = useStoryItem(initialStoryData);
 
-  if (isLoading || isError) {
-    return (
-      <div>
-        {isLoading && <p>Loading...</p>}
-        {isError && (
-          <>
-            <p>Something went horribly wrong.</p>
-          </>
-        )}
-      </div>
-    );
-  }
+  // if (isLoading || isError) {
+  //   return (
+  //     <div>
+  //       {isLoading && <p>Loading...</p>}
+  //       {isError && (
+  //         <>
+  //           <p>Something went horribly wrong.</p>
+  //         </>
+  //       )}
+  //     </div>
+  //   );
+  // }
 
-  return storyData && !isError && (
+  return storyData && (
     <li>
-      <Link href={storyData.permalinkHrefObject} passHref>
-        <a target='_blank' onClick={openDiscussion}>
-          {storyData.title} | {storyData.time}
+      <Link href={storyData?.permalinkHrefObject ?? '#'} passHref>
+        <a target='_blank' onClick={null}>
+          {storyData.title}
         </a>
       </Link>
     </li>

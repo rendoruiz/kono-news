@@ -1,10 +1,22 @@
+import axios from "axios";
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
-import { QUERY_KEY, reactQueryParams } from "../utils/constants";
+import { HN_API_ENDPOINT, QUERY_KEY, reactQueryParams } from "../utils/constants";
 import { getMiniTime } from "../utils/functions";
-import { getStoryData } from "./useStoryList";
+
+const getStoryItemEndpoint = (storyId) =>
+  `${HN_API_ENDPOINT}item/${storyId}.json`;
+
+export const getStoryData = async (storyId) => {
+  try {
+    const response = await axios.get(getStoryItemEndpoint(storyId));
+    return response.data;
+  } catch {
+    throwAndLogError('[getStoryData]: Failed to connect to server');
+  }
+}
 
 export const useStoryItem = (initialStoryData) => {
   const router = useRouter();

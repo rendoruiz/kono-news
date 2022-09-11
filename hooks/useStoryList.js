@@ -5,7 +5,7 @@ import axios from "axios";
 import { HN_API_ENDPOINT, reactQueryParams } from "../utils/constants";
 import { throwAndLogError } from "../utils/functions";
 
-const PAGE_ITEM_COUNT = 25;
+const PAGE_STORY_COUNT = 25;
 
 const getStoryListEndpoint = (apiQuery) =>
   HN_API_ENDPOINT + apiQuery + '.json';
@@ -35,7 +35,7 @@ const getStoryListPages = async (apiQuery, storyCount) => {
   return storyListPages;
 }
 
-export const useStoryList = (apiQuery, storyCount = PAGE_ITEM_COUNT) => {
+export const useStoryList = (apiQuery, storyCount = PAGE_STORY_COUNT) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLastPage, setIsLastPage] = useState(false);
   const [storyListPages, setStoryListPages] = useState(null);
@@ -46,19 +46,15 @@ export const useStoryList = (apiQuery, storyCount = PAGE_ITEM_COUNT) => {
   );
 
   useEffect(() => {
-    if (fetchedStoryListPages) {
-      setCurrentPage(1);
-      setIsLastPage(false);
-      setStoryListPages(fetchedStoryListPages.slice(0, currentPage));
-      console.log(fetchedStoryListPages)
-    }
+    setCurrentPage(1);
+    setIsLastPage(false);
+    setStoryListPages(null);
   }, [fetchedStoryListPages]);
 
   useEffect(() => {
-    if (fetchedStoryListPages && currentPage > 1) {
+    if (fetchedStoryListPages) {
       setStoryListPages(fetchedStoryListPages.slice(0, currentPage));
-
-      if ((storyCount * currentPage) >= fetchedStoryListPages.length) {
+      if (currentPage >= fetchedStoryListPages.length) {
         setIsLastPage(true);
       }
     }
