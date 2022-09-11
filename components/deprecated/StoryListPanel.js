@@ -5,15 +5,15 @@ import { useQuery } from 'react-query';
 import clsx from "clsx";
 
 import NavigationToggle from "./shared/NavigationToggle";
-import ExternalLink from "./shared/ExternalLink";
-import PillSelectedIndicator from "./shared/PillSelectedIndicator";
+import ExternalLink from "../shared/ExternalLink";
+import PillSelectedIndicator from "../shared/PillSelectedIndicator";
 
 import { useNavigation } from "../hooks/useNavigation";
-import { useStoryDiscussion } from "../hooks/useStoryDiscussion";
+import { useStoryDiscussion } from "../../hooks/useStoryDiscussion";
 
-import { getNavigationItemByStoryListId, getShortTime } from "../utils";
-import { QUERY_KEY, reactQueryParams, STORIES_PER_PAGE } from "../utils/constants";
-import { getInitialStoryListData, getStoryData } from "../utils/fetchApi";
+import { getNavigationItemByStoryListId, getShortTime } from "../../utils";
+import { QUERY_KEY, reactQueryParams, STORIES_PER_PAGE } from "../../utils/constants";
+import { getInitialStoryListData, getStoryData } from "../../utils/fetchApi";
 
 const StoryListPanel = memo(() => {
   const { storyListModeId } = useNavigation();
