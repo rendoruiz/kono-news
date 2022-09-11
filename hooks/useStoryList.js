@@ -1,6 +1,7 @@
 import axios from "axios";
-import { useEffect, useReducer, useState } from "react"
+import { useEffect, useReducer } from "react"
 import { useQuery } from "react-query";
+
 import { HN_API_ENDPOINT, reactQueryParams } from "../utils/constants";
 
 const DEFAULT_STORY_COUNT = 25;

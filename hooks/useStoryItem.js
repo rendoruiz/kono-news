@@ -1,8 +1,9 @@
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { getMiniTime } from "../utils";
+
 import { QUERY_KEY, reactQueryParams } from "../utils/constants";
+import { getMiniTime } from "../utils/functions";
 import { getStoryData } from "./useStoryList";
 
 export const useStoryItem = (initialStoryData) => {
