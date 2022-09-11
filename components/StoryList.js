@@ -89,8 +89,8 @@ const StoryItem = ({ data: { id, title, author, points, post_count, time_mini },
 
   const openDiscussion = (e) => {
     e.preventDefault();
-    router.push(discussionHrefObject, undefined, { shallow: true });
     refetch();
+    router.push(discussionHrefObject, undefined, { shallow: true });
   }
 
   return (
