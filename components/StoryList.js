@@ -1,10 +1,8 @@
 import Link from "next/link";
-import { useQuery } from "react-query";
-import { useStoryItem } from "../hooks/useStoryItem";
-import { useStoryList } from "../hooks/useStoryList";
+
 import { useStoryNavigation } from "../hooks/useStoryNavigation";
-import { HN_API_ENDPOINT, reactQueryParams } from "../utils/constants";
-import { getInitialStoryListData } from "../utils/fetchApi";
+import { useStoryList } from "../hooks/useStoryList";
+import { useStoryItem } from "../hooks/useStoryItem";
 
 export const StoryList = () => {
   const { listType } = useStoryNavigation();
