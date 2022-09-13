@@ -39,7 +39,7 @@ export const useStoryList = (apiQuery, storyCount = PAGE_STORY_COUNT) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLastPage, setIsLastPage] = useState(false);
   const [storyListPages, setStoryListPages] = useState(null);
-  const { isLoading, isError, data: fetchedStoryListPages, refetch } = useQuery(
+  const { isLoading, isError, data: fetchedStoryListPages, dataUpdatedAt: lastUpdated, refetch } = useQuery(
     ['storylist', apiQuery],
     () => getStoryListPages(apiQuery, storyCount),
     reactQueryParams
@@ -62,5 +62,5 @@ export const useStoryList = (apiQuery, storyCount = PAGE_STORY_COUNT) => {
 
   const loadNextPage = () => setCurrentPage((prevState) => prevState + 1);
 
-  return { storyListPages, isLastPage, isLoading, isError, refetch, loadNextPage }
+  return { storyListPages, isLastPage, lastUpdated, isLoading, isError, refetch, loadNextPage }
 }
