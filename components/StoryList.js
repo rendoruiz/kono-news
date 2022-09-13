@@ -52,10 +52,14 @@ const StoryListPage = ({ page, pageIds }) => {
   );
   
   const isLoading = !resultList.find((story) => story.isLoading) ? false : true;
+  if (isLoading) return (
+    <div className="[&+button]:!hidden">
+      Loading...
+    </div>
+  )
 
-  return (
+  return !isLoading && (
     <ul>
-      {isLoading && <p>Loading...</p>}
       {!isLoading && resultList.map((result) => (
         <StoryItem 
           key={result.data.id}
