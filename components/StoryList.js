@@ -51,6 +51,7 @@ const StoryListPage = ({ page, pageIds }) => {
     }))
   );
   
+  // hide load more stories during fetching data
   const isLoading = !resultList.find((story) => story.isLoading) ? false : true;
   if (isLoading) return (
     <div className="[&+button]:!hidden">
