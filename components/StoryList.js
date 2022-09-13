@@ -80,11 +80,13 @@ const StoryItem = ({ data: { id, title, author, points, post_count, time_mini },
     ...router.query,
     [QUERY_KEY.STORY_DISCUSSION_ID]: id,
   }
+  // link object for context menu and middle mouse click
   const permalinkHrefObject = { query: {
       ...routeHrefQueryObject,
       [QUERY_KEY.IS_PERMALINK]: true,
     }
   }
+  // link object for clicking the link (default)
   const discussionHrefObject = { query: {
       ...routeHrefQueryObject,
       [QUERY_KEY.IS_STORY_DISCUSSION_EXPANDED]: true,
