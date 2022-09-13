@@ -84,7 +84,7 @@ const NavigationPanel = () => {
         />
 
         {isExpanded && (
-          <div className="fixed top-0 left-0 w-full max-w-xs h-screen bg-black">
+          <div className="fixed top-0 left-0 w-full max-w-xs h-screen bg-black text-white">
             <NavigationToggle />
 
             <ul>
