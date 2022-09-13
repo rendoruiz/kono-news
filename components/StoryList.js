@@ -9,8 +9,7 @@ import { QUERY_KEY, reactQueryParams } from "../utils/constants";
 import { getStoryData } from "../utils/functions";
 
 export const StoryList = () => {
-  const { listType } = useStoryNavigation();
-  const { storyListPages, isLastPage, isLoading, isError, refetch, loadNextPage } = useStoryList(listType.apiQuery);
+  const { listType, storyList: { storyListPages, isLastPage, isLoading, isError, refetch, loadNextPage } } = useStoryNavigation();
 
   if (isLoading || isError) { 
     return (

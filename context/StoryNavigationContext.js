@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { createContext, useEffect, useReducer } from 'react';
  
 import { NAVIGATION_ITEMS } from '../components/NavigationBar';
+import { useStoryList } from '../hooks/useStoryList';
 
 import { QUERY_KEY } from '../utils/constants';
 
@@ -50,8 +51,9 @@ const storyNavigationReducer = (state, action) => {
   }
 }
 
-export const StoryNavigationProvider = ({ children, initialListTypeId }) => {
+export const StoryNavigationProvider = ({ children, initialListTypeId, storyCount }) => {
   const [state, dispatch] = useReducer(storyNavigationReducer, initialListTypeId, setInitialState);
+  const storyList = useStoryList(state?.listType?.apiQuery);
   const router = useRouter();
 
   useEffect(() => {
@@ -100,7 +102,7 @@ export const StoryNavigationProvider = ({ children, initialListTypeId }) => {
   }
 
   return (
-    <StoryNavigationContext.Provider value={{ ...state, toggleNavigation, setListType }}>
+    <StoryNavigationContext.Provider value={{ ...state, storyList, toggleNavigation, setListType }}>
       {children}
     </StoryNavigationContext.Provider>
   );
