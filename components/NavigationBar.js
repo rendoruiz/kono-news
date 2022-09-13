@@ -7,6 +7,7 @@ import { FluentLineHorizontal3Regular, FluentArrowTrendingRegular, FluentChatHel
 import { useStoryNavigation } from "../hooks/useStoryNavigation";
 
 import { QUERY_KEY } from '../utils/constants';
+import { getRoundTime } from '../utils/functions';
 
 const STORY_TYPE = {
   TOP: 'top',
@@ -57,12 +58,14 @@ export const NAVIGATION_ITEMS = [
 ];
 
 export const NavigationBar = () => {
-  const { listType } = useStoryNavigation();
+  const { listType, storyList: { lastUpdated, refetch } } = useStoryNavigation();
+  const formattedLastUpdated = getRoundTime(lastUpdated, true)
   return (
     <>
       <div className="flex">
         <NavigationToggle />
-        <p>{listType.name}</p>
+        <p>{listType.name} | last updated {formattedLastUpdated}</p>&nbsp;
+        <button type='button' onClick={refetch}>[refetch]</button>
       </div>
       <NavigationPanel />
     </>
