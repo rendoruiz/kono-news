@@ -10,6 +10,9 @@ const timeAgo = new TimeAgo('en-US');
 export const getMiniTime = (unixTime) =>
   !unixTime ? null : timeAgo.format(new Date(unixTime * 1000), 'twitter');
 
+export const getRoundTime = (unixTime, inMilliseconds = false) => 
+!unixTime ? null : timeAgo.format(new Date(inMilliseconds ? unixTime : (unixTime * 1000)), 'round');
+
 export const throwAndLogError = (errorString) => {
   console.log(errorString);
   throw new Error(errorString);
