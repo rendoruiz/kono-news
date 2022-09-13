@@ -1,6 +1,7 @@
 import axios from "axios";
 import TimeAgo from "javascript-time-ago";
 import en from 'javascript-time-ago/locale/en';
+
 import { HN_API_ENDPOINT } from "./constants";
 
 TimeAgo.addLocale(en);

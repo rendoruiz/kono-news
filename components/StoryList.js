@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useQueries } from "react-query";
 
 import { useStoryNavigation } from "../hooks/useStoryNavigation";
@@ -6,7 +7,6 @@ import { useStoryList } from "../hooks/useStoryList";
 
 import { QUERY_KEY, reactQueryParams } from "../utils/constants";
 import { getStoryData } from "../utils/functions";
-import { useRouter } from "next/router";
 
 export const StoryList = () => {
   const { listType } = useStoryNavigation();
